@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qatar Portal - Classifieds, News, Jobs & Properties</title>
+    <!-- Modern Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons via CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="#" class="logo">Qatar<span>Portal</span></a>
+                <div class="nav-links" aria-label="Main Navigation">
+                    <a href="#home" class="active">Home</a>
+                    <a href="#news">News</a>
+                    <a href="#classifieds">Classifieds</a>
+                    <a href="#properties">Properties</a>
+                    <a href="#jobs">Jobs</a>
+                </div>
+                <div class="nav-actions">
+                    <button class="btn btn-outline" aria-label="Post a new ad">Post an Ad</button>
+                    <button class="btn btn-primary" aria-label="Sign in to your account">Sign In</button>
+                </div>
+            </div>
+        </nav>
+
+        <main>
+            <!-- Hero Section -->
+            <section class="hero" id="home">
+                <div class="hero-content">
+                    <h1>Discover Qatar App<span>.</span></h1>
+                    <p>Your ultimate portal for news, classifieds, jobs, and properties in Qatar.</p>
+
+                    <div class="search-box" role="search">
+                        <i data-lucide="search" class="search-icon" aria-hidden="true"></i>
+                        <input type="text" placeholder="Search for cars, apartments, jobs, or news..."
+                            aria-label="Search site content">
+                        <select class="search-category" aria-label="Select search category">
+                            <option value="all">All Categories</option>
+                            <option value="classifieds">Classifieds</option>
+                            <option value="properties">Properties</option>
+                            <option value="jobs">Jobs</option>
+                        </select>
+                        <button class="btn btn-search" aria-label="Execute search">Search</button>
+                    </div>
+
+                    <!-- Live Widgets -->
+                    <div class="live-widgets" aria-live="polite">
+                        <div class="widget" id="weather-widget">
+                            <i data-lucide="sun" class="widget-icon" aria-hidden="true"></i>
+                            <div class="widget-info">
+                                <span class="widget-label">Doha Weather</span>
+                                <span class="widget-value" id="weather-value">Loading...</span>
+                            </div>
+                        </div>
+                        <div class="widget" id="prayer-widget">
+                            <i data-lucide="moon" class="widget-icon" aria-hidden="true"></i>
+                            <div class="widget-info">
+                                <span class="widget-label">Next Prayer</span>
+                                <span class="widget-value" id="prayer-value">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Categories Grid -->
+            <section class="categories section-padding">
+                <div class="container">
+                    <h2 class="section-title">Explore Categories</h2>
+                    <div class="category-grid">
+                        <div class="category-card">
+                            <i data-lucide="newspaper" class="category-icon"></i>
+                            <h3>Qatar News</h3>
+                            <p>Latest updates</p>
+                        </div>
+                        <div class="category-card">
+                            <i data-lucide="car" class="category-icon"></i>
+                            <h3>Vehicles</h3>
+                            <p>Buy & Sell</p>
+                        </div>
+                        <div class="category-card">
+                            <i data-lucide="home" class="category-icon"></i>
+                            <h3>Properties</h3>
+                            <p>Rent & Buy</p>
+                        </div>
+                        <div class="category-card">
+                            <i data-lucide="briefcase" class="category-icon"></i>
+                            <h3>Jobs</h3>
+                            <p>Find opportunities</p>
+                        </div>
+                        <div class="category-card">
+                            <i data-lucide="shopping-bag" class="category-icon"></i>
+                            <h3>Classifieds</h3>
+                            <p>Electronics & more</p>
+                        </div>
+                        <div class="category-card">
+                            <i data-lucide="users" class="category-icon"></i>
+                            <h3>Community</h3>
+                            <p>Forums & events</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Qatar News Section -->
+            <section class="news section-padding" id="news">
+                <div class="container">
+                    <div class="section-header">
+                        <h2 class="section-title">Latest Qatar News</h2>
+                        <a href="#" class="view-all">View All News <i data-lucide="arrow-right" class="icon-sm"></i></a>
+                    </div>
+                    <div class="news-grid" id="news-container">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Featured Listings Section -->
+            <section class="featured section-padding bg-light" id="classifieds">
+                <div class="container">
+                    <div class="section-header">
+                        <h2 class="section-title">Featured Listings</h2>
+                        <a href="#" class="view-all">Browse All <i data-lucide="arrow-right" class="icon-sm"></i></a>
+                    </div>
+                    <div class="listings-grid" id="listings-container">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container footer-grid">
+                <div class="footer-col">
+                    <a href="#" class="logo">Qatar<span>Portal</span></a>
+                    <p class="footer-desc">The most comprehensive community portal in Qatar. Find everything you need in
+                        one place.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Advertising</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Categories</h4>
+                    <ul>
+                        <li><a href="#">Properties</a></li>
+                        <li><a href="#">Vehicles</a></li>
+                        <li><a href="#">Classifieds</a></li>
+                        <li><a href="#">Jobs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="#"><i data-lucide="facebook"></i></a>
+                        <a href="#"><i data-lucide="twitter"></i></a>
+                        <a href="#"><i data-lucide="instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Qatar Portal. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
