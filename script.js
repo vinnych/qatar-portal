@@ -116,7 +116,8 @@ const mockListings = [
         price: "9,500 QAR/month",
         image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
         type: "Property",
-        details: "2 Beds • 3 Baths • 120 sqm"
+        details: "2 Beds • 3 Baths • 120 sqm",
+        link: "https://www.propertyfinder.qa/en/buy/apartments-for-sale-in-the-pearl-qatar.html"
     },
     {
         id: 2,
@@ -125,7 +126,8 @@ const mockListings = [
         price: "245,000 QAR",
         image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
         type: "Vehicle",
-        details: "35,000 km • White • Full Options"
+        details: "35,000 km • White • Full Options",
+        link: "https://www.qatarclassifieds.com/vehicles"
     },
     {
         id: 3,
@@ -134,7 +136,8 @@ const mockListings = [
         price: "18k - 25k QAR",
         image: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
         type: "Job",
-        details: "Full Time • Tech • 5+ years exp"
+        details: "Full Time • Tech • 5+ years exp",
+        link: "https://www.bayt.com/en/qatar/jobs/"
     },
     {
         id: 4,
@@ -143,7 +146,8 @@ const mockListings = [
         price: "1,800 QAR",
         image: "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
         type: "Classifieds",
-        details: "Electronics • Used - Like New"
+        details: "Electronics • Used - Like New",
+        link: "https://www.qatarclassifieds.com/electronics"
     },
     {
         id: 5,
@@ -152,7 +156,8 @@ const mockListings = [
         price: "14,000 QAR/month",
         image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
         type: "Property",
-        details: "5 Beds • 6 Baths • Maid Room"
+        details: "5 Beds • 6 Baths • Maid Room",
+        link: "https://www.propertyfinder.qa/en/rent/villas-for-rent-in-qatar.html"
     },
     {
         id: 6,
@@ -161,7 +166,8 @@ const mockListings = [
         price: "3,500 QAR",
         image: "https://images.unsplash.com/photo-1678685888221-cda773a3dcdb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
         type: "Classifieds",
-        details: "Mobiles • Warranty Valid"
+        details: "Mobiles • Warranty Valid",
+        link: "https://www.qatarclassifieds.com/mobiles"
     }
 ];
 
@@ -303,3 +309,51 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         }
     });
 });
+
+// Search button functionality
+const searchInput = document.querySelector('.search-box input');
+const searchCategory = document.querySelector('.search-category');
+const searchBtn = document.querySelector('.btn-search');
+
+if (searchBtn) {
+    searchBtn.addEventListener('click', () => {
+        const query = searchInput ? searchInput.value.trim() : '';
+        const category = searchCategory ? searchCategory.value : 'all';
+        if (!query) {
+            searchInput.focus();
+            searchInput.placeholder = 'Please enter something to search...';
+            return;
+        }
+        const searchUrls = {
+            properties: `https://www.propertyfinder.qa/en/search?q=${encodeURIComponent(query)}`,
+            jobs: `https://www.bayt.com/en/qatar/jobs/?query=${encodeURIComponent(query)}`,
+            classifieds: `https://www.qatarclassifieds.com/search?q=${encodeURIComponent(query)}`,
+            all: `https://www.google.com/search?q=${encodeURIComponent(query + ' Qatar')}`
+        };
+        const url = searchUrls[category] || searchUrls.all;
+        window.open(url, '_blank', 'noopener,noreferrer');
+    });
+
+    // Allow pressing Enter to search
+    if (searchInput) {
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') searchBtn.click();
+        });
+    }
+}
+
+// Post an Ad button
+const postAdBtn = document.querySelector('[aria-label="Post a new ad"]');
+if (postAdBtn) {
+    postAdBtn.addEventListener('click', () => {
+        alert('Post an Ad feature coming soon! You will be able to list your properties, vehicles, and classifieds here.');
+    });
+}
+
+// Sign In button
+const signInBtn = document.querySelector('[aria-label="Sign in to your account"]');
+if (signInBtn) {
+    signInBtn.addEventListener('click', () => {
+        alert('Sign In feature coming soon! User authentication will be added in the next phase.');
+    });
+}
