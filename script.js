@@ -357,3 +357,83 @@ if (signInBtn) {
         alert('Sign In feature coming soon! User authentication will be added in the next phase.');
     });
 }
+
+// ─── Category Card Click Handlers ───────────────────────────────────────────
+
+function scrollToSection(sectionId) {
+    const el = document.querySelector(sectionId);
+    if (!el) return;
+    const headerOffset = 80;
+    const offsetPosition = el.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+    window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+}
+
+function filterListings(type) {
+    const container = document.getElementById('listings-container');
+    if (!container) return;
+
+    const filtered = type === 'All'
+        ? mockListings
+        : mockListings.filter(item => item.type === type);
+
+    if (filtered.length === 0) {
+        container.innerHTML = `<p style="grid-column:1/-1;text-align:center;padding:2rem;color:var(--text-secondary);">No listings found for <strong>${type}</strong>. Check back soon!</p>`;
+        return;
+    }
+
+    container.innerHTML = filtered.map(item => `
+        <div class="card">
+            <div class="card-img-wrapper">
+                <span class="badge" style="background:${getBadgeColor(item.type)}">${item.type}</span>
+                <img src="${item.image}" alt="${item.title}" class="card-img">
+            </div>
+            <div class="card-content">
+                <h3 class="card-title">${item.title}</h3>
+                <p class="card-desc" style="color:var(--text-primary); font-weight:500;"><i data-lucide="map-pin" class="icon-sm" style="display:inline; vertical-align:middle; width:14px; margin-right:4px;"></i>${item.location}</p>
+                <p class="card-desc" style="margin-bottom:0.5rem;">${item.details}</p>
+                <div class="card-meta" style="margin-top:auto;">
+                    <span class="price" style="font-size: 1rem;">${item.price}</span>
+                    <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;" aria-label="View details for ${item.title}">View</a>
+                </div>
+            </div>
+        </div>
+    `).join('');
+    lucide.createIcons();
+
+    // Highlight active filter on section title
+    const sectionTitle = document.querySelector('#classifieds .section-title');
+    if (sectionTitle) {
+        sectionTitle.textContent = type === 'All' ? 'Featured Listings' : `${type} Listings`;
+    }
+}
+
+// Map each category card (by index order in HTML) to its action
+const categoryActions = [
+    { name: 'Qatar News', action: () => scrollToSection('#news') },
+    { name: 'Vehicles', action: () => { filterListings('Vehicle'); scrollToSection('#classifieds'); } },
+    { name: 'Properties', action: () => { filterListings('Property'); scrollToSection('#classifieds'); } },
+    { name: 'Jobs', action: () => { filterListings('Job'); scrollToSection('#classifieds'); } },
+    { name: 'Classifieds', action: () => { filterListings('Classifieds'); scrollToSection('#classifieds'); } },
+    { name: 'Community', action: () => alert('Community forums coming soon! Connect with other Qatar residents here.') },
+];
+
+document.querySelectorAll('.category-card').forEach((card, index) => {
+    const action = categoryActions[index];
+    if (!action) return;
+
+    // Make it look and feel clickable
+    card.style.cursor = 'pointer';
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.setAttribute('aria-label', `Browse ${action.name}`);
+
+    card.addEventListener('click', action.action);
+
+    // Keyboard accessibility
+    card.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            action.action();
+        }
+    });
+});
