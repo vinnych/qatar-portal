@@ -25,18 +25,19 @@ async function getJobItem(slug: string): Promise<Job | null> {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const job = await getJobItem(params.slug);
+  const { slug } = await params;
+  const job = await getJobItem(slug);
   if (!job) return {};
   return {
     title: `${job.title} at ${job.company} — Qatar Jobs | Qatar Portal`,
     description: `${job.title} position at ${job.company} in ${job.location}. Apply now via Qatar Portal.`,
-    alternates: { canonical: `${SITE_URL}/jobs/${params.slug}` },
+    alternates: { canonical: `${SITE_URL}/jobs/${slug}` },
     openGraph: {
       title: `${job.title} — ${job.company}`,
       description: `Job opportunity in Qatar: ${job.title} at ${job.company}`,
-      url: `${SITE_URL}/jobs/${params.slug}`,
+      url: `${SITE_URL}/jobs/${slug}`,
       siteName: "Qatar Portal",
       type: "article",
     },
@@ -46,13 +47,14 @@ export async function generateMetadata({
 export default async function JobDetailPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const job = await getJobItem(params.slug);
+  const { slug } = await params;
+  const job = await getJobItem(slug);
   if (!job) {
     let link: string | null = null;
     try {
-      const decoded = Buffer.from(params.slug, "base64url").toString();
+      const decoded = Buffer.from(slug, "base64url").toString();
       if (isValidHttpUrl(decoded)) link = decoded;
     } catch { /* invalid slug */ }
     if (link) redirect(link);
@@ -74,7 +76,7 @@ export default async function JobDetailPage({
       },
     },
     datePosted: job.pubDate || new Date().toISOString().split("T")[0],
-    mainEntityOfPage: `${SITE_URL}/jobs/${params.slug}`,
+    mainEntityOfPage: `${SITE_URL}/jobs/${slug}`,
   };
 
   return (

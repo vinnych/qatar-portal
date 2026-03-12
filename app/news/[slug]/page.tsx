@@ -25,18 +25,19 @@ async function getNewsItem(slug: string): Promise<NewsItem | null> {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const item = await getNewsItem(params.slug);
+  const { slug } = await params;
+  const item = await getNewsItem(slug);
   if (!item) return {};
   return {
     title: `${item.title} | Qatar Portal`,
     description: item.contentSnippet || `Read the latest news from ${item.source} on Qatar Portal.`,
-    alternates: { canonical: `${SITE_URL}/news/${params.slug}` },
+    alternates: { canonical: `${SITE_URL}/news/${slug}` },
     openGraph: {
       title: item.title,
       description: item.contentSnippet || `Read the latest news from ${item.source} on Qatar Portal.`,
-      url: `${SITE_URL}/news/${params.slug}`,
+      url: `${SITE_URL}/news/${slug}`,
       siteName: "Qatar Portal",
       type: "article",
     },
@@ -46,13 +47,14 @@ export async function generateMetadata({
 export default async function NewsArticlePage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const item = await getNewsItem(params.slug);
+  const { slug } = await params;
+  const item = await getNewsItem(slug);
   if (!item) {
     let link: string | null = null;
     try {
-      const decoded = Buffer.from(params.slug, "base64url").toString();
+      const decoded = Buffer.from(slug, "base64url").toString();
       if (isValidHttpUrl(decoded)) link = decoded;
     } catch { /* invalid slug */ }
     if (link) redirect(link);
@@ -67,7 +69,7 @@ export default async function NewsArticlePage({
     datePublished: item.pubDate,
     publisher: { "@type": "Organization", name: item.source },
     description: item.contentSnippet,
-    mainEntityOfPage: `${SITE_URL}/news/${params.slug}`,
+    mainEntityOfPage: `${SITE_URL}/news/${slug}`,
   };
 
   return (
