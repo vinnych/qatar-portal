@@ -1,4 +1,5 @@
 import { isValidHttpUrl } from "./utils";
+import { redis, KV_TTL } from "./redis";
 
 export interface NewsItem {
   title: string;
@@ -58,5 +59,13 @@ export async function getNews(limit = 12): Promise<NewsItem[]> {
   );
 
   const items: NewsItem[] = results.flatMap((r) => (r.status === "fulfilled" ? r.value : []));
+
+  // Persist to Redis (fire-and-forget, 7-day TTL)
+  if (redis && items.length > 0) {
+    Promise.allSettled(
+      items.map((item) => redis!.set(`news:${item.slug}`, item, { ex: KV_TTL, nx: true }))
+    ).catch(() => {});
+  }
+
   return items.slice(0, limit);
 }

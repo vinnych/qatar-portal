@@ -1,5 +1,6 @@
 import { getPrayerTimes, getMonthlyPrayerTimes } from "@/lib/prayer";
 import PrayerSelector from "@/components/PrayerSelector";
+import { safeJsonLd } from "@/lib/utils";
 import type { Metadata } from "next";
 
 const SITE_URL = "https://qatar-portal.vercel.app";
@@ -14,7 +15,7 @@ export const metadata: Metadata = {
     "Qatar prayer times today",
     "Fajr time Doha",
     "Isha time Qatar",
-    "prayer times 2025 Qatar",
+    `prayer times ${new Date().getFullYear()} Qatar`,
     "salah times Doha",
     "Mecca prayer times",
     "Dubai prayer times",
@@ -63,7 +64,7 @@ export default async function PrayerPage() {
       {jsonLd && (
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
         />
       )}
       <PrayerSelector defaultTimes={today} defaultCalendar={calendar} />

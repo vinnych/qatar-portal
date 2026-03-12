@@ -9,6 +9,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Doha Prayer Times Today — Qatar News & Jobs | Qatar Portal",
   description: "Accurate Doha prayer times for today including Fajr, Dhuhr, Asr, Maghrib and Isha. Plus latest Qatar news and job listings.",
+  alternates: { canonical: "https://qatar-portal.vercel.app" },
 };
 
 export default async function Home() {

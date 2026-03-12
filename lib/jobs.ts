@@ -1,4 +1,5 @@
 import { isValidHttpUrl } from "./utils";
+import { redis, KV_TTL } from "./redis";
 
 export interface Job {
   title: string;
@@ -75,6 +76,13 @@ export async function getJobs(limit = 12): Promise<Job[]> {
       }
     })
   );
+
+  // Persist to Redis (fire-and-forget, 7-day TTL)
+  if (redis && jobs.length > 0) {
+    Promise.allSettled(
+      jobs.map((job) => redis!.set(`job:${job.slug}`, job, { ex: KV_TTL, nx: true }))
+    ).catch(() => {});
+  }
 
   return jobs.slice(0, limit);
 }

@@ -47,7 +47,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             "@type": "WebSite",
             "name": "Qatar Portal",
             "url": "https://qatar-portal.vercel.app",
-            "description": "Prayer times, jobs, and news for Qatar"
+            "description": "Prayer times, jobs, and news for Qatar",
+            "potentialAction": {
+              "@type": "SearchAction",
+              "target": { "@type": "EntryPoint", "urlTemplate": "https://qatar-portal.vercel.app/news?q={search_term_string}" },
+              "query-input": "required name=search_term_string"
+            }
           })}}
         />
         <main className="max-w-6xl mx-auto px-4 py-8">{children}</main>

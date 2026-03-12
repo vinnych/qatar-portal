@@ -1,26 +1,33 @@
-import { getNews } from "@/lib/rss";
-import { safeJsonLd } from "@/lib/utils";
+import { getNews, type NewsItem } from "@/lib/rss";
+import { safeJsonLd, isValidHttpUrl } from "@/lib/utils";
+import { redis } from "@/lib/redis";
 import { cache } from "react";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 const getCachedNews = cache(() => getNews(48));
 
 const SITE_URL = "https://qatar-portal.vercel.app";
+
+async function getNewsItem(slug: string): Promise<NewsItem | null> {
+  // 1. Try Redis (persisted up to 7 days)
+  if (redis) {
+    try {
+      const cached = await redis.get<NewsItem>(`news:${slug}`);
+      if (cached) return cached;
+    } catch { /* fall through */ }
+  }
+  // 2. Fall back to live feed
+  const news = await getCachedNews();
+  return news.find((n) => n.slug === slug) ?? null;
+}
 
 export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  let link: string;
-  try {
-    link = Buffer.from(params.slug, "base64url").toString();
-  } catch {
-    return {};
-  }
-  const news = await getCachedNews();
-  const item = news.find((n) => n.link === link);
+  const item = await getNewsItem(params.slug);
   if (!item) return {};
   return {
     title: `${item.title} | Qatar Portal`,
@@ -41,16 +48,15 @@ export default async function NewsArticlePage({
 }: {
   params: { slug: string };
 }) {
-  let link: string;
-  try {
-    link = Buffer.from(params.slug, "base64url").toString();
-  } catch {
-    return notFound();
+  const item = await getNewsItem(params.slug);
+  if (!item) {
+    // Not in Redis or live feed — redirect to original source URL encoded in slug
+    try {
+      const link = Buffer.from(params.slug, "base64url").toString();
+      if (isValidHttpUrl(link)) redirect(link);
+    } catch { /* invalid slug */ }
+    notFound();
   }
-
-  const news = await getCachedNews();
-  const item = news.find((n) => n.link === link);
-  if (!item) notFound();
 
   const jsonLd = {
     "@context": "https://schema.org",

@@ -5,7 +5,7 @@ This file provides guidance to Claude Code when working with code in this reposi
 ## Project
 Qatar Portal — a Next.js 14 website aggregating prayer times, news, and job listings for Qatar/Gulf audiences. Goal: organic SEO traffic without paid marketing.
 
-**Live site:** https://qatarportal.vercel.app
+**Live site:** https://qatar-portal.vercel.app
 **Local dev:** http://localhost:3000
 
 ## Tech Stack

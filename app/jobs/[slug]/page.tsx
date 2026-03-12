@@ -1,26 +1,33 @@
-import { getJobs } from "@/lib/jobs";
-import { safeJsonLd } from "@/lib/utils";
+import { getJobs, type Job } from "@/lib/jobs";
+import { safeJsonLd, isValidHttpUrl } from "@/lib/utils";
+import { redis } from "@/lib/redis";
 import { cache } from "react";
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 const getCachedJobs = cache(() => getJobs(48));
 
 const SITE_URL = "https://qatar-portal.vercel.app";
+
+async function getJobItem(slug: string): Promise<Job | null> {
+  // 1. Try Redis (persisted up to 7 days)
+  if (redis) {
+    try {
+      const cached = await redis.get<Job>(`job:${slug}`);
+      if (cached) return cached;
+    } catch { /* fall through */ }
+  }
+  // 2. Fall back to live feed
+  const jobs = await getCachedJobs();
+  return jobs.find((j) => j.slug === slug) ?? null;
+}
 
 export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  let link: string;
-  try {
-    link = Buffer.from(params.slug, "base64url").toString();
-  } catch {
-    return {};
-  }
-  const jobs = await getCachedJobs();
-  const job = jobs.find((j) => j.link === link);
+  const job = await getJobItem(params.slug);
   if (!job) return {};
   return {
     title: `${job.title} at ${job.company} — Qatar Jobs | Qatar Portal`,
@@ -41,16 +48,14 @@ export default async function JobDetailPage({
 }: {
   params: { slug: string };
 }) {
-  let link: string;
-  try {
-    link = Buffer.from(params.slug, "base64url").toString();
-  } catch {
-    return notFound();
+  const job = await getJobItem(params.slug);
+  if (!job) {
+    try {
+      const link = Buffer.from(params.slug, "base64url").toString();
+      if (isValidHttpUrl(link)) redirect(link);
+    } catch { /* invalid slug */ }
+    notFound();
   }
-
-  const jobs = await getCachedJobs();
-  const job = jobs.find((j) => j.link === link);
-  if (!job) notFound();
 
   const jsonLd = {
     "@context": "https://schema.org",
