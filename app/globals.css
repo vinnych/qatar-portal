@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px 4px rgba(251, 191, 36, 0.5); }
+  50%       { box-shadow: 0 0 40px 12px rgba(251, 191, 36, 0.85); }
+}
+@keyframes sun-rise {
+  from { transform: translateY(8px); opacity: 0.7; }
+  to   { transform: translateY(0px); opacity: 1; }
+}
+@keyframes rays-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50%       { opacity: 1; }
+}
+@keyframes float-cloud {
+  0%   { transform: translateX(0); }
+  50%  { transform: translateX(12px); }
+  100% { transform: translateX(0); }
+}
+
+.sun-glow     { animation: pulse-glow 3s ease-in-out infinite, sun-rise 1s ease-out; }
+.rays-spin    { animation: rays-spin 20s linear infinite; }
+.star-twinkle { animation: twinkle 2s ease-in-out infinite; }
+.cloud-float  { animation: float-cloud 6s ease-in-out infinite; }

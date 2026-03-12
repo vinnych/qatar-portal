@@ -1,0 +1,80 @@
+import { isValidHttpUrl } from "./utils";
+
+export interface Job {
+  title: string;
+  company: string;
+  location: string;
+  link: string;
+  slug: string;
+  pubDate: string;
+  source: string;
+}
+
+// Bayt.com Qatar RSS feed
+const JOB_FEEDS = [
+  {
+    url: "https://www.bayt.com/en/qatar/jobs/?jobId=&rssFeed=1",
+    source: "Bayt.com",
+  },
+  {
+    url: "https://www.gulftalent.com/rss/jobs/qatar",
+    source: "GulfTalent",
+  },
+];
+
+export async function getJobs(limit = 12): Promise<Job[]> {
+  const jobs: Job[] = [];
+
+  await Promise.allSettled(
+    JOB_FEEDS.map(async ({ url, source }) => {
+      try {
+        const controller = new AbortController();
+        const timer = setTimeout(() => controller.abort(), 5000);
+        const res = await fetch(url, { signal: controller.signal, next: { revalidate: 1800 } });
+        clearTimeout(timer);
+        if (!res.ok) return;
+        const raw = await res.text();
+        const text = raw.length > 5 * 1024 * 1024 ? raw.slice(0, 5 * 1024 * 1024) : raw;
+        const matches = [...text.matchAll(/<item[^>]*>([\s\S]*?)<\/item>/g)];
+        for (const m of matches.slice(0, 8)) {
+          const block = m[1];
+          const title = block.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/)?.[1] ||
+            block.match(/<title>(.*?)<\/title>/)?.[1] || "";
+          const link = block.match(/<link>(.*?)<\/link>/)?.[1] ||
+            block.match(/<guid>(.*?)<\/guid>/)?.[1] || "";
+          const pubDate = block.match(/<pubDate>(.*?)<\/pubDate>/)?.[1] || "";
+          const desc = block.match(/<description><!\[CDATA\[(.*?)\]\]><\/description>/)?.[1] ||
+            block.match(/<description>(.*?)<\/description>/)?.[1] || "";
+
+          // Try to extract company from title (common pattern: "Job Title at Company")
+          const companyMatch = title.match(/ at (.+)$/i);
+          const company = companyMatch ? companyMatch[1] : source;
+          const cleanTitle = companyMatch ? title.replace(/ at .+$/i, "") : title;
+
+          // Try to extract city from description (e.g. "Location: Doha" or "Doha, Qatar")
+          const plainDesc = desc.replace(/<[^>]+>/g, "");
+          const locationMatch = plainDesc.match(/location[:\s]+([A-Za-z\s,]+?)(?:\n|<|$)/i) ||
+            plainDesc.match(/([A-Za-z\s]+),\s*Qatar/i);
+          const location = locationMatch ? locationMatch[1].trim() : "Qatar";
+
+          const cleanLink = link.trim();
+          if (cleanTitle && cleanLink && isValidHttpUrl(cleanLink)) {
+            jobs.push({
+              title: cleanTitle.trim(),
+              company: company.trim(),
+              location,
+              link: cleanLink,
+              slug: Buffer.from(cleanLink).toString("base64url"),
+              pubDate: pubDate.trim(),
+              source,
+            });
+          }
+        }
+      } catch {
+        // skip failed feeds
+      }
+    })
+  );
+
+  return jobs.slice(0, limit);
+}
