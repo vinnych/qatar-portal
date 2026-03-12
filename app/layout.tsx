@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display } from "next/font/google";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import FooterScenery from "@/components/FooterScenery";
 import { safeJsonLd } from "@/lib/utils";
 import "./globals.css";
@@ -50,6 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           })}}
         />
         <main className="max-w-6xl mx-auto px-4 py-8">{children}</main>
+        <SpeedInsights />
         <FooterScenery />
         <footer className="bg-amber-50 border-t border-amber-200 py-6 text-center text-sm text-gray-500">
           © {new Date().getFullYear()} Qatar Portal. All rights reserved.
