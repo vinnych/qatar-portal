@@ -2,7 +2,7 @@ import { getPrayerTimes, getMonthlyPrayerTimes } from "@/lib/prayer";
 import PrayerSelector from "@/components/PrayerSelector";
 import type { Metadata } from "next";
 
-const SITE_URL = "https://qatarportal.vercel.app";
+const SITE_URL = "https://qatar-portal.vercel.app";
 
 export const metadata: Metadata = {
   title: "Prayer Times for Muslim Countries — Doha, Mecca, Dubai & More | Qatar Portal",

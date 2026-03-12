@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 import { getNews } from "@/lib/rss";
 import { getJobs } from "@/lib/jobs";
 
-const SITE_URL = "https://qatarportal.vercel.app";
+const SITE_URL = "https://qatar-portal.vercel.app";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base: MetadataRoute.Sitemap = [

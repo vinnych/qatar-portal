@@ -6,7 +6,7 @@ import { notFound } from "next/navigation";
 
 const getCachedJobs = cache(() => getJobs(48));
 
-const SITE_URL = "https://qatarportal.vercel.app";
+const SITE_URL = "https://qatar-portal.vercel.app";
 
 export async function generateMetadata({
   params,

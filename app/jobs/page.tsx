@@ -8,7 +8,7 @@ const year = new Date().getFullYear();
 export const metadata: Metadata = {
   title: `Latest Jobs in Qatar ${year} — Bayt.com & GulfTalent Listings | Qatar Portal`,
   description: "Browse the latest job vacancies in Qatar, updated daily from Bayt.com and GulfTalent. Find jobs in Doha and across Qatar.",
-  alternates: { canonical: "https://qatarportal.vercel.app/jobs" },
+  alternates: { canonical: "https://qatar-portal.vercel.app/jobs" },
   keywords: ["Qatar jobs", "jobs in Qatar", "Doha jobs", `Qatar vacancies ${year}`, "Gulf jobs", "Bayt Qatar", "GulfTalent Qatar"],
 };
 

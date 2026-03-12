@@ -12,11 +12,11 @@ export const metadata: Metadata = {
   description:
     "Your daily Qatar resource: accurate prayer times for Doha, latest job listings in Qatar, and top Gulf news headlines.",
   keywords: ["Qatar prayer times", "Doha prayer times today", `Qatar jobs ${new Date().getFullYear()}`, "Qatar news", "Gulf jobs", "Fajr time Doha"],
-  alternates: { canonical: "https://qatarportal.vercel.app" },
+  alternates: { canonical: "https://qatar-portal.vercel.app" },
   openGraph: {
     title: "Qatar Portal",
     description: "Prayer times, jobs, and news for Qatar",
-    url: "https://qatarportal.vercel.app",
+    url: "https://qatar-portal.vercel.app",
     siteName: "Qatar Portal",
     locale: "en_US",
     type: "website",
@@ -46,7 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             "@context": "https://schema.org",
             "@type": "WebSite",
             "name": "Qatar Portal",
-            "url": "https://qatarportal.vercel.app",
+            "url": "https://qatar-portal.vercel.app",
             "description": "Prayer times, jobs, and news for Qatar"
           })}}
         />
