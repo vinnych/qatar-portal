@@ -1,18 +1,21 @@
 import { NextResponse } from "next/server";
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import Groq from "groq-sdk";
 
 export async function GET() {
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = process.env.GROQ_API_KEY;
 
   if (!apiKey) {
-    return NextResponse.json({ status: "error", message: "GEMINI_API_KEY not set" }, { status: 500 });
+    return NextResponse.json({ status: "error", message: "GROQ_API_KEY not set" }, { status: 500 });
   }
 
   try {
-    const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
-    const result = await model.generateContent("Say 'Gemini is working' in exactly 3 words.");
-    const text = result.response.text().trim();
+    const groq = new Groq({ apiKey });
+    const chat = await groq.chat.completions.create({
+      model: "llama-3.1-8b-instant",
+      messages: [{ role: "user", content: "Say exactly: Groq is working" }],
+      max_tokens: 10,
+    });
+    const text = chat.choices[0]?.message?.content?.trim();
     return NextResponse.json({ status: "ok", response: text });
   } catch (err) {
     return NextResponse.json({
