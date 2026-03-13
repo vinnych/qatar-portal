@@ -10,6 +10,15 @@ export const metadata: Metadata = {
   description:
     "Accurate Fajr, Sunrise, Dhuhr, Asr, Maghrib and Isha prayer times for Doha and 35+ Muslim cities worldwide — today and full monthly calendar.",
   alternates: { canonical: `${SITE_URL}/prayer` },
+  openGraph: {
+    title: "Prayer Times for Muslim Countries — Doha, Mecca, Dubai | Qatar Portal",
+    description: "Accurate Fajr, Dhuhr, Asr, Maghrib and Isha prayer times for Doha and 35+ Muslim cities worldwide.",
+    url: `${SITE_URL}/prayer`,
+    siteName: "Qatar Portal",
+    type: "website",
+    images: [{ url: `${SITE_URL}/opengraph-image`, width: 1200, height: 630 }],
+  },
+  twitter: { card: "summary_large_image", title: "Prayer Times for Muslim Countries | Qatar Portal", description: "Accurate prayer times for Doha and 35+ Muslim cities." },
   keywords: [
     "Doha prayer times",
     "Qatar prayer times today",
@@ -43,15 +52,12 @@ export default async function PrayerPage() {
   const jsonLd = today
     ? {
         "@context": "https://schema.org",
-        "@type": "Event",
+        "@type": "WebPage",
         name: `Doha Prayer Times — ${today.date}`,
-        location: {
-          "@type": "Place",
-          name: "Doha, Qatar",
-          address: { "@type": "PostalAddress", addressLocality: "Doha", addressCountry: "QA" },
-        },
+        url: `${SITE_URL}/prayer`,
         description: `Fajr: ${today.Fajr}, Dhuhr: ${today.Dhuhr}, Asr: ${today.Asr}, Maghrib: ${today.Maghrib}, Isha: ${today.Isha}`,
-        startDate: new Date().toISOString().split("T")[0],
+        inLanguage: "en",
+        isPartOf: { "@type": "WebSite", name: "Qatar Portal", url: SITE_URL },
       }
     : null;
 

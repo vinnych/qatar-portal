@@ -10,6 +10,15 @@ export const metadata: Metadata = {
   description: "Browse the latest job vacancies in Qatar, updated daily from Bayt.com and GulfTalent. Find jobs in Doha and across Qatar.",
   alternates: { canonical: "https://qatar-portal.vercel.app/jobs" },
   keywords: ["Qatar jobs", "jobs in Qatar", "Doha jobs", `Qatar vacancies ${year}`, "Gulf jobs", "Bayt Qatar", "GulfTalent Qatar"],
+  openGraph: {
+    title: `Latest Jobs in Qatar ${year} | Qatar Portal`,
+    description: "Browse the latest job vacancies in Qatar, updated daily. Find jobs in Doha and across Qatar.",
+    url: "https://qatar-portal.vercel.app/jobs",
+    siteName: "Qatar Portal",
+    type: "website",
+    images: [{ url: "https://qatar-portal.vercel.app/opengraph-image", width: 1200, height: 630 }],
+  },
+  twitter: { card: "summary_large_image", title: `Latest Jobs in Qatar ${year} | Qatar Portal`, description: "Browse the latest job vacancies in Qatar." },
 };
 
 export default async function JobsPage() {

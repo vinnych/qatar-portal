@@ -39,7 +39,7 @@ export async function generateMetadata({
       description: `Job opportunity in Qatar: ${job.title} at ${job.company}`,
       url: `${SITE_URL}/jobs/${slug}`,
       siteName: "Qatar Portal",
-      type: "article",
+      type: "website",
     },
   };
 }

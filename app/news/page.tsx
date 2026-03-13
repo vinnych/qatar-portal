@@ -8,6 +8,15 @@ export const metadata: Metadata = {
   description: "Latest breaking news from Qatar and the Gulf — updated every 15 minutes from Al Jazeera, The Peninsula Qatar, Gulf Times, and Qatar News Agency.",
   alternates: { canonical: "https://qatar-portal.vercel.app/news" },
   keywords: ["Qatar news today", "Gulf news", "Al Jazeera Qatar", "The Peninsula Qatar", "Gulf Times", "Qatar breaking news"],
+  openGraph: {
+    title: "Qatar & Gulf Breaking News Today | Qatar Portal",
+    description: "Latest breaking news from Qatar and the Gulf — updated every 15 minutes from Al Jazeera, BBC and Google News.",
+    url: "https://qatar-portal.vercel.app/news",
+    siteName: "Qatar Portal",
+    type: "website",
+    images: [{ url: "https://qatar-portal.vercel.app/opengraph-image", width: 1200, height: 630 }],
+  },
+  twitter: { card: "summary_large_image", title: "Qatar & Gulf Breaking News Today | Qatar Portal", description: "Latest breaking news from Qatar and the Gulf." },
 };
 
 export default async function NewsPage() {
