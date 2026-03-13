@@ -16,6 +16,47 @@ const FEEDS = [
   { url: "https://news.google.com/rss/search?q=qatar&hl=en-US&gl=US&ceid=US:en", source: "Google News" },
   { url: "https://feeds.bbci.co.uk/news/world/middle_east/rss.xml", source: "BBC Middle East" },
 ];
+
+/** Fetch OG image from an article URL with a short timeout. Cached in Redis. */
+async function fetchOgImage(slug: string, articleUrl: string): Promise<string | undefined> {
+  // Check Redis cache first
+  if (redis) {
+    try {
+      const cached = await redis.get<string>(`news:ogimage:${slug}`);
+      if (cached) return cached;
+    } catch { /* fall through */ }
+  }
+
+  try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 2000);
+    const res = await fetch(articleUrl, {
+      signal: controller.signal,
+      headers: { "User-Agent": "Mozilla/5.0 (compatible; Qatar-Portal/1.0)" },
+    });
+    clearTimeout(timer);
+    if (!res.ok) return undefined;
+
+    const html = await res.text();
+    const ogImage =
+      html.match(/<meta[^>]+property="og:image"[^>]+content="([^"]+)"/)?.[1] ||
+      html.match(/<meta[^>]+content="([^"]+)"[^>]+property="og:image"/)?.[1];
+
+    const imageUrl = ogImage && isValidHttpUrl(ogImage) ? ogImage : undefined;
+
+    // Cache result (even undefined stored as empty string to avoid re-fetching)
+    if (redis) {
+      try {
+        await redis.set(`news:ogimage:${slug}`, imageUrl ?? "", { ex: KV_TTL });
+      } catch { /* ignore */ }
+    }
+
+    return imageUrl;
+  } catch {
+    return undefined;
+  }
+}
+
 export async function getNews(limit = 12): Promise<NewsItem[]> {
   const results = await Promise.allSettled(
     FEEDS.map(async ({ url, source }): Promise<NewsItem[]> => {
@@ -67,6 +108,17 @@ export async function getNews(limit = 12): Promise<NewsItem[]> {
   );
 
   const items: NewsItem[] = results.flatMap((r) => (r.status === "fulfilled" ? r.value : []));
+
+  // For items without images, fetch OG images in parallel (fire-and-forget)
+  const itemsWithoutImage = items.filter((item) => !item.imageUrl);
+  if (itemsWithoutImage.length > 0) {
+    Promise.allSettled(
+      itemsWithoutImage.map(async (item) => {
+        const ogImage = await fetchOgImage(item.slug, item.link);
+        if (ogImage) item.imageUrl = ogImage;
+      })
+    ).catch(() => {});
+  }
 
   // Persist to Redis (fire-and-forget, 7-day TTL)
   if (redis && items.length > 0) {
