@@ -40,7 +40,7 @@ export async function summarizeArticle(
   // 4. Generate with Gemini
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
 
     const prompt = `You are a neutral news summarizer. Write a concise 2–3 sentence summary of the following news article in your own words. Do not copy the original text. Be factual and objective.
 
