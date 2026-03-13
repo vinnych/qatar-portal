@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display } from "next/font/google";
+import Script from "next/script";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import FooterScenery from "@/components/FooterScenery";
 import { safeJsonLd } from "@/lib/utils";
@@ -59,6 +60,18 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           })}}
         />
         <main className="max-w-6xl mx-auto px-4 py-8">{children}</main>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-VPREJS079K"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-VPREJS079K');
+          `}
+        </Script>
         <SpeedInsights />
         <FooterScenery />
         <footer className="bg-amber-50 border-t border-amber-200 py-8 text-sm text-gray-500">
