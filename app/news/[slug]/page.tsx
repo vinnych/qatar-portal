@@ -40,6 +40,7 @@ export async function generateMetadata({
       url: `${SITE_URL}/news/${slug}`,
       siteName: "Qatar Portal",
       type: "article",
+      ...(item.imageUrl ? { images: [{ url: item.imageUrl }] } : {}),
     },
   };
 }
@@ -70,6 +71,7 @@ export default async function NewsArticlePage({
     publisher: { "@type": "Organization", name: item.source },
     description: item.contentSnippet,
     mainEntityOfPage: `${SITE_URL}/news/${slug}`,
+    ...(item.imageUrl ? { image: item.imageUrl } : {}),
   };
 
   return (
@@ -83,6 +85,17 @@ export default async function NewsArticlePage({
           ← Back to News
         </a>
       </div>
+      {item.imageUrl ? (
+        <img
+          src={item.imageUrl}
+          alt={item.title}
+          className="w-full rounded-xl object-cover max-h-72 mb-5"
+        />
+      ) : (
+        <div className="w-full rounded-xl h-48 bg-gradient-to-br from-sky-100 to-sky-200 flex items-center justify-center mb-5">
+          <span className="text-5xl opacity-30">📰</span>
+        </div>
+      )}
       <span className="inline-block text-xs text-sky-700 font-semibold uppercase tracking-wide bg-sky-50 border border-sky-200 px-3 py-1 rounded-full mb-3">
         {item.source}
       </span>
