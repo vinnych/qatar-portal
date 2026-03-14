@@ -40,7 +40,9 @@ export async function generateMetadata({
       url: `${SITE_URL}/jobs/${slug}`,
       siteName: "Qatar Portal",
       type: "website",
+      images: [{ url: `${SITE_URL}/opengraph-image`, width: 1200, height: 630 }],
     },
+    twitter: { card: "summary_large_image" },
   };
 }
 

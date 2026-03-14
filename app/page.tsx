@@ -92,6 +92,23 @@ export default async function Home() {
           </Suspense>
         </section>
       </div>
+      {/* FAQ section — supports FAQPage JSON-LD for Google rich results */}
+      <section className="mt-4 border-t border-stone-200 pt-6">
+        <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">Frequently Asked Questions</h2>
+        <div className="space-y-4">
+          {[
+            { q: "What time is Fajr in Doha today?", a: "Today's Fajr prayer time in Doha is shown at the top of this page, updated daily using the Muslim World League calculation method." },
+            { q: "What time is Maghrib in Doha today?", a: "Today's Maghrib prayer time in Doha is displayed above, calculated based on sunset time for Qatar." },
+            { q: "What are today's prayer times in Qatar?", a: "All five daily prayer times for Qatar (Fajr, Dhuhr, Asr, Maghrib, Isha) are shown above, updated daily." },
+            { q: "Where can I find jobs in Qatar?", a: "Browse the latest job vacancies in Doha and Qatar in the Jobs section above, updated daily from top Gulf job boards." },
+          ].map(({ q, a }) => (
+            <details key={q} className="group">
+              <summary className="cursor-pointer text-sm font-medium text-gray-700 hover:text-rose-800 transition-colors">{q}</summary>
+              <p className="text-sm text-gray-500 mt-1 pl-2">{a}</p>
+            </details>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

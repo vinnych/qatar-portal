@@ -41,7 +41,7 @@ export async function generateMetadata({
       url: `${SITE_URL}/news/${slug}`,
       siteName: "Qatar Portal",
       type: "article",
-      ...(item.imageUrl ? { images: [{ url: item.imageUrl }] } : {}),
+      images: [{ url: item.imageUrl ?? `${SITE_URL}/opengraph-image`, width: 1200, height: 630 }],
     },
   };
 }
@@ -65,7 +65,7 @@ export default async function NewsArticlePage({
 
   // Fetch image on-demand if not already present (cached in Redis)
   if (!item.imageUrl) {
-    const img = await fetchPexelsImage(item.slug, item.title);
+    const img = await fetchPexelsImage(item.slug, item.title, item.link);
     if (img) item.imageUrl = img;
   }
 
