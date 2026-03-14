@@ -78,7 +78,7 @@ export default async function WeatherPage() {
 
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
           Doha Weather Today
         </h1>
         <p className="text-gray-500 text-sm">{today} · Doha, Qatar · Updates every 30 min</p>
@@ -100,7 +100,7 @@ export default async function WeatherPage() {
                 <div className="text-base sm:text-lg text-gray-600 mt-2">{weather.current.condition}</div>
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-2 sm:gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
               <div className="bg-white/70 border border-amber-100 rounded-xl p-2 sm:p-3 text-center">
                 <p className="text-xs text-gray-500 mb-1">Feels Like</p>
                 <p className="text-base sm:text-lg font-bold text-gray-900">{weather.current.feelsLike}°C</p>

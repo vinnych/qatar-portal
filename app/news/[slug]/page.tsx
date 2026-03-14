@@ -105,7 +105,7 @@ export default async function NewsArticlePage({
         <img
           src={item.imageUrl}
           alt={item.title}
-          className="w-full rounded-xl object-cover max-h-72 mb-5"
+          className="w-full rounded-xl object-cover max-h-48 sm:max-h-72 mb-5"
         />
       ) : (
         <div className="w-full rounded-xl h-48 bg-gradient-to-br from-sky-100 to-sky-200 flex items-center justify-center mb-5">
@@ -135,7 +135,7 @@ export default async function NewsArticlePage({
         href={item.link}
         target="_blank"
         rel="noopener noreferrer"
-        className="inline-block bg-sky-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-sky-800 transition-colors"
+        className="inline-block bg-sky-700 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-sky-800 transition-colors"
       >
         Read Full Article on {item.source} →
       </a>

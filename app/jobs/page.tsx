@@ -59,7 +59,7 @@ export default async function JobsPage() {
       {jsonLd && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{__html: safeJsonLd(jsonLd)}} />
       )}
-      <h1 className="text-2xl font-bold text-emerald-900 mb-6">
+      <h1 className="text-xl sm:text-2xl font-bold text-emerald-900 mb-6">
         <span aria-hidden="true">💼</span> Jobs in Qatar
       </h1>
       <JobSearch jobs={jobs} />

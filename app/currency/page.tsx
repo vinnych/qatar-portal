@@ -83,7 +83,7 @@ export default async function CurrencyPage() {
 
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
           QAR Exchange Rates Today
         </h1>
         <p className="text-gray-500 text-sm">{today} · Updated hourly</p>
@@ -109,7 +109,7 @@ export default async function CurrencyPage() {
               {allRates.map((rate) => (
                 <div
                   key={rate.code}
-                  className="flex items-center justify-between bg-white border border-stone-200 rounded-xl px-4 py-3 shadow-sm hover:border-rose-200 transition-colors"
+                  className="flex items-center justify-between bg-white border border-stone-200 rounded-xl px-3 py-2 sm:px-4 sm:py-3 shadow-sm hover:border-rose-200 transition-colors"
                 >
                   <div className="flex items-center gap-3">
                     <span className="text-2xl">{rate.flag}</span>

@@ -25,11 +25,11 @@ export default async function NewsFeed({ limit = 6 }: { limit?: number }) {
             <img
               src={item.imageUrl}
               alt={item.title}
-              className="w-full h-36 object-cover"
+              className="w-full h-32 sm:h-36 object-cover"
               loading="lazy"
             />
           ) : (
-            <div className="w-full h-36 bg-gradient-to-br from-sky-100 to-sky-200 flex items-center justify-center">
+            <div className="w-full h-32 sm:h-36 bg-gradient-to-br from-sky-100 to-sky-200 flex items-center justify-center">
               <span className="text-4xl opacity-40">📰</span>
             </div>
           )}

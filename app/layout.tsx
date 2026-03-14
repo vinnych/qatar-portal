@@ -81,7 +81,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <FooterScenery />
         <footer className="bg-amber-50 border-t border-amber-200 py-8 text-sm text-gray-500">
           <div className="max-w-6xl mx-auto px-4 space-y-4">
-            <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
+            <div className="flex flex-wrap justify-center gap-x-3 sm:gap-x-6 gap-y-2">
               <a href="/" className="hover:text-rose-800 transition-colors">Home</a>
               <a href="/prayer" className="hover:text-rose-800 transition-colors">Prayer Times</a>
               <a href="/weather" className="hover:text-rose-800 transition-colors">Doha Weather</a>
