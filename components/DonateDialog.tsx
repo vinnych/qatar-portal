@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 
 const PRESETS = [1, 5, 10, 100];
-const KOFI_URL = "https://ko-fi.com/asishchilakapati";
+const DONATE_URL = "https://razorpay.me/@qatarportal";
 
 export default function DonateDialog() {
   const [open, setOpen] = useState(false);
@@ -67,16 +67,16 @@ export default function DonateDialog() {
 
         {/* Donate button */}
         <a
-          href={KOFI_URL}
+          href={DONATE_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="block w-full bg-[#FF5E5B] hover:bg-[#e54f4c] text-white font-bold py-3 px-6 rounded-xl transition-colors text-sm"
+          className="block w-full bg-[#2D81F7] hover:bg-[#1a6fe0] text-white font-bold py-3 px-6 rounded-xl transition-colors text-sm"
           onClick={() => setOpen(false)}
         >
-          ☕ Buy me a coffee — ${amount}
+          💙 Donate ${amount} via Razorpay
         </a>
 
-        <p className="text-xs text-gray-400">Accepts cards &amp; PayPal · 0% fees · No account needed</p>
+        <p className="text-xs text-gray-400">Accepts cards, UPI &amp; net banking · No account needed</p>
 
         {/* Dismiss */}
         <button
