@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 
 const PRESETS = [1, 5, 10, 100];
+const KOFI_URL = "https://ko-fi.com/asishchilakapati";
 
 export default function DonateDialog() {
   const [open, setOpen] = useState(false);
@@ -17,7 +18,6 @@ export default function DonateDialog() {
   if (!open) return null;
 
   const amount = custom || selected;
-  const paypalUrl = `https://paypal.me/qatarportal/${amount}`;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50">
@@ -67,16 +67,16 @@ export default function DonateDialog() {
 
         {/* Donate button */}
         <a
-          href={paypalUrl}
+          href={KOFI_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="block w-full bg-amber-400 hover:bg-amber-500 text-rose-900 font-bold py-3 px-6 rounded-xl transition-colors text-sm"
+          className="block w-full bg-[#FF5E5B] hover:bg-[#e54f4c] text-white font-bold py-3 px-6 rounded-xl transition-colors text-sm"
           onClick={() => setOpen(false)}
         >
-          💛 Donate ${amount} via PayPal
+          ☕ Buy me a coffee — ${amount}
         </a>
 
-        <p className="text-xs text-gray-400">PayPal accepts cards — no account needed</p>
+        <p className="text-xs text-gray-400">Accepts cards &amp; PayPal · 0% fees · No account needed</p>
 
         {/* Dismiss */}
         <button
