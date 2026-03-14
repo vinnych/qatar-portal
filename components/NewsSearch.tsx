@@ -50,7 +50,7 @@ export default function NewsSearch({ items }: { items: NewsItem[] }) {
               {item.imageUrl ? (
                 <img src={item.imageUrl} alt={item.title} className="w-full h-32 sm:h-36 object-cover" loading="lazy" />
               ) : (
-                <div className="w-full h-32 sm:h-36 bg-gradient-to-sky-200 from-sky-100 to-sky-200 flex items-center justify-center">
+                <div className="w-full h-32 sm:h-36 bg-gradient-to-br from-sky-100 to-sky-200 flex items-center justify-center">
                   <span className="text-4xl opacity-40">📰</span>
                 </div>
               )}
