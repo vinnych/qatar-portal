@@ -1,4 +1,5 @@
 import { getQARRates } from "@/lib/currency";
+import CurrencyConverter from "@/components/CurrencyConverter";
 import { safeJsonLd } from "@/lib/utils";
 import type { Metadata } from "next";
 
@@ -102,29 +103,8 @@ export default async function CurrencyPage() {
             </div>
           </div>
 
-          {/* Main rates grid */}
-          <section>
-            <h2 className="text-xl font-bold text-gray-900 mb-4">1 QAR equals</h2>
-            <div className="grid sm:grid-cols-2 gap-3">
-              {allRates.map((rate) => (
-                <div
-                  key={rate.code}
-                  className="flex items-center justify-between bg-white border border-stone-200 rounded-xl px-3 py-2 sm:px-4 sm:py-3 shadow-sm hover:border-rose-200 transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <span className="text-2xl">{rate.flag}</span>
-                    <div>
-                      <p className="font-semibold text-gray-900 text-sm">{rate.code}</p>
-                      <p className="text-xs text-gray-400">{rate.name}</p>
-                    </div>
-                  </div>
-                  <span className="text-lg font-bold text-gray-900">
-                    {rate.value < 1 ? rate.value.toFixed(4) : rate.value.toFixed(2)}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </section>
+          {/* Currency converter */}
+          <CurrencyConverter rates={allRates} />
 
           {/* SEO info section */}
           <section className="space-y-4">
