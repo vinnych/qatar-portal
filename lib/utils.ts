@@ -9,5 +9,5 @@ export function isValidHttpUrl(str: string): boolean {
 
 /** Escapes </script> in JSON-LD strings to prevent XSS */
 export function safeJsonLd(data: unknown): string {
-  return JSON.stringify(data).replace(/</g, "\\u003c");
+  return JSON.stringify(data).replace(/</g, "\\u003c").replace(/>/g, "\\u003e");
 }

@@ -70,8 +70,8 @@ export async function getJobs(limit = 12): Promise<Job[]> {
             });
           }
         }
-      } catch {
-        // skip failed feeds
+      } catch (err) {
+        console.error(`[jobs] feed "${source}" failed:`, err instanceof Error ? err.message : err);
       }
     })
   );

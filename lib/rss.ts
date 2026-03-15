@@ -109,8 +109,8 @@ export async function getNews(limit = 12): Promise<NewsItem[]> {
             });
           }
         }
-      } catch {
-        // skip failed feeds
+      } catch (err) {
+        console.error(`[rss] feed "${source}" failed:`, err instanceof Error ? err.message : err);
       }
       return feedItems;
     })

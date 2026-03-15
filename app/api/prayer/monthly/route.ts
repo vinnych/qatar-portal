@@ -13,7 +13,8 @@ export async function GET(req: NextRequest) {
   try {
     const calendar = await getMonthlyPrayerTimes(year, month, city, country);
     return NextResponse.json(calendar);
-  } catch {
+  } catch (err) {
+    console.error("[api/prayer/monthly] error:", err instanceof Error ? err.message : err);
     return NextResponse.json({ error: "Failed to fetch monthly prayer times" }, { status: 500 });
   }
 }

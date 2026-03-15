@@ -86,7 +86,8 @@ export default function PrayerSelector({
       })
       .catch(() => setError(true))
       .finally(() => setLoading(false));
-  }, [selected, defaultTimes, defaultCalendar]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selected]);
 
   const todayStr = now.toLocaleDateString("en-GB", { day: "2-digit", month: "long", year: "numeric" });
 

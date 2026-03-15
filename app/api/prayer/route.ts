@@ -7,7 +7,8 @@ export async function GET(req: NextRequest) {
   try {
     const times = await getPrayerTimes(city, country);
     return NextResponse.json(times);
-  } catch {
+  } catch (err) {
+    console.error("[api/prayer] error:", err instanceof Error ? err.message : err);
     return NextResponse.json({ error: "Failed to fetch prayer times" }, { status: 500 });
   }
 }

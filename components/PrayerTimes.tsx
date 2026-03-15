@@ -22,6 +22,14 @@ export default async function PrayerTimes() {
     );
   }
 
+  if (!times) {
+    return (
+      <div className="bg-rose-900 rounded-2xl shadow-md p-6">
+        <p className="text-rose-200">Could not load prayer times.</p>
+      </div>
+    );
+  }
+
   const prayerNames = ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"] as const;
   const prayers = prayerNames.map((name) => ({
     name,
