@@ -42,5 +42,9 @@ export default async function PrayerTimes() {
     new Date().toLocaleString("en-US", { timeZone: "Asia/Qatar", hour: "numeric", hour12: false })
   );
 
-  return <SkyScene prayers={prayers} date={times.date} currentHour={currentHour} />;
+  return (
+    <a href="/prayer" className="block hover:opacity-95 transition-opacity">
+      <SkyScene prayers={prayers} date={times.date} currentHour={currentHour} />
+    </a>
+  );
 }

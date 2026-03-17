@@ -56,22 +56,26 @@ export default async function Home() {
       {/* Weather + Currency */}
       <div className="grid md:grid-cols-2 gap-3">
         <section>
-          <div className="flex items-center justify-between mb-2">
-            <h2 className="text-sm font-semibold text-amber-800"><span aria-hidden="true">🌤️</span> Weather in Doha</h2>
-            <a href="/weather" className="text-xs text-amber-700 hover:underline">7-day →</a>
-          </div>
-          <Suspense fallback={<div className="bg-amber-50 rounded-2xl h-28 animate-pulse" />}>
-            <WeatherWidget />
-          </Suspense>
+          <a href="/weather" className="block hover:opacity-95 transition-opacity">
+            <div className="flex items-center justify-between mb-2">
+              <h2 className="text-sm font-semibold text-amber-800"><span aria-hidden="true">🌤️</span> Weather in Doha</h2>
+              <span className="text-xs text-amber-700">7-day →</span>
+            </div>
+            <Suspense fallback={<div className="bg-amber-50 rounded-2xl h-28 animate-pulse" />}>
+              <WeatherWidget />
+            </Suspense>
+          </a>
         </section>
         <section>
-          <div className="flex items-center justify-between mb-2">
-            <h2 className="text-sm font-semibold text-rose-800"><span aria-hidden="true">💱</span> QAR Exchange Rates</h2>
-            <a href="/currency" className="text-xs text-rose-700 hover:underline">All rates →</a>
-          </div>
-          <Suspense fallback={<div className="bg-stone-100 rounded-2xl h-28 animate-pulse" />}>
-            <CurrencyWidget />
-          </Suspense>
+          <a href="/currency" className="block hover:opacity-95 transition-opacity">
+            <div className="flex items-center justify-between mb-2">
+              <h2 className="text-sm font-semibold text-rose-800"><span aria-hidden="true">💱</span> QAR Exchange Rates</h2>
+              <span className="text-xs text-rose-700">All rates →</span>
+            </div>
+            <Suspense fallback={<div className="bg-stone-100 rounded-2xl h-28 animate-pulse" />}>
+              <CurrencyWidget />
+            </Suspense>
+          </a>
         </section>
       </div>
 
