@@ -20,7 +20,7 @@ export default function HijriNav({ year, month, hijriMonth, hijriYear }: Props) 
     <div className="flex items-center justify-between mb-4 bg-white rounded-2xl border border-gray-100 shadow-sm px-4 py-3">
       <a
         href={`/hijri-calendar?year=${prev.year}&month=${prev.month}`}
-        className="text-rose-700 hover:text-rose-900 font-medium text-sm px-3 py-1.5 rounded-lg hover:bg-rose-50 transition-colors"
+        className="text-rose-700 hover:text-rose-900 font-medium text-sm px-4 py-2.5 rounded-lg hover:bg-rose-50 transition-colors min-w-[44px] text-center"
       >
         ← Prev
       </a>
@@ -32,7 +32,7 @@ export default function HijriNav({ year, month, hijriMonth, hijriYear }: Props) 
       </div>
       <a
         href={`/hijri-calendar?year=${next.year}&month=${next.month}`}
-        className="text-rose-700 hover:text-rose-900 font-medium text-sm px-3 py-1.5 rounded-lg hover:bg-rose-50 transition-colors"
+        className="text-rose-700 hover:text-rose-900 font-medium text-sm px-4 py-2.5 rounded-lg hover:bg-rose-50 transition-colors min-w-[44px] text-center"
       >
         Next →
       </a>

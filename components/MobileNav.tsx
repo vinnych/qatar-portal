@@ -21,7 +21,7 @@ export default function MobileNav() {
         onClick={() => setOpen(!open)}
         aria-label="Toggle menu"
         aria-expanded={open}
-        className="text-white p-2 rounded focus:outline-none focus:ring-2 focus:ring-amber-300"
+        className="text-white p-2.5 rounded focus:outline-none focus:ring-2 focus:ring-amber-300"
       >
         {open ? (
           // X icon

@@ -51,7 +51,7 @@ export default function SkyScene({ prayers, date, currentHour }: {
   return (
     <div className="rounded-2xl overflow-hidden shadow-xl">
       {/* Sky */}
-      <div className={`relative bg-gradient-to-b ${sky.bg} h-40 overflow-hidden`}>
+      <div className={`relative bg-gradient-to-b ${sky.bg} h-40 sm:h-48 overflow-hidden`}>
 
         {/* Stars (night only) */}
         {isNight && (

@@ -120,7 +120,7 @@ export default async function NewsArticlePage({
         <img
           src={item.imageUrl}
           alt={item.title}
-          className="w-full rounded-xl object-cover max-h-48 sm:max-h-72 mb-5"
+          className="w-full rounded-xl object-cover max-h-56 sm:max-h-80 lg:max-h-96 mb-5"
         />
       ) : (
         <div className="w-full rounded-xl h-48 bg-gradient-to-br from-sky-100 to-sky-200 flex items-center justify-center mb-5">
