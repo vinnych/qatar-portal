@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getMonthlyPrayerTimes } from "@/lib/prayer";
+import { getMonthlyPrayerTimes, getMonthlyPrayerTimesByCoords } from "@/lib/prayer";
 import { checkRateLimit, getClientIp } from "@/lib/rateLimit";
 
 export async function GET(req: NextRequest) {
@@ -7,6 +7,8 @@ export async function GET(req: NextRequest) {
   if (!allowed) {
     return NextResponse.json({ error: "Too many requests" }, { status: 429, headers: { "Retry-After": "60" } });
   }
+  const lat = req.nextUrl.searchParams.get("lat");
+  const lng = req.nextUrl.searchParams.get("lng");
   const city = req.nextUrl.searchParams.get("city") || "Doha";
   const country = req.nextUrl.searchParams.get("country") || "Qatar";
   const now = new Date();
@@ -16,7 +18,9 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Invalid year or month" }, { status: 400 });
   }
   try {
-    const calendar = await getMonthlyPrayerTimes(year, month, city, country);
+    const calendar = lat && lng
+      ? await getMonthlyPrayerTimesByCoords(year, month, parseFloat(lat), parseFloat(lng))
+      : await getMonthlyPrayerTimes(year, month, city, country);
     return NextResponse.json(calendar);
   } catch (err) {
     console.error("[api/prayer/monthly] error:", err instanceof Error ? err.message : err);

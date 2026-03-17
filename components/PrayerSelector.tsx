@@ -61,12 +61,48 @@ export default function PrayerSelector({
   const [calendar, setCalendar] = useState<PrayerDay[]>(defaultCalendar);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [usingGeo, setUsingGeo] = useState(false);
+  const [geoLabel, setGeoLabel] = useState("");
 
   const now = new Date();
   const monthName = now.toLocaleString("en-US", { month: "long" });
   const year = now.getFullYear();
 
+  function detectLocation() {
+    if (!navigator.geolocation) {
+      setError(true);
+      return;
+    }
+    setLoading(true);
+    setError(false);
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const { latitude: lat, longitude: lng } = pos.coords;
+        const now = new Date();
+        Promise.all([
+          fetch(`/api/prayer?lat=${lat}&lng=${lng}`).then((r) => { if (!r.ok) throw new Error(); return r.json(); }),
+          fetch(`/api/prayer/monthly?lat=${lat}&lng=${lng}&year=${now.getFullYear()}&month=${now.getMonth() + 1}`).then((r) => { if (!r.ok) throw new Error(); return r.json(); }),
+        ])
+          .then(([t, c]) => {
+            if (!t?.Fajr || !Array.isArray(c)) throw new Error("invalid");
+            setTimes(t);
+            setCalendar(c);
+            setUsingGeo(true);
+            setGeoLabel("Your Location");
+          })
+          .catch(() => setError(true))
+          .finally(() => setLoading(false));
+      },
+      () => {
+        setLoading(false);
+        setError(true);
+      },
+      { timeout: 10000 }
+    );
+  }
+
   useEffect(() => {
+    if (usingGeo) return;
     if (selected === 0) {
       setTimes(defaultTimes);
       setCalendar(defaultCalendar);
@@ -87,7 +123,7 @@ export default function PrayerSelector({
       .catch(() => setError(true))
       .finally(() => setLoading(false));
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selected]);
+  }, [selected, usingGeo]);
 
   const todayStr = now.toLocaleDateString("en-GB", { day: "2-digit", month: "long", year: "numeric" });
 
@@ -98,21 +134,28 @@ export default function PrayerSelector({
         <label className="text-sm font-medium text-violet-800">Location:</label>
         <select
           value={selected}
-          onChange={(e) => setSelected(Number(e.target.value))}
+          onChange={(e) => { setUsingGeo(false); setGeoLabel(""); setSelected(Number(e.target.value)); }}
           className="rounded-xl border border-violet-200 bg-white px-3 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-violet-300 shadow-sm"
         >
           {CITIES.map((c, i) => (
             <option key={i} value={i}>{c.label}</option>
           ))}
         </select>
-        {loading && <span className="text-xs text-violet-500 animate-pulse">Loading…</span>}
-        {error && <span className="text-xs text-red-500">Failed to load. Try again.</span>}
+        <button
+          onClick={detectLocation}
+          disabled={loading}
+          className="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-violet-300 bg-violet-50 text-violet-800 text-sm font-medium hover:bg-violet-100 transition-colors disabled:opacity-50"
+        >
+          📍 Use my location
+        </button>
+        {loading && <span className="text-xs text-violet-500 animate-pulse">Detecting…</span>}
+        {error && <span className="text-xs text-red-500">Could not detect location. Try again.</span>}
       </div>
 
       {/* Header */}
       <div>
         <h1 className="text-2xl sm:text-3xl font-bold text-violet-900 mb-1">
-          Prayer Times — {CITIES[selected].label}
+          Prayer Times — {usingGeo ? geoLabel : CITIES[selected].label}
         </h1>
         <p className="text-gray-500 text-sm">
           {todayStr}
