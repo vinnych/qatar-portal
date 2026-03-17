@@ -1,0 +1,203 @@
+import type { Metadata } from "next";
+import { safeJsonLd } from "@/lib/utils";
+
+const SITE_URL = "https://qatar-portal.vercel.app";
+
+export const revalidate = 86400;
+
+export const metadata: Metadata = {
+  title: "Working in Qatar 2026 — Complete Expat Guide | Qatar Portal",
+  description: "Complete guide to working in Qatar: visa requirements, salary ranges, labour law, cost of living, and how to find jobs in Doha.",
+  keywords: ["working in Qatar", "work in Qatar 2026", "Qatar expat guide", "jobs in Qatar", "Qatar work visa", "Qatar salary", "moving to Qatar"],
+  alternates: { canonical: `${SITE_URL}/work-in-qatar` },
+  openGraph: {
+    title: "Working in Qatar 2026 — Complete Expat Guide",
+    description: "Everything you need to know about working in Qatar: visa, salary, labour law, cost of living, and finding a job.",
+    url: `${SITE_URL}/work-in-qatar`,
+    siteName: "Qatar Portal",
+    type: "website",
+    images: [{ url: `${SITE_URL}/opengraph-image`, width: 1200, height: 630 }],
+  },
+  twitter: { card: "summary_large_image", title: "Working in Qatar 2026 — Complete Expat Guide", description: "Visa, salary, labour law and jobs — the complete guide to working in Qatar." },
+};
+
+const RESOURCES = [
+  {
+    icon: "🛂",
+    title: "Qatar Visa Requirements",
+    desc: "Work visas, sponsorship rules, and which nationalities get visa-on-arrival.",
+    href: "/qatar-visa-requirements",
+    color: "sky",
+  },
+  {
+    icon: "⚖️",
+    title: "Qatar Labour Law",
+    desc: "Working hours, minimum wage, annual leave, end-of-service, overtime, and notice periods.",
+    href: "/qatar-labour-law",
+    color: "rose",
+  },
+  {
+    icon: "💰",
+    title: "Qatar Salary Guide",
+    desc: "Average salaries by job category and seniority. All income is 100% tax-free.",
+    href: "/qatar-salary-guide",
+    color: "amber",
+  },
+  {
+    icon: "💼",
+    title: "Jobs in Qatar",
+    desc: "Latest job vacancies in Doha and Qatar — updated daily from top Gulf job boards.",
+    href: "/jobs",
+    color: "emerald",
+  },
+  {
+    icon: "🏠",
+    title: "Cost of Living in Doha",
+    desc: "Rent, food, transport, schools, and utilities — what to expect on an expat budget.",
+    href: "/cost-of-living-doha",
+    color: "violet",
+  },
+];
+
+const FAQS = [
+  {
+    q: "Do I need a visa to work in Qatar?",
+    a: "Yes, most nationalities require a work visa sponsored by your employer. Your employer handles the visa process — you do not apply independently. Some nationalities (GCC, UK, USA, EU) can enter visa-free for up to 30–180 days but still need a residence permit to work.",
+  },
+  {
+    q: "Is there income tax in Qatar?",
+    a: "No. Qatar has zero personal income tax. Your entire salary is take-home pay. There is also no VAT on most goods and services, making Qatar one of the most tax-efficient countries for expats.",
+  },
+  {
+    q: "What is the minimum wage in Qatar?",
+    a: "Qatar's minimum wage is QAR 1,000/month basic salary, plus QAR 500 food allowance and QAR 500 accommodation allowance if not provided by employer — totalling QAR 2,000/month minimum.",
+  },
+  {
+    q: "Can I change jobs in Qatar?",
+    a: "Yes. Since 2020, Qatar abolished the exit permit requirement and allows job changes without employer permission after 1 year of service (or immediately in cases of employer breach). Workers can now freely change employers.",
+  },
+  {
+    q: "What are typical working hours in Qatar?",
+    a: "Standard working hours are 8 hours/day and 48 hours/week. During Ramadan, working hours are reduced to 6 hours/day for Muslim employees. Overtime is paid at 125% on weekdays and 150% on rest days and public holidays.",
+  },
+  {
+    q: "What is end of service gratuity?",
+    a: "Qatar Labour Law entitles employees to end of service gratuity: 3 weeks basic salary per year for the first 5 years of service, and 4 weeks per year thereafter. This is paid when you leave, in addition to your regular salary.",
+  },
+  {
+    q: "How do I find jobs in Qatar?",
+    a: "Top job boards for Qatar include Bayt.com, GulfTalent, LinkedIn, and Naukrigulf. Many jobs are also filled through company websites and recruitment agencies. Qatar Portal aggregates daily job listings from multiple sources.",
+  },
+  {
+    q: "What is the cost of renting in Doha?",
+    a: "Renting in Doha varies widely. A 1-bedroom apartment in a central area costs QAR 5,000–9,000/month. Many employers include housing allowances in the package (typically QAR 2,000–8,000/month).",
+  },
+];
+
+export default function WorkInQatarPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: FAQS.map(({ q, a }) => ({
+      "@type": "Question",
+      name: q,
+      acceptedAnswer: { "@type": "Answer", text: a },
+    })),
+  };
+
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+      { "@type": "ListItem", position: 2, name: "Working in Qatar", item: `${SITE_URL}/work-in-qatar` },
+    ],
+  };
+
+  return (
+    <div className="max-w-3xl mx-auto">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbLd) }} />
+
+      {/* Hero */}
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+          Working in Qatar — Complete Guide 2026
+        </h1>
+        <p className="text-gray-500 text-sm leading-relaxed">
+          Everything you need to know before moving to Qatar for work: visas, salaries, labour rights, cost of living, and how to find a job. All information is verified and updated for 2026.
+        </p>
+      </div>
+
+      {/* Tax-free highlight */}
+      <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 mb-8 flex items-start gap-3">
+        <span className="text-2xl">💡</span>
+        <div>
+          <p className="font-bold text-emerald-800">Qatar is 100% tax-free</p>
+          <p className="text-sm text-emerald-700">No income tax, no VAT on most goods. Your entire salary is yours to keep — making Qatar one of the highest-paying expat destinations in the world.</p>
+        </div>
+      </div>
+
+      {/* Resource cards */}
+      <div className="grid sm:grid-cols-2 gap-4 mb-10">
+        {RESOURCES.map(({ icon, title, desc, href }) => (
+          <a
+            key={href}
+            href={href}
+            className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:shadow-md hover:border-rose-200 transition-all flex gap-4 items-start"
+          >
+            <span className="text-3xl flex-shrink-0">{icon}</span>
+            <div>
+              <h2 className="font-bold text-gray-900 mb-1">{title}</h2>
+              <p className="text-sm text-gray-500 leading-relaxed">{desc}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      {/* Quick stats */}
+      <div className="bg-rose-900 text-white rounded-2xl p-6 mb-10">
+        <h2 className="font-bold text-amber-300 mb-4 text-lg">Qatar at a Glance</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
+          {[
+            { label: "Income Tax", value: "0%" },
+            { label: "Minimum Wage", value: "QAR 2,000" },
+            { label: "Work Week", value: "48 hrs max" },
+            { label: "Expat Population", value: "~88%" },
+            { label: "Currency", value: "QAR (≈ USD 0.27)" },
+            { label: "Language", value: "Arabic / English" },
+          ].map(({ label, value }) => (
+            <div key={label} className="bg-rose-800 rounded-xl p-3">
+              <p className="text-rose-300 text-xs mb-1">{label}</p>
+              <p className="font-bold text-white">{value}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* FAQ */}
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 mb-8">
+        <h2 className="text-xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
+        <div className="space-y-1">
+          {FAQS.map(({ q, a }) => (
+            <details key={q} className="group border-b border-gray-50 last:border-0">
+              <summary className="cursor-pointer font-medium text-gray-800 py-3 list-none flex justify-between items-center gap-2">
+                <span>{q}</span>
+                <span className="text-gray-400 flex-shrink-0 group-open:rotate-180 transition-transform text-xs">▼</span>
+              </summary>
+              <p className="text-gray-600 text-sm pb-3 leading-relaxed">{a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+
+      {/* Related links */}
+      <div className="flex flex-wrap gap-3 text-sm">
+        <a href="/jobs" className="text-rose-700 hover:underline">→ Browse jobs in Qatar</a>
+        <a href="/prayer" className="text-rose-700 hover:underline">→ Prayer times in Doha</a>
+        <a href="/hijri-calendar" className="text-rose-700 hover:underline">→ Hijri Calendar</a>
+        <a href="/qatar-public-holidays" className="text-rose-700 hover:underline">→ Public holidays</a>
+      </div>
+    </div>
+  );
+}

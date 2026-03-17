@@ -1,4 +1,5 @@
 import NewsSearch from "@/components/NewsSearch";
+import NewsletterCTA from "@/components/NewsletterCTA";
 import { getNews } from "@/lib/rss";
 import { safeJsonLd } from "@/lib/utils";
 import type { Metadata } from "next";
@@ -55,9 +56,10 @@ export default async function NewsPage() {
         <script type="application/ld+json" dangerouslySetInnerHTML={{__html: safeJsonLd(jsonLd)}} />
       )}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: "https://qatar-portal.vercel.app" }, { "@type": "ListItem", position: 2, name: "Qatar News", item: "https://qatar-portal.vercel.app/news" }] }) }} />
-      <h1 className="text-xl sm:text-2xl font-bold text-sky-900 mb-6">
+      <h1 className="text-xl sm:text-2xl font-bold text-sky-900 mb-4">
         <span aria-hidden="true">📰</span> Qatar &amp; Gulf News
       </h1>
+      <NewsletterCTA />
       <NewsSearch items={news} />
     </div>
   );

@@ -23,6 +23,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/cost-of-living-doha`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
     { url: `${SITE_URL}/qatar-public-holidays`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
     { url: `${SITE_URL}/emergency-numbers-qatar`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.6 },
+    { url: `${SITE_URL}/work-in-qatar`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.8 },
+    { url: `${SITE_URL}/news-category`, lastModified: new Date(), changeFrequency: "hourly", priority: 0.7 },
     // News category pages
     ...["qatar", "business", "sports", "world", "gulf"].map((cat) => ({
       url: `${SITE_URL}/news-category/${cat}`,

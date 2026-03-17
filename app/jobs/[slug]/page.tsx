@@ -133,6 +133,25 @@ export default async function JobDetailPage({
         </a>
         <ShareButton title={job.title} url={`${SITE_URL}/jobs/${slug}`} />
       </div>
+
+      {/* Related resources */}
+      <div className="mt-10 pt-8 border-t border-stone-200">
+        <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">Useful Resources</h2>
+        <div className="grid sm:grid-cols-3 gap-3">
+          {[
+            { href: "/qatar-salary-guide", icon: "💰", title: "Qatar Salary Guide", desc: "Average salaries by role and experience" },
+            { href: "/qatar-labour-law", icon: "⚖️", title: "Qatar Labour Law", desc: "Working hours, leave, and end of service" },
+            { href: "/qatar-visa-requirements", icon: "🛂", title: "Qatar Visa Guide", desc: "Work visa and residency requirements" },
+          ].map(({ href, icon, title, desc }) => (
+            <a key={href} href={href}
+              className="bg-emerald-50 border border-emerald-100 rounded-xl p-4 hover:shadow-md hover:border-emerald-300 transition-all">
+              <span className="text-xl">{icon}</span>
+              <p className="font-semibold text-gray-800 text-sm mt-2">{title}</p>
+              <p className="text-xs text-gray-500 mt-0.5">{desc}</p>
+            </a>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

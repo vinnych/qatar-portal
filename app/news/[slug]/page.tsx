@@ -59,7 +59,7 @@ export default async function NewsArticlePage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const item = await getNewsItem(slug);
+  const [item, news] = await Promise.all([getNewsItem(slug), getCachedNews()]);
   if (!item) {
     let link: string | null = null;
     try {
@@ -157,6 +157,42 @@ export default async function NewsArticlePage({
         </a>
         <ShareButton title={item.title} url={`${SITE_URL}/news/${slug}`} />
       </div>
+
+      {/* Related articles */}
+      {(() => {
+        const titleWords = item.title.toLowerCase().split(/\s+/).filter((w) => w.length > 4);
+        const related = (news ?? [])
+          .filter((n) => n.slug !== slug)
+          .filter((n) => {
+            const t = n.title.toLowerCase();
+            return titleWords.filter((w) => t.includes(w)).length >= 2;
+          })
+          .slice(0, 3);
+        if (related.length === 0) return null;
+        return (
+          <div className="mt-10 pt-8 border-t border-stone-200">
+            <h2 className="text-lg font-bold text-gray-900 mb-4">Related News</h2>
+            <div className="grid gap-4 sm:grid-cols-3">
+              {related.map((r) => (
+                <a key={r.slug} href={`/news/${r.slug}`}
+                  className="bg-sky-50 rounded-xl border border-sky-100 shadow-sm hover:shadow-md hover:border-sky-300 transition-all flex flex-col overflow-hidden">
+                  {r.imageUrl ? (
+                    <img src={r.imageUrl} alt={r.title} className="w-full h-28 object-cover" loading="lazy" />
+                  ) : (
+                    <div className="w-full h-28 bg-gradient-to-br from-sky-100 to-sky-200 flex items-center justify-center">
+                      <span className="text-3xl opacity-40">📰</span>
+                    </div>
+                  )}
+                  <div className="p-3 flex flex-col flex-1">
+                    <span className="text-xs text-sky-700 font-semibold mb-1">{r.source}</span>
+                    <h3 className="text-sm font-semibold text-gray-800 leading-snug line-clamp-3">{r.title}</h3>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        );
+      })()}
     </div>
   );
 }

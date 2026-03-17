@@ -5,6 +5,7 @@ import JobList from "@/components/JobList";
 import WeatherWidget from "@/components/WeatherWidget";
 import CurrencyWidget from "@/components/CurrencyWidget";
 import DohaTime from "@/components/DohaTime";
+import AdUnit from "@/components/AdUnit";
 import { safeJsonLd } from "@/lib/utils";
 import type { Metadata } from "next";
 
@@ -74,6 +75,9 @@ export default async function Home() {
           </Suspense>
         </section>
       </div>
+
+      {/* Ad unit between widgets and news */}
+      <AdUnit slot="REPLACE_WITH_SLOT_ID" className="my-2" />
 
       {/* News + Jobs side by side on large screens */}
       <div className="grid lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8">

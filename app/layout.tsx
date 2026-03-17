@@ -101,6 +101,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <a href="/currency" className="hover:text-rose-800 transition-colors">QAR Rates</a>
               <a href="/news" className="hover:text-rose-800 transition-colors">News</a>
               <a href="/jobs" className="hover:text-rose-800 transition-colors">Jobs in Qatar</a>
+              <a href="/work-in-qatar" className="hover:text-rose-800 transition-colors">Work in Qatar</a>
+              <a href="/jobs-category/engineering" className="hover:text-rose-800 transition-colors">Engineering Jobs</a>
+              <a href="/jobs-category/it" className="hover:text-rose-800 transition-colors">IT Jobs</a>
+              <a href="/jobs-category/healthcare" className="hover:text-rose-800 transition-colors">Healthcare Jobs</a>
+              <a href="/news-category" className="hover:text-rose-800 transition-colors">News by Category</a>
               <a href="/qatar-visa-requirements" className="hover:text-rose-800 transition-colors">Qatar Visa</a>
               <a href="/cost-of-living-doha" className="hover:text-rose-800 transition-colors">Cost of Living</a>
               <a href="/qatar-salary-guide" className="hover:text-rose-800 transition-colors">Salary Guide</a>
