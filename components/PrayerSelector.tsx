@@ -196,14 +196,14 @@ export default function PrayerSelector({
             <table className="w-full text-sm min-w-[320px]">
               <thead>
                 <tr className="bg-violet-900 text-white">
-                  <th className="px-3 py-3 text-left font-semibold">Date</th>
-                  <th className="px-3 py-3 text-left font-semibold hidden sm:table-cell">Hijri</th>
-                  <th className="px-3 py-3 text-center font-semibold">Fajr</th>
-                  <th className="px-3 py-3 text-center font-semibold hidden md:table-cell">Sunrise</th>
-                  <th className="px-3 py-3 text-center font-semibold">Dhuhr</th>
-                  <th className="px-3 py-3 text-center font-semibold">Asr</th>
-                  <th className="px-3 py-3 text-center font-semibold">Maghrib</th>
-                  <th className="px-3 py-3 text-center font-semibold">Isha</th>
+                  <th className="px-2 py-2.5 text-left font-semibold">Date</th>
+                  <th className="px-2 py-2.5 text-left font-semibold hidden sm:table-cell">Hijri</th>
+                  <th className="px-2 py-2.5 text-center font-semibold">Fajr</th>
+                  <th className="px-2 py-2.5 text-center font-semibold hidden md:table-cell">Sunrise</th>
+                  <th className="px-2 py-2.5 text-center font-semibold">Dhuhr</th>
+                  <th className="px-2 py-2.5 text-center font-semibold">Asr</th>
+                  <th className="px-2 py-2.5 text-center font-semibold">Maghrib</th>
+                  <th className="px-2 py-2.5 text-center font-semibold">Isha</th>
                 </tr>
               </thead>
               <tbody>

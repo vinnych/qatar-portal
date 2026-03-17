@@ -43,7 +43,7 @@ export default async function Home() {
     <div className="space-y-4">
       <script type="application/ld+json" dangerouslySetInnerHTML={{__html: safeJsonLd(homeJsonLd)}} />
       <div className="flex items-center justify-between">
-        <h1 className="text-base font-bold text-gray-900">Qatar Portal — Prayer Times, News &amp; Jobs</h1>
+        <h1 className="text-sm sm:text-base font-bold text-gray-900">Qatar Portal — Prayer Times, News &amp; Jobs</h1>
         <DohaTime />
       </div>
       {/* Prayer Times */}

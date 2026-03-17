@@ -33,7 +33,7 @@ export default async function NewsFeed({ limit = 6 }: { limit?: number }) {
               <span className="text-3xl opacity-40">📰</span>
             </div>
           )}
-          <div className="p-2.5 flex flex-col flex-1">
+          <div className="p-3 flex flex-col flex-1">
             <span className="text-xs text-sky-700 font-semibold mb-1">{item.source}</span>
             <h3 className="text-sm font-semibold text-gray-800 leading-snug mb-1 line-clamp-3">
               {item.title}

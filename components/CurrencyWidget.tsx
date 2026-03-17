@@ -12,7 +12,7 @@ export default async function CurrencyWidget() {
   }
 
   return (
-    <div className="bg-white border border-stone-200 rounded-2xl p-5 flex flex-col gap-3">
+    <div className="bg-white border border-stone-200 rounded-2xl p-4 flex flex-col gap-3">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>

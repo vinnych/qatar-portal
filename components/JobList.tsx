@@ -13,12 +13,12 @@ export default async function JobList({ limit = 6 }: { limit?: number }) {
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2.5">
       {jobs.map((job) => (
         <a
           key={job.link}
           href={`/jobs/${job.slug}`}
-          className="bg-emerald-50 rounded-xl border border-emerald-100 shadow-sm p-2.5 hover:shadow-md hover:border-emerald-300 transition-all flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1.5 sm:gap-3"
+          className="bg-emerald-50 rounded-xl border border-emerald-100 shadow-sm p-3 hover:shadow-md hover:border-emerald-300 transition-all flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 sm:gap-3"
         >
           <div className="flex-1 min-w-0">
             <h3 className="text-sm font-semibold text-gray-800 leading-snug">{job.title}</h3>

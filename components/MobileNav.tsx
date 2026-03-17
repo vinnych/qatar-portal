@@ -21,7 +21,7 @@ export default function MobileNav() {
         onClick={() => setOpen(!open)}
         aria-label="Toggle menu"
         aria-expanded={open}
-        className="text-white p-2.5 rounded focus:outline-none focus:ring-2 focus:ring-amber-300"
+        className="text-white p-3 rounded focus:outline-none focus:ring-2 focus:ring-amber-300"
       >
         {open ? (
           // X icon
@@ -44,7 +44,7 @@ export default function MobileNav() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="text-white hover:text-amber-300 transition-colors py-3 text-sm font-medium border-b border-rose-800 last:border-0"
+                className="text-white hover:text-amber-300 transition-colors py-4 text-base font-medium border-b border-rose-800 last:border-0"
               >
                 {link.label}
               </a>

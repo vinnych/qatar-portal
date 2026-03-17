@@ -151,21 +151,21 @@ export default function SkyScene({ prayers, date, currentHour }: {
       </div>
 
       {/* Prayer cards */}
-      <div className="bg-rose-900 p-4">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 sm:gap-2">
+      <div className="bg-rose-900 p-3 sm:p-4">
+        <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-6 gap-2">
           {prayers.map((p) => {
             const isCurrent = p.name === currentPrayer;
             return (
               <div key={p.name}
-                className={`flex flex-col items-center rounded-xl py-2.5 px-2 sm:py-3 sm:px-2.5 transition-all ${
+                className={`flex flex-col items-center rounded-xl py-3 px-2 transition-all ${
                   isCurrent
                     ? "bg-amber-400 shadow-lg scale-105 border-2 border-amber-200"
                     : "bg-rose-800 border border-rose-700"
                 }`}>
-                <span className="text-lg sm:text-xl mb-1">{p.icon}</span>
-                <span className={`text-xs font-medium ${isCurrent ? "text-rose-900" : "text-rose-200"}`}>{p.name}</span>
+                <span className="text-xl mb-1">{p.icon}</span>
+                <span className={`text-xs font-semibold ${isCurrent ? "text-rose-900" : "text-rose-200"}`}>{p.name}</span>
                 <span className={`text-sm font-bold mt-1 ${isCurrent ? "text-rose-900" : "text-amber-300"}`}>{p.time}</span>
-                {isCurrent && <span className="text-[11px] sm:text-xs text-rose-800 font-semibold mt-0.5">Now</span>}
+                {isCurrent && <span className="text-[11px] text-rose-800 font-semibold mt-0.5">Now</span>}
               </div>
             );
           })}
