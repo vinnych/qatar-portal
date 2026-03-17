@@ -59,7 +59,7 @@ export async function summarizeArticle(
   } catch (err) {
     const msg = err instanceof Error ? err.message : String(err);
     // Avoid logging the API key if it appears in an error message
-    const safe = apiKey ? msg.replace(new RegExp(apiKey, "g"), "[REDACTED]") : msg;
+    const safe = apiKey ? msg.replace(new RegExp(apiKey.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "g"), "[REDACTED]") : msg;
     console.error("[groq] summarize error:", safe);
     return null;
   }

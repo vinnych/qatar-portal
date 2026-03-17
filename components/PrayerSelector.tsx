@@ -77,7 +77,8 @@ export default function PrayerSelector({
     setError(false);
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        const { latitude: lat, longitude: lng } = pos.coords;
+        const lat = Math.round(pos.coords.latitude * 100) / 100;
+        const lng = Math.round(pos.coords.longitude * 100) / 100;
         const now = new Date();
         Promise.all([
           fetch(`/api/prayer?lat=${lat}&lng=${lng}`).then((r) => { if (!r.ok) throw new Error(); return r.json(); }),
