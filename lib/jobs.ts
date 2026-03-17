@@ -1,4 +1,18 @@
 import { isValidHttpUrl, toSlug } from "./utils";
+
+const SSRF_DENYLIST = /^(localhost|127\.|0\.0\.0\.0|10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|169\.254\.)/i;
+
+function isSafeExternalUrl(str: string): boolean {
+  if (!isValidHttpUrl(str)) return false;
+  try {
+    const { hostname, protocol } = new URL(str);
+    if (protocol !== "http:" && protocol !== "https:") return false;
+    if (SSRF_DENYLIST.test(hostname)) return false;
+    return true;
+  } catch { return false; }
+}
+
+const HARD_LIMIT = 48;
 import { redis, KV_TTL } from "./redis";
 
 export interface Job {
@@ -55,10 +69,10 @@ export async function getJobs(limit = 12): Promise<Job[]> {
           const plainDesc = desc.replace(/<[^>]+>/g, "");
           const locationMatch = plainDesc.match(/location[:\s]+([A-Za-z\s,]+?)(?:\n|<|$)/i) ||
             plainDesc.match(/([A-Za-z\s]+),\s*Qatar/i);
-          const location = locationMatch ? locationMatch[1].trim() : "Qatar";
+          const location = locationMatch ? locationMatch[1].trim().replace(/[^a-zA-Z\s,]/g, "").slice(0, 60) : "Qatar";
 
           const cleanLink = link.trim();
-          if (cleanTitle && cleanLink && isValidHttpUrl(cleanLink)) {
+          if (cleanTitle && cleanLink && isSafeExternalUrl(cleanLink)) {
             jobs.push({
               title: cleanTitle.trim(),
               company: company.trim(),
@@ -83,5 +97,5 @@ export async function getJobs(limit = 12): Promise<Job[]> {
     ).catch(() => {});
   }
 
-  return jobs.slice(0, limit);
+  return jobs.slice(0, Math.min(limit, HARD_LIMIT));
 }

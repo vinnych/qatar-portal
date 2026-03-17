@@ -150,7 +150,7 @@ export default async function NewsArticlePage({
         <a
           href={item.link}
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noopener noreferrer nofollow"
           className="block w-full sm:w-auto text-center bg-sky-700 text-white px-4 py-3 sm:px-6 rounded-lg text-sm sm:text-base font-medium hover:bg-sky-800 transition-colors"
         >
           Read Full Article on {item.source} →

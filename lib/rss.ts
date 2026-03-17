@@ -1,4 +1,19 @@
 import { isValidHttpUrl, toSlug } from "./utils";
+
+const SSRF_DENYLIST = /^(localhost|127\.|0\.0\.0\.0|10\.|172\.(1[6-9]|2\d|3[01])\.|192\.168\.|169\.254\.)/i;
+
+/** Like isValidHttpUrl but also blocks private/loopback IPs to prevent SSRF */
+function isSafeExternalUrl(str: string): boolean {
+  if (!isValidHttpUrl(str)) return false;
+  try {
+    const { hostname, protocol } = new URL(str);
+    if (protocol !== "http:" && protocol !== "https:") return false;
+    if (SSRF_DENYLIST.test(hostname)) return false;
+    return true;
+  } catch { return false; }
+}
+
+const HARD_LIMIT = 48;
 import { redis, KV_TTL } from "./redis";
 
 export interface NewsItem {
@@ -60,7 +75,7 @@ export async function fetchPexelsImage(slug: string, title: string, articleUrl?:
       } catch { /* ignore */ }
     }
 
-    return imageUrl && isValidHttpUrl(imageUrl) ? imageUrl : undefined;
+    return imageUrl && isSafeExternalUrl(imageUrl) ? imageUrl : undefined;
   } catch {
     return undefined;
   }
@@ -95,9 +110,9 @@ export async function getNews(limit = 12): Promise<NewsItem[]> {
             block.match(/<enclosure[^>]+url="([^"]+)"[^>]+type="image\//)?.[1] ||
             block.match(/<enclosure[^>]+type="image\/[^"]*"[^>]+url="([^"]+)"/)?.[1] ||
             snippet.match(/<img[^>]+src="([^"]+)"/)?.[1] || "";
-          const imageUrl = rawImage && isValidHttpUrl(rawImage) ? rawImage : undefined;
+          const imageUrl = rawImage && isSafeExternalUrl(rawImage) ? rawImage : undefined;
           const cleanLink = link.trim();
-          if (title && cleanLink && isValidHttpUrl(cleanLink)) {
+          if (title && cleanLink && isSafeExternalUrl(cleanLink)) {
             feedItems.push({
               title: title.trim(),
               link: cleanLink,
@@ -136,5 +151,5 @@ export async function getNews(limit = 12): Promise<NewsItem[]> {
     ).catch(() => {});
   }
 
-  return items.slice(0, limit);
+  return items.slice(0, Math.min(limit, HARD_LIMIT));
 }

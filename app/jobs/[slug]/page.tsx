@@ -126,7 +126,7 @@ export default async function JobDetailPage({
         <a
           href={job.link}
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noopener noreferrer nofollow"
           className="inline-block bg-emerald-700 text-white px-4 py-2.5 sm:px-6 sm:py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-emerald-800 transition-colors"
         >
           View & Apply on {job.source} →

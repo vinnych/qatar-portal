@@ -7,14 +7,22 @@ export async function GET(req: NextRequest) {
   if (!allowed) {
     return NextResponse.json({ error: "Too many requests" }, { status: 429, headers: { "Retry-After": "60" } });
   }
-  const lat = req.nextUrl.searchParams.get("lat");
-  const lng = req.nextUrl.searchParams.get("lng");
-  const city = req.nextUrl.searchParams.get("city") || "Doha";
-  const country = req.nextUrl.searchParams.get("country") || "Qatar";
+  const rawLat = req.nextUrl.searchParams.get("lat");
+  const rawLng = req.nextUrl.searchParams.get("lng");
+  const city = (req.nextUrl.searchParams.get("city") || "Doha").replace(/[^a-zA-Z\s\-]/g, "").slice(0, 60);
+  const country = (req.nextUrl.searchParams.get("country") || "Qatar").replace(/[^a-zA-Z\s\-]/g, "").slice(0, 60);
   try {
-    const times = lat && lng
-      ? await getPrayerTimesByCoords(parseFloat(lat), parseFloat(lng))
-      : await getPrayerTimes(city, country);
+    let times;
+    if (rawLat && rawLng) {
+      const lat = parseFloat(rawLat);
+      const lng = parseFloat(rawLng);
+      if (isNaN(lat) || isNaN(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) {
+        return NextResponse.json({ error: "Invalid coordinates" }, { status: 400 });
+      }
+      times = await getPrayerTimesByCoords(lat, lng);
+    } else {
+      times = await getPrayerTimes(city, country);
+    }
     return NextResponse.json(times);
   } catch (err) {
     console.error("[api/prayer] error:", err instanceof Error ? err.message : err);

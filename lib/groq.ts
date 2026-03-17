@@ -37,7 +37,8 @@ export async function summarizeArticle(
         },
         {
           role: "user",
-          content: `Summarize this news article:\n\nTitle: ${title}\nSource: ${source}\nSnippet: ${snippet}`,
+          // Strip control chars and potential injection sequences before sending to LLM
+          content: `Summarize this news article:\n\nTitle: ${title.replace(/[\x00-\x1f\x7f]/g, " ").slice(0, 200)}\nSource: ${source.replace(/[\x00-\x1f\x7f]/g, " ").slice(0, 80)}\nSnippet: ${(snippet ?? "").replace(/[\x00-\x1f\x7f]/g, " ").slice(0, 500)}`,
         },
       ],
       max_tokens: 150,
@@ -56,7 +57,10 @@ export async function summarizeArticle(
 
     return summary;
   } catch (err) {
-    console.error("[groq] summarize error:", err instanceof Error ? err.message : err);
+    const msg = err instanceof Error ? err.message : String(err);
+    // Avoid logging the API key if it appears in an error message
+    const safe = apiKey ? msg.replace(new RegExp(apiKey, "g"), "[REDACTED]") : msg;
+    console.error("[groq] summarize error:", safe);
     return null;
   }
 }
