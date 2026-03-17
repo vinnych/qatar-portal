@@ -51,7 +51,7 @@ export default function SkyScene({ prayers, date, currentHour }: {
   return (
     <div className="rounded-2xl overflow-hidden shadow-xl">
       {/* Sky */}
-      <div className={`relative bg-gradient-to-b ${sky.bg} h-40 sm:h-48 overflow-hidden`}>
+      <div className={`relative bg-gradient-to-b ${sky.bg} h-24 sm:h-36 overflow-hidden`}>
 
         {/* Stars (night only) */}
         {isNight && (
@@ -142,30 +142,30 @@ export default function SkyScene({ prayers, date, currentHour }: {
         <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-rose-900/80 to-transparent" />
 
         {/* Date label */}
-        <div className="absolute top-3 right-4 text-white/70 text-xs font-medium bg-black/20 px-2 py-1 rounded-full">
+        <div className="absolute top-2 right-3 text-white/70 text-[10px] font-medium bg-black/20 px-1.5 py-0.5 rounded-full">
           {date}
         </div>
-        <div className="absolute bottom-3 left-4 text-white text-sm font-semibold">
+        <div className="absolute bottom-2 left-3 text-white text-xs font-semibold">
           <span aria-hidden="true">🕌</span> Prayer Times — Doha
         </div>
       </div>
 
       {/* Prayer cards */}
-      <div className="bg-rose-900 p-3 sm:p-4">
-        <div className="grid grid-cols-3 sm:grid-cols-3 md:grid-cols-6 gap-2">
+      <div className="bg-rose-900 p-2 sm:p-3">
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-1.5">
           {prayers.map((p) => {
             const isCurrent = p.name === currentPrayer;
             return (
               <div key={p.name}
-                className={`flex flex-col items-center rounded-xl py-3 px-2 transition-all ${
+                className={`flex flex-col items-center rounded-lg py-2 px-1 transition-all ${
                   isCurrent
-                    ? "bg-amber-400 shadow-lg scale-105 border-2 border-amber-200"
+                    ? "bg-amber-400 shadow border border-amber-200"
                     : "bg-rose-800 border border-rose-700"
                 }`}>
-                <span className="text-xl mb-1">{p.icon}</span>
-                <span className={`text-xs font-semibold ${isCurrent ? "text-rose-900" : "text-rose-200"}`}>{p.name}</span>
-                <span className={`text-sm font-bold mt-1 ${isCurrent ? "text-rose-900" : "text-amber-300"}`}>{p.time}</span>
-                {isCurrent && <span className="text-[11px] text-rose-800 font-semibold mt-0.5">Now</span>}
+                <span className="text-base leading-none mb-0.5">{p.icon}</span>
+                <span className={`text-[10px] font-semibold ${isCurrent ? "text-rose-900" : "text-rose-200"}`}>{p.name}</span>
+                <span className={`text-xs font-bold mt-0.5 ${isCurrent ? "text-rose-900" : "text-amber-300"}`}>{p.time}</span>
+                {isCurrent && <span className="text-[9px] text-rose-800 font-semibold">Now</span>}
               </div>
             );
           })}
