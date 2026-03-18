@@ -76,16 +76,16 @@ export default async function CurrencyPage() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-10">
+    <div className="max-w-3xl mx-auto space-y-5">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: "https://qatar-portal.vercel.app" }, { "@type": "ListItem", position: 2, name: "QAR Exchange Rates", item: "https://qatar-portal.vercel.app/currency" }] }) }} />
 
       {/* Header */}
       <div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+        <h1 className="text-xl font-bold text-gray-900 mb-1">
           QAR Exchange Rates Today
         </h1>
-        <p className="text-gray-500 text-sm">{today} · Updated hourly</p>
+        <p className="text-xs text-gray-400 mb-3">{today} · Updated hourly</p>
       </div>
 
       {!data ? (
@@ -93,7 +93,7 @@ export default async function CurrencyPage() {
       ) : (
         <>
           {/* USD peg highlight */}
-          <div className="bg-rose-50 border border-rose-100 rounded-2xl p-5 flex items-center gap-5">
+          <div className="bg-rose-50 border border-rose-100 rounded-lg p-3 mb-4 flex items-center gap-4">
             <span className="text-4xl">🇶🇦</span>
             <div>
               <p className="text-sm text-rose-700 font-semibold uppercase tracking-wide mb-1">Qatari Riyal (QAR)</p>
@@ -105,10 +105,10 @@ export default async function CurrencyPage() {
           <CurrencyConverter rates={allRates} />
 
           {/* SEO info section */}
-          <section className="space-y-4">
-            <h2 className="text-xl font-bold text-gray-900">About the Qatari Riyal</h2>
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div className="bg-stone-50 rounded-xl border border-stone-200 p-4">
+          <section className="space-y-3">
+            <h2 className="text-sm font-semibold text-gray-700 mb-2">About the Qatari Riyal</h2>
+            <div className="grid sm:grid-cols-2 gap-3">
+              <div className="bg-stone-50 rounded-lg border border-stone-200 p-3">
                 <h3 className="font-semibold text-gray-800 mb-2">Currency Facts</h3>
                 <ul className="text-sm text-gray-600 space-y-1">
                   <li>· Symbol: QAR (﷼)</li>
@@ -117,7 +117,7 @@ export default async function CurrencyPage() {
                   <li>· Peg: Fixed at 3.64 QAR/USD since 1980</li>
                 </ul>
               </div>
-              <div className="bg-stone-50 rounded-xl border border-stone-200 p-4">
+              <div className="bg-stone-50 rounded-lg border border-stone-200 p-3">
                 <h3 className="font-semibold text-gray-800 mb-2">Sending Money to Qatar?</h3>
                 <p className="text-sm text-gray-600">
                   Most major remittance services (Western Union, Wise, MoneyGram) support QAR. Compare rates before sending — service fees can vary significantly between providers.

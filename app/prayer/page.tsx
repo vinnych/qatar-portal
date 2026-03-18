@@ -71,7 +71,7 @@ export default async function PrayerPage() {
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
       )}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: SITE_URL }, { "@type": "ListItem", position: 2, name: "Prayer Times", item: `${SITE_URL}/prayer` }] }) }} />
-      <h1 className="text-2xl font-bold text-gray-900 mb-4">Prayer Times — Doha, Mecca, Dubai &amp; More</h1>
+      <h1 className="text-xl font-bold text-gray-900 mb-2">Prayer Times — Doha, Mecca, Dubai &amp; More</h1>
       <PrayerSelector defaultTimes={today} defaultCalendar={calendar} />
     </div>
   );

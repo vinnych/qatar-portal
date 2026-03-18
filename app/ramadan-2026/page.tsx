@@ -72,12 +72,12 @@ export default async function Ramadan2026Page() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
+    <div className="max-w-3xl mx-auto">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: "https://qatar-portal.vercel.app" }, { "@type": "ListItem", position: 2, name: "Ramadan 2026 Qatar", item: "https://qatar-portal.vercel.app/ramadan-2026" }] }) }} />
 
-      <h1 className="text-3xl font-bold text-gray-900 mb-2">Ramadan 2026 in Qatar</h1>
-      <p className="text-gray-500 mb-6 text-sm">Suhoor &amp; Iftar times, fasting hours, working hours rules, and tips for living in Doha during Ramadan.</p>
+      <h1 className="text-xl font-bold text-gray-900 mb-1">Ramadan 2026 in Qatar</h1>
+      <p className="text-xs text-gray-400 mb-3">Suhoor &amp; Iftar times, fasting hours, working hours rules, and tips for living in Doha during Ramadan.</p>
 
       {/* Key dates */}
       <div className="grid grid-cols-2 gap-3 mb-6">
@@ -87,18 +87,18 @@ export default async function Ramadan2026Page() {
           { label: "Fasting Hours (Doha)", value: "~13–14 hrs/day", icon: "⏳", color: "amber" },
           { label: "Reduced Work Hours", value: "6 hrs/day", icon: "🕐", color: "sky" },
         ].map(({ label, value, icon, color }) => (
-          <div key={label} className={`bg-${color}-50 border border-${color}-100 rounded-2xl p-4`}>
-            <p className="text-2xl mb-1">{icon}</p>
+          <div key={label} className={`bg-${color}-50 border border-${color}-100 rounded-lg p-3`}>
+            <p className="text-xl mb-1">{icon}</p>
             <p className="text-xs text-gray-500 font-medium uppercase tracking-wide">{label}</p>
-            <p className="font-bold text-gray-900 text-lg">{value}</p>
+            <p className="font-bold text-gray-900 text-base">{value}</p>
           </div>
         ))}
       </div>
 
       {/* Suhoor & Iftar timetable */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-6">
-        <div className="bg-violet-900 px-5 py-3">
-          <h2 className="text-white font-bold text-lg">🕌 Suhoor &amp; Iftar Times — Doha</h2>
+      <div className="bg-white rounded-lg border border-gray-100 shadow-sm overflow-hidden mb-6">
+        <div className="bg-violet-900 px-4 py-2">
+          <h2 className="text-white font-bold text-base">Suhoor &amp; Iftar Times — Doha</h2>
           <p className="text-violet-200 text-xs mt-0.5">Suhoor ends at Fajr · Iftar begins at Maghrib</p>
         </div>
         {ramadanDays.length > 0 ? (
@@ -132,9 +132,9 @@ export default async function Ramadan2026Page() {
       </div>
 
       {/* Rules & guide */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 mb-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">📋 Ramadan Rules in Qatar</h2>
-        <div className="space-y-3">
+      <div className="bg-white rounded-lg border border-gray-100 shadow-sm p-3 mb-4">
+        <h2 className="text-sm font-semibold text-gray-700 mb-2">Ramadan Rules in Qatar</h2>
+        <div className="space-y-2">
           {[
             { icon: "🚫", title: "No eating/drinking in public", desc: "Eating, drinking, or smoking in public during daylight is prohibited for everyone — including non-Muslims and tourists. Fines apply." },
             { icon: "🕐", title: "Reduced working hours", desc: "Working hours are reduced by law to 6 hours/day (36 hours/week) for all employees during Ramadan." },
@@ -142,8 +142,8 @@ export default async function Ramadan2026Page() {
             { icon: "🎵", title: "Respectful behavior required", desc: "Loud music, dancing in public, and inappropriate dress are especially discouraged. Maintain modest dress throughout Ramadan." },
             { icon: "🏨", title: "Hotel dining available", desc: "Hotels have screened dining areas for non-fasting guests. Many malls also have enclosed food courts open during the day." },
           ].map(({ icon, title, desc }) => (
-            <div key={title} className="flex gap-3">
-              <span className="text-xl flex-shrink-0 mt-0.5">{icon}</span>
+            <div key={title} className="flex gap-2">
+              <span className="text-lg flex-shrink-0 mt-0.5">{icon}</span>
               <div>
                 <p className="font-semibold text-gray-800 text-sm">{title}</p>
                 <p className="text-gray-600 text-sm">{desc}</p>
@@ -154,8 +154,8 @@ export default async function Ramadan2026Page() {
       </div>
 
       {/* FAQ */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 mb-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
+      <div className="bg-white rounded-lg border border-gray-100 shadow-sm p-3 mb-4">
+        <h2 className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-2">FAQ</h2>
         <div className="space-y-3">
           {[
             { q: "When does Ramadan 2026 start in Qatar?", a: "Ramadan 2026 is expected to begin around 18 February 2026, subject to official moon sighting. The start date may shift by 1 day." },
@@ -163,17 +163,17 @@ export default async function Ramadan2026Page() {
             { q: "Can non-Muslims eat in public during Ramadan in Qatar?", a: "No. Eating, drinking, and smoking in public during daylight hours is prohibited for everyone during Ramadan. Hotels and some malls provide enclosed dining areas for non-fasting guests." },
           ].map(({ q, a }) => (
             <details key={q} className="group">
-              <summary className="cursor-pointer font-medium text-gray-800 py-2 list-none flex justify-between items-center">
+              <summary className="cursor-pointer text-xs font-medium text-gray-700 py-2 list-none flex justify-between items-center">
                 {q}
                 <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
-              <p className="text-gray-600 text-sm pt-1 pb-3">{a}</p>
+              <p className="text-xs text-gray-500 pt-1 pb-3">{a}</p>
             </details>
           ))}
         </div>
       </div>
 
-      <div className="flex gap-3 flex-wrap text-sm">
+      <div className="flex gap-3 flex-wrap text-xs">
         <a href="/prayer" className="text-rose-700 hover:underline">→ Prayer times for Doha</a>
         <a href="/hijri-calendar" className="text-rose-700 hover:underline">→ Hijri Calendar</a>
         <a href="/qatar-public-holidays" className="text-rose-700 hover:underline">→ Public Holidays 2026</a>

@@ -106,28 +106,28 @@ export default async function JobDetailPage({
     <div className="max-w-2xl mx-auto">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbLd) }} />
-      <div className="mb-6">
-        <a href="/jobs" className="text-sm text-emerald-700 hover:underline font-medium">
+      <div className="mb-3">
+        <a href="/jobs" className="text-xs text-gray-400 hover:text-rose-800">
           ← Back to Jobs
         </a>
       </div>
-      <span className="inline-block text-xs text-emerald-800 font-semibold bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full mb-3">
+      <span className="inline-block text-[10px] text-emerald-800 font-semibold bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full mb-3">
         {job.source}
       </span>
-      <h1 className="text-2xl font-bold text-gray-900 mt-2 mb-1 leading-snug">
+      <h1 className="text-xl font-bold text-gray-900 mt-2 mb-1 leading-snug">
         {job.title}
       </h1>
-      <p className="text-base text-gray-600 mb-1 font-medium">{job.company}</p>
-      <p className="text-sm text-gray-400 mb-6">{job.location}</p>
+      <p className="text-sm text-gray-600 mb-1 font-medium">{job.company}</p>
+      <p className="text-xs text-gray-400 mb-4">{job.location}</p>
       {job.pubDate && (
-        <p className="text-xs text-gray-400 mb-8">Posted: {job.pubDate}</p>
+        <p className="text-xs text-gray-400 mb-5">Posted: {job.pubDate}</p>
       )}
       <div className="flex flex-wrap items-center gap-3">
         <a
           href={job.link}
           target="_blank"
           rel="noopener noreferrer nofollow"
-          className="inline-block bg-emerald-700 text-white px-4 py-2.5 sm:px-6 sm:py-3 rounded-lg text-sm sm:text-base font-medium hover:bg-emerald-800 transition-colors"
+          className="inline-block bg-emerald-700 text-white px-4 py-2 sm:px-6 rounded-md text-sm font-medium hover:bg-emerald-800 transition-colors"
         >
           View & Apply on {job.source} →
         </a>
@@ -135,8 +135,8 @@ export default async function JobDetailPage({
       </div>
 
       {/* Related resources */}
-      <div className="mt-10 pt-8 border-t border-stone-200">
-        <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-4">Useful Resources</h2>
+      <div className="mt-6 pt-6 border-t border-stone-200">
+        <h2 className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-2">Useful Resources</h2>
         <div className="grid sm:grid-cols-3 gap-3">
           {[
             { href: "/qatar-salary-guide", icon: "💰", title: "Qatar Salary Guide", desc: "Average salaries by role and experience" },
@@ -144,10 +144,10 @@ export default async function JobDetailPage({
             { href: "/qatar-visa-requirements", icon: "🛂", title: "Qatar Visa Guide", desc: "Work visa and residency requirements" },
           ].map(({ href, icon, title, desc }) => (
             <a key={href} href={href}
-              className="bg-emerald-50 border border-emerald-100 rounded-xl p-4 hover:shadow-md hover:border-emerald-300 transition-all">
-              <span className="text-xl">{icon}</span>
-              <p className="font-semibold text-gray-800 text-sm mt-2">{title}</p>
-              <p className="text-xs text-gray-500 mt-0.5">{desc}</p>
+              className="bg-white border border-stone-200 rounded-lg p-3 hover:shadow-md hover:border-emerald-300 transition-all">
+              <span className="text-lg">{icon}</span>
+              <p className="text-xs font-semibold text-gray-800 mt-1.5">{title}</p>
+              <p className="text-[10px] text-gray-500 mt-0.5">{desc}</p>
             </a>
           ))}
         </div>

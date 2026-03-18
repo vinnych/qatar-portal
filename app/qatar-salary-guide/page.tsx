@@ -119,17 +119,17 @@ export default function QatarSalaryGuidePage() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
+    <div className="max-w-3xl mx-auto">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: "https://qatar-portal.vercel.app" }, { "@type": "ListItem", position: 2, name: "Qatar Salary Guide 2026", item: "https://qatar-portal.vercel.app/qatar-salary-guide" }] }) }} />
 
-      <h1 className="text-3xl font-bold text-gray-900 mb-2">Qatar Salary Guide 2026</h1>
-      <p className="text-gray-500 mb-6 text-sm">
+      <h1 className="text-xl font-bold text-gray-900 mb-1">Qatar Salary Guide 2026</h1>
+      <p className="text-xs text-gray-400 mb-3">
         Average monthly salaries in Qatar by job category and experience level. All figures are in QAR and are <strong>tax-free</strong> (Qatar has no personal income tax).
       </p>
 
       {/* Tax-free highlight */}
-      <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 mb-6 flex items-start gap-3">
+      <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-3 mb-4 flex items-start gap-3">
         <span className="text-2xl">🏦</span>
         <div>
           <p className="font-bold text-emerald-800">100% Tax-Free Income</p>
@@ -138,10 +138,10 @@ export default function QatarSalaryGuidePage() {
       </div>
 
       {/* Salary tables by category */}
-      <div className="space-y-6 mb-8">
+      <div className="space-y-4 mb-6">
         {SALARY_CATEGORIES.map(({ icon, category, roles }) => (
-          <div key={category} className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-            <div className="bg-gray-50 border-b border-gray-100 px-5 py-3 flex items-center gap-2">
+          <div key={category} className="bg-white rounded-lg border border-gray-100 shadow-none overflow-hidden">
+            <div className="bg-gray-50 border-b border-gray-100 px-4 py-2 flex items-center gap-2">
               <span className="text-xl">{icon}</span>
               <h2 className="font-bold text-gray-900">{category}</h2>
               <span className="text-xs text-gray-400 ml-1">(QAR/month)</span>
@@ -150,19 +150,19 @@ export default function QatarSalaryGuidePage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-gray-50">
-                    <th className="text-left px-5 py-2.5 font-semibold text-gray-600">Role</th>
-                    <th className="text-left px-3 py-2.5 font-semibold text-sky-700">Junior</th>
-                    <th className="text-left px-3 py-2.5 font-semibold text-gray-700">Mid-Level</th>
-                    <th className="text-left px-3 py-2.5 font-semibold text-emerald-700">Senior</th>
+                    <th className="text-left px-4 py-2 font-semibold text-gray-600">Role</th>
+                    <th className="text-left px-3 py-2 font-semibold text-sky-700">Junior</th>
+                    <th className="text-left px-3 py-2 font-semibold text-gray-700">Mid-Level</th>
+                    <th className="text-left px-3 py-2 font-semibold text-emerald-700">Senior</th>
                   </tr>
                 </thead>
                 <tbody>
                   {roles.map(({ role, junior, mid, senior }, i) => (
                     <tr key={role} className={i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}>
-                      <td className="px-5 py-2.5 text-gray-800 font-medium">{role}</td>
-                      <td className="px-3 py-2.5 text-sky-700 text-xs">{junior}</td>
-                      <td className="px-3 py-2.5 text-gray-700 text-xs">{mid}</td>
-                      <td className="px-3 py-2.5 text-emerald-700 text-xs">{senior}</td>
+                      <td className="px-4 py-2 text-gray-800 font-medium">{role}</td>
+                      <td className="px-3 py-2 text-sky-700 text-xs">{junior}</td>
+                      <td className="px-3 py-2 text-gray-700 text-xs">{mid}</td>
+                      <td className="px-3 py-2 text-emerald-700 text-xs">{senior}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -173,24 +173,24 @@ export default function QatarSalaryGuidePage() {
       </div>
 
       {/* Package components */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-6">
-        <div className="bg-amber-50 border-b border-amber-100 px-5 py-3">
-          <h2 className="font-bold text-gray-900">📦 Typical Qatar Salary Package Components</h2>
+      <div className="bg-white rounded-lg border border-gray-100 shadow-none overflow-hidden mb-4">
+        <div className="bg-amber-50 border-b border-amber-100 px-4 py-2">
+          <h2 className="font-bold text-gray-900">Typical Qatar Salary Package Components</h2>
         </div>
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-gray-50 bg-gray-50">
-              <th className="text-left px-5 py-2.5 font-semibold text-gray-600">Component</th>
-              <th className="text-left px-5 py-2.5 font-semibold text-gray-600">Description</th>
-              <th className="text-left px-5 py-2.5 font-semibold text-gray-600">Typical Amount</th>
+              <th className="text-left px-4 py-2 font-semibold text-gray-600">Component</th>
+              <th className="text-left px-4 py-2 font-semibold text-gray-600">Description</th>
+              <th className="text-left px-4 py-2 font-semibold text-gray-600">Typical Amount</th>
             </tr>
           </thead>
           <tbody>
             {PACKAGE_COMPONENTS.map(({ item, desc, typical }, i) => (
               <tr key={item} className={i % 2 === 0 ? "bg-white" : "bg-gray-50/50"}>
-                <td className="px-5 py-2.5 font-semibold text-gray-800">{item}</td>
-                <td className="px-5 py-2.5 text-gray-600">{desc}</td>
-                <td className="px-5 py-2.5 text-amber-700 font-medium">{typical}</td>
+                <td className="px-3 py-2 font-semibold text-gray-800">{item}</td>
+                <td className="px-3 py-2 text-gray-600">{desc}</td>
+                <td className="px-3 py-2 text-amber-700 font-medium">{typical}</td>
               </tr>
             ))}
           </tbody>
@@ -198,8 +198,8 @@ export default function QatarSalaryGuidePage() {
       </div>
 
       {/* FAQ */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 mb-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
+      <div className="bg-white rounded-lg border border-gray-100 shadow-none p-3 mb-4">
+        <h2 className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-2">FAQ</h2>
         <div className="space-y-3">
           {[
             { q: "Is there income tax on salaries in Qatar?", a: "No. Qatar has no personal income tax. All salary figures are take-home amounts." },
@@ -207,21 +207,21 @@ export default function QatarSalaryGuidePage() {
             { q: "Do Qatar salaries include end of service benefits?", a: "Qatar law requires employers to pay end of service gratuity: 3 weeks basic salary per year for the first 5 years, and 4 weeks per year thereafter. This is paid on top of your salary when you leave." },
           ].map(({ q, a }) => (
             <details key={q} className="group">
-              <summary className="cursor-pointer font-medium text-gray-800 py-2 list-none flex justify-between items-center">
+              <summary className="cursor-pointer text-xs font-medium text-gray-700 py-2 list-none flex justify-between items-center">
                 {q}
                 <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
-              <p className="text-gray-600 text-sm pt-1 pb-3">{a}</p>
+              <p className="text-xs text-gray-500 pt-1 pb-3">{a}</p>
             </details>
           ))}
         </div>
       </div>
 
-      <p className="text-xs text-gray-400 mb-4">
+      <p className="text-[10px] text-gray-400 mb-4">
         * Salary ranges are estimates based on market data and may vary by company, nationality, and negotiation. Figures are in QAR/month.
       </p>
 
-      <div className="flex gap-3 flex-wrap text-sm">
+      <div className="flex gap-3 flex-wrap text-xs">
         <a href="/jobs" className="text-rose-700 hover:underline">→ Browse jobs in Qatar</a>
         <a href="/cost-of-living-doha" className="text-rose-700 hover:underline">→ Cost of living in Doha</a>
         <a href="/qatar-labour-law" className="text-rose-700 hover:underline">→ Qatar Labour Law</a>

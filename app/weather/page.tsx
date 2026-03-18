@@ -70,16 +70,16 @@ export default async function WeatherPage() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-10">
+    <div className="max-w-3xl mx-auto space-y-5">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: "https://qatar-portal.vercel.app" }, { "@type": "ListItem", position: 2, name: "Doha Weather", item: "https://qatar-portal.vercel.app/weather" }] }) }} />
 
       {/* Header */}
       <div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
+        <h1 className="text-xl font-bold text-gray-900 mb-1">
           Doha Weather Today
         </h1>
-        <p className="text-gray-500 text-sm">{today} · Doha, Qatar · Updates every 30 min</p>
+        <p className="text-xs text-gray-400 mb-3">{today} · Doha, Qatar · Updates every 30 min</p>
       </div>
 
       {!weather ? (
@@ -87,9 +87,9 @@ export default async function WeatherPage() {
       ) : (
         <>
           {/* Current weather card */}
-          <div className="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-100 rounded-2xl p-6">
+          <div className="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-100 rounded-lg p-4">
             <p className="text-xs font-semibold text-amber-700 uppercase tracking-wide mb-4">Current Conditions</p>
-            <div className="flex items-center gap-4 sm:gap-6 mb-6">
+            <div className="flex items-center gap-4 sm:gap-6 mb-4">
               <span className="text-5xl sm:text-7xl">{weather.current.icon}</span>
               <div>
                 <div className="text-4xl sm:text-6xl font-bold text-gray-900 leading-none">
@@ -99,15 +99,15 @@ export default async function WeatherPage() {
               </div>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
-              <div className="bg-white/70 border border-amber-100 rounded-xl p-2 sm:p-3 text-center">
+              <div className="bg-white/70 border border-amber-100 rounded-md p-2 text-center">
                 <p className="text-xs text-gray-500 mb-1">Feels Like</p>
                 <p className="text-base sm:text-lg font-bold text-gray-900">{weather.current.feelsLike}°C</p>
               </div>
-              <div className="bg-white/70 border border-amber-100 rounded-xl p-2 sm:p-3 text-center">
+              <div className="bg-white/70 border border-amber-100 rounded-md p-2 text-center">
                 <p className="text-xs text-gray-500 mb-1">Humidity</p>
                 <p className="text-base sm:text-lg font-bold text-gray-900">{weather.current.humidity}%</p>
               </div>
-              <div className="bg-white/70 border border-amber-100 rounded-xl p-2 sm:p-3 text-center">
+              <div className="bg-white/70 border border-amber-100 rounded-md p-2 text-center">
                 <p className="text-xs text-gray-500 mb-1">Wind</p>
                 <p className="text-base sm:text-lg font-bold text-gray-900">{weather.current.windSpeed} <span className="text-xs sm:text-sm font-normal">km/h</span></p>
               </div>
@@ -116,16 +116,16 @@ export default async function WeatherPage() {
 
           {/* 7-day forecast */}
           <section>
-            <h2 className="text-xl font-bold text-gray-900 mb-4">7-Day Forecast — Doha, Qatar</h2>
-            <div className="rounded-2xl border border-stone-200 overflow-x-auto">
+            <h2 className="text-sm font-semibold text-gray-700 mb-2">7-Day Forecast — Doha, Qatar</h2>
+            <div className="rounded-lg border border-stone-200 overflow-x-auto">
               <table className="w-full text-sm min-w-[280px]">
                 <thead>
                   <tr className="bg-amber-700 text-white">
-                    <th className="px-4 py-3 text-left font-semibold">Day</th>
-                    <th className="px-4 py-3 text-center font-semibold">Condition</th>
-                    <th className="px-4 py-3 text-center font-semibold">High</th>
-                    <th className="px-4 py-3 text-center font-semibold">Low</th>
-                    <th className="px-4 py-3 text-center font-semibold hidden sm:table-cell">Wind</th>
+                    <th className="px-3 py-2 text-left font-semibold">Day</th>
+                    <th className="px-3 py-2 text-center font-semibold">Condition</th>
+                    <th className="px-3 py-2 text-center font-semibold">High</th>
+                    <th className="px-3 py-2 text-center font-semibold">Low</th>
+                    <th className="px-3 py-2 text-center font-semibold hidden sm:table-cell">Wind</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -134,19 +134,19 @@ export default async function WeatherPage() {
                       key={day.date}
                       className={`border-t border-stone-100 ${i === 0 ? "bg-amber-50 font-semibold" : i % 2 === 0 ? "bg-white" : "bg-stone-50"}`}
                     >
-                      <td className="px-4 py-3 text-gray-800">
+                      <td className="px-3 py-2 text-gray-800">
                         {day.dayLabel}
                         {i === 0 && (
-                          <span className="ml-2 text-xs bg-amber-200 text-amber-900 px-1.5 py-0.5 rounded-full font-bold">Today</span>
+                          <span className="ml-2 text-[10px] bg-amber-200 text-amber-900 px-1.5 py-0.5 rounded-full font-bold">Today</span>
                         )}
                       </td>
-                      <td className="px-4 py-3 text-center">
+                      <td className="px-3 py-2 text-center">
                         <span className="mr-1">{day.icon}</span>
                         <span className="text-gray-600 hidden md:inline">{day.condition}</span>
                       </td>
-                      <td className="px-4 py-3 text-center font-semibold text-orange-700">{day.maxTemp}°</td>
-                      <td className="px-4 py-3 text-center text-gray-500">{day.minTemp}°</td>
-                      <td className="px-4 py-3 text-center text-gray-400 hidden sm:table-cell">{day.maxWind} km/h</td>
+                      <td className="px-3 py-2 text-center font-semibold text-orange-700">{day.maxTemp}°</td>
+                      <td className="px-3 py-2 text-center text-gray-500">{day.minTemp}°</td>
+                      <td className="px-3 py-2 text-center text-gray-400 hidden sm:table-cell">{day.maxWind} km/h</td>
                     </tr>
                   ))}
                 </tbody>
@@ -156,21 +156,21 @@ export default async function WeatherPage() {
 
           {/* Qatar climate info — keyword-rich content for SEO */}
           <section className="prose prose-sm max-w-none text-gray-600">
-            <h2 className="text-xl font-bold text-gray-900 mb-3">Qatar Weather Guide</h2>
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div className="bg-stone-50 rounded-xl border border-stone-200 p-4">
+            <h2 className="text-sm font-semibold text-gray-700 mb-2">Qatar Weather Guide</h2>
+            <div className="grid sm:grid-cols-2 gap-3">
+              <div className="bg-stone-50 rounded-lg border border-stone-200 p-3">
                 <h3 className="font-semibold text-gray-800 mb-2">Summer (May – Sep)</h3>
                 <p className="text-sm text-gray-600">Extremely hot and humid. Temperatures regularly exceed 40°C. High UV index. Stay hydrated and limit outdoor activity midday.</p>
               </div>
-              <div className="bg-stone-50 rounded-xl border border-stone-200 p-4">
+              <div className="bg-stone-50 rounded-lg border border-stone-200 p-3">
                 <h3 className="font-semibold text-gray-800 mb-2">Winter (Nov – Feb)</h3>
                 <p className="text-sm text-gray-600">Mild and pleasant, 15–25°C. Occasional rain. The best season for outdoor activities, desert camping, and sightseeing.</p>
               </div>
-              <div className="bg-stone-50 rounded-xl border border-stone-200 p-4">
+              <div className="bg-stone-50 rounded-lg border border-stone-200 p-3">
                 <h3 className="font-semibold text-gray-800 mb-2">Spring (Mar – Apr)</h3>
                 <p className="text-sm text-gray-600">Warm with rising humidity, 20–35°C. Occasional dust storms (haboob) possible. Brief but lively wildflower season in northern Qatar.</p>
               </div>
-              <div className="bg-stone-50 rounded-xl border border-stone-200 p-4">
+              <div className="bg-stone-50 rounded-lg border border-stone-200 p-3">
                 <h3 className="font-semibold text-gray-800 mb-2">Autumn (Oct)</h3>
                 <p className="text-sm text-gray-600">Transitional month. Temperatures drop from 40°C+ to a comfortable 25–30°C. Sea temperatures still warm — ideal for water sports.</p>
               </div>

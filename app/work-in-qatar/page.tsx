@@ -120,45 +120,45 @@ export default function WorkInQatarPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbLd) }} />
 
       {/* Hero */}
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
+      <div className="mb-4">
+        <h1 className="text-xl font-bold text-gray-900 mb-1">
           Working in Qatar — Complete Guide 2026
         </h1>
-        <p className="text-gray-500 text-sm leading-relaxed">
+        <p className="text-xs text-gray-400">
           Everything you need to know before moving to Qatar for work: visas, salaries, labour rights, cost of living, and how to find a job. All information is verified and updated for 2026.
         </p>
       </div>
 
       {/* Tax-free highlight */}
-      <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 mb-8 flex items-start gap-3">
-        <span className="text-2xl">💡</span>
+      <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-3 mb-4 flex items-start gap-2">
+        <span className="text-xl">💡</span>
         <div>
-          <p className="font-bold text-emerald-800">Qatar is 100% tax-free</p>
-          <p className="text-sm text-emerald-700">No income tax, no VAT on most goods. Your entire salary is yours to keep — making Qatar one of the highest-paying expat destinations in the world.</p>
+          <p className="text-sm font-bold text-emerald-800">Qatar is 100% tax-free</p>
+          <p className="text-xs text-emerald-700">No income tax, no VAT on most goods. Your entire salary is yours to keep — making Qatar one of the highest-paying expat destinations in the world.</p>
         </div>
       </div>
 
       {/* Resource cards */}
-      <div className="grid sm:grid-cols-2 gap-4 mb-10">
+      <div className="grid sm:grid-cols-2 gap-3 mb-6">
         {RESOURCES.map(({ icon, title, desc, href }) => (
           <a
             key={href}
             href={href}
-            className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 hover:shadow-md hover:border-rose-200 transition-all flex gap-4 items-start"
+            className="bg-white rounded-lg border border-stone-200 shadow-none p-3 hover:shadow-md hover:border-rose-200 transition-all flex gap-3 items-start"
           >
-            <span className="text-3xl flex-shrink-0">{icon}</span>
+            <span className="text-2xl flex-shrink-0">{icon}</span>
             <div>
-              <h2 className="font-bold text-gray-900 mb-1">{title}</h2>
-              <p className="text-sm text-gray-500 leading-relaxed">{desc}</p>
+              <h2 className="text-sm font-bold text-gray-900 mb-0.5">{title}</h2>
+              <p className="text-xs text-gray-500 leading-relaxed">{desc}</p>
             </div>
           </a>
         ))}
       </div>
 
       {/* Quick stats */}
-      <div className="bg-rose-900 text-white rounded-2xl p-6 mb-10">
-        <h2 className="font-bold text-amber-300 mb-4 text-lg">Qatar at a Glance</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
+      <div className="bg-rose-900 text-white rounded-lg p-4 mb-6">
+        <h2 className="text-sm font-bold text-amber-300 mb-3">Qatar at a Glance</h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-sm">
           {[
             { label: "Income Tax", value: "0%" },
             { label: "Minimum Wage", value: "QAR 2,000" },
@@ -167,32 +167,32 @@ export default function WorkInQatarPage() {
             { label: "Currency", value: "QAR (≈ USD 0.27)" },
             { label: "Language", value: "Arabic / English" },
           ].map(({ label, value }) => (
-            <div key={label} className="bg-rose-800 rounded-xl p-3">
-              <p className="text-rose-300 text-xs mb-1">{label}</p>
-              <p className="font-bold text-white">{value}</p>
+            <div key={label} className="bg-rose-800 rounded-md p-2.5">
+              <p className="text-[10px] text-rose-300 mb-1">{label}</p>
+              <p className="text-sm font-bold text-white">{value}</p>
             </div>
           ))}
         </div>
       </div>
 
       {/* FAQ */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5 mb-8">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
+      <div className="bg-white rounded-lg border border-gray-100 shadow-sm p-3 mb-5">
+        <h2 className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-2">FAQ</h2>
         <div className="space-y-1">
           {FAQS.map(({ q, a }) => (
             <details key={q} className="group border-b border-gray-50 last:border-0">
-              <summary className="cursor-pointer font-medium text-gray-800 py-3 list-none flex justify-between items-center gap-2">
+              <summary className="cursor-pointer text-xs font-medium text-gray-800 py-2 list-none flex justify-between items-center gap-2">
                 <span>{q}</span>
                 <span className="text-gray-400 flex-shrink-0 group-open:rotate-180 transition-transform text-xs">▼</span>
               </summary>
-              <p className="text-gray-600 text-sm pb-3 leading-relaxed">{a}</p>
+              <p className="text-xs text-gray-500 pb-3 leading-relaxed">{a}</p>
             </details>
           ))}
         </div>
       </div>
 
       {/* Related links */}
-      <div className="flex flex-wrap gap-3 text-sm">
+      <div className="flex flex-wrap gap-3 text-xs">
         <a href="/jobs" className="text-rose-700 hover:underline">→ Browse jobs in Qatar</a>
         <a href="/prayer" className="text-rose-700 hover:underline">→ Prayer times in Doha</a>
         <a href="/hijri-calendar" className="text-rose-700 hover:underline">→ Hijri Calendar</a>

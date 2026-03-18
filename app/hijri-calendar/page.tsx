@@ -121,12 +121,12 @@ export default async function HijriCalendarPage({
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
+    <div className="max-w-3xl mx-auto">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: "https://qatar-portal.vercel.app" }, { "@type": "ListItem", position: 2, name: "Hijri Calendar", item: "https://qatar-portal.vercel.app/hijri-calendar" }] }) }} />
 
-      <h1 className="text-3xl font-bold text-gray-900 mb-2">Hijri Calendar</h1>
-      <p className="text-gray-500 mb-6 text-sm">
+      <h1 className="text-xl font-bold text-gray-900 mb-1">Hijri Calendar</h1>
+      <p className="text-xs text-gray-400 mb-3">
         Islamic (Hijri) dates alongside Gregorian — based on Doha, Qatar moon sighting method.
       </p>
 
@@ -140,7 +140,7 @@ export default async function HijriCalendarPage({
         });
         if (!todayEntry) return null;
         return (
-          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-6 flex items-center gap-4">
+          <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-3 flex items-center gap-4">
             <div className="text-4xl">🌙</div>
             <div>
               <p className="text-xs text-amber-700 font-medium uppercase tracking-wide">Today&apos;s Hijri Date</p>
@@ -160,7 +160,7 @@ export default async function HijriCalendarPage({
 
       {/* Calendar grid */}
       {days.length > 0 ? (
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+        <div className="bg-white rounded-lg border border-gray-100 shadow-sm overflow-hidden">
           {/* Day headers */}
           <div className="grid grid-cols-7 bg-gray-50 border-b border-gray-100">
             {DAYS.map((d) => (
@@ -174,7 +174,7 @@ export default async function HijriCalendarPage({
           <div className="grid grid-cols-7">
             {/* Empty cells before first day */}
             {Array.from({ length: startOffset }).map((_, i) => (
-              <div key={`empty-${i}`} className="min-h-[64px] border-b border-r border-gray-50" />
+              <div key={`empty-${i}`} className="min-h-[52px] border-b border-r border-gray-50" />
             ))}
 
             {days.map((d) => {
@@ -188,7 +188,7 @@ export default async function HijriCalendarPage({
               return (
                 <div
                   key={isoDate}
-                  className={`min-h-[64px] p-1.5 border-b border-r border-gray-50 flex flex-col ${
+                  className={`min-h-[52px] p-1 border-b border-r border-gray-50 flex flex-col ${
                     isToday ? "bg-amber-50" : isFriday ? "bg-emerald-50/40" : ""
                   }`}
                 >
@@ -208,8 +208,8 @@ export default async function HijriCalendarPage({
       )}
 
       {/* Month names reference */}
-      <div className="mt-8 bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">🕌 The 12 Hijri Months</h2>
+      <div className="mt-5 bg-white rounded-lg border border-gray-100 shadow-sm p-3">
+        <h2 className="text-sm font-semibold text-gray-700 mb-2">The 12 Hijri Months</h2>
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {HIJRI_MONTHS.map((m, i) => (
             <div key={m} className="flex items-center gap-2 text-sm">
@@ -222,8 +222,8 @@ export default async function HijriCalendarPage({
       </div>
 
       {/* FAQ */}
-      <div className="mt-8 bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
+      <div className="mt-4 bg-white rounded-lg border border-gray-100 shadow-sm p-3">
+        <h2 className="text-xs font-medium text-gray-400 uppercase tracking-wide mb-2">FAQ</h2>
         <div className="space-y-3">
           {[
             { q: "How many days are in a Hijri year?", a: "A Hijri year has 354 or 355 days (12 lunar months). It is about 11 days shorter than the Gregorian year, which is why Islamic holidays shift earlier each year." },
@@ -231,11 +231,11 @@ export default async function HijriCalendarPage({
             { q: "What year is it in the Islamic calendar?", a: `The current Hijri year is ${hijriYear || "1447"} AH. The Hijri calendar began in 622 CE when the Prophet Muhammad migrated from Mecca to Medina.` },
           ].map(({ q, a }) => (
             <details key={q} className="group">
-              <summary className="cursor-pointer font-medium text-gray-800 py-2 list-none flex justify-between items-center">
+              <summary className="cursor-pointer text-xs font-medium text-gray-700 py-2 list-none flex justify-between items-center">
                 {q}
                 <span className="text-gray-400 group-open:rotate-180 transition-transform">▼</span>
               </summary>
-              <p className="text-gray-600 text-sm pt-1 pb-3">{a}</p>
+              <p className="text-xs text-gray-500 pt-1 pb-3">{a}</p>
             </details>
           ))}
         </div>

@@ -36,7 +36,7 @@ export default function AboutPage() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto space-y-10">
+    <div className="max-w-2xl mx-auto space-y-5">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }}
@@ -44,15 +44,15 @@ export default function AboutPage() {
 
       {/* Header */}
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-3">About Qatar Portal</h1>
-        <p className="text-gray-600 text-base leading-relaxed">
+        <h1 className="text-xl font-bold text-gray-900 mb-1">About Qatar Portal</h1>
+        <p className="text-xs text-gray-500">
           Qatar Portal is a free, ad-supported daily resource built for the people living in, working in, and visiting Qatar and the Gulf region.
         </p>
       </div>
 
       {/* Mission */}
-      <section className="bg-rose-50 border border-rose-100 rounded-2xl p-6">
-        <h2 className="text-lg font-bold text-rose-900 mb-3">Our Mission</h2>
+      <section className="bg-rose-50 border border-rose-100 rounded-lg p-3">
+        <h2 className="text-sm font-semibold text-rose-900 mb-2">Our Mission</h2>
         <p className="text-gray-700 text-sm leading-relaxed">
           We built Qatar Portal to provide one reliable place for the information Qatar residents need every day — prayer times, weather, news from trusted Gulf sources, live currency rates for the expat community, and local job listings. Everything is free, updated automatically, and works fast on any device.
         </p>
@@ -60,8 +60,8 @@ export default function AboutPage() {
 
       {/* What we offer */}
       <section>
-        <h2 className="text-xl font-bold text-gray-900 mb-4">What Qatar Portal Offers</h2>
-        <div className="grid sm:grid-cols-2 gap-4">
+        <h2 className="text-sm font-semibold text-gray-700 mb-2">What Qatar Portal Offers</h2>
+        <div className="grid sm:grid-cols-2 gap-3">
           {[
             {
               icon: "🕌",
@@ -94,10 +94,10 @@ export default function AboutPage() {
               desc: "Hijri (Islamic) date shown alongside Gregorian dates on the prayer times page.",
             },
           ].map((item) => (
-            <div key={item.title} className="bg-stone-50 border border-stone-200 rounded-xl p-4">
-              <p className="text-2xl mb-2">{item.icon}</p>
-              <h3 className="font-semibold text-gray-900 mb-1">{item.title}</h3>
-              <p className="text-sm text-gray-600">{item.desc}</p>
+            <div key={item.title} className="bg-stone-50 border border-stone-200 rounded-lg p-3">
+              <p className="text-xl mb-1">{item.icon}</p>
+              <h3 className="text-xs font-semibold text-gray-900 mb-0.5">{item.title}</h3>
+              <p className="text-xs text-gray-600">{item.desc}</p>
             </div>
           ))}
         </div>
@@ -105,16 +105,16 @@ export default function AboutPage() {
 
       {/* Data sources */}
       <section>
-        <h2 className="text-xl font-bold text-gray-900 mb-4">Our Data Sources</h2>
-        <p className="text-sm text-gray-500 mb-4">
+        <h2 className="text-sm font-semibold text-gray-700 mb-2">Our Data Sources</h2>
+        <p className="text-xs text-gray-500 mb-3">
           We use reputable, publicly available data sources. We do not manufacture or editorialize data.
         </p>
-        <div className="rounded-xl border border-stone-200 overflow-x-auto">
+        <div className="rounded-lg border border-stone-200 overflow-x-auto">
           <table className="w-full text-sm min-w-[360px]">
             <thead>
               <tr className="bg-stone-100 text-gray-700">
-                <th className="px-4 py-3 text-left font-semibold">Feature</th>
-                <th className="px-4 py-3 text-left font-semibold">Source</th>
+                <th className="px-3 py-2 text-left font-semibold">Feature</th>
+                <th className="px-3 py-2 text-left font-semibold">Source</th>
               </tr>
             </thead>
             <tbody>
@@ -126,8 +126,8 @@ export default function AboutPage() {
                 ["Jobs", "Google News RSS — Qatar hiring/careers search"],
               ].map(([feature, source], i) => (
                 <tr key={feature} className={`border-t border-stone-100 ${i % 2 === 0 ? "bg-white" : "bg-stone-50"}`}>
-                  <td className="px-4 py-2.5 font-medium text-gray-800">{feature}</td>
-                  <td className="px-4 py-2.5 text-gray-500">{source}</td>
+                  <td className="px-3 py-2 font-medium text-gray-800">{feature}</td>
+                  <td className="px-3 py-2 text-gray-500">{source}</td>
                 </tr>
               ))}
             </tbody>
@@ -137,16 +137,16 @@ export default function AboutPage() {
 
       {/* Who we serve */}
       <section>
-        <h2 className="text-xl font-bold text-gray-900 mb-3">Who We Serve</h2>
-        <p className="text-gray-600 text-sm leading-relaxed">
+        <h2 className="text-sm font-semibold text-gray-700 mb-2">Who We Serve</h2>
+        <p className="text-xs text-gray-600 leading-relaxed">
           Qatar has one of the world&apos;s largest expat populations — over 85% of residents are from outside Qatar. Qatar Portal serves this diverse community: South Asian workers (India, Pakistan, Bangladesh, Nepal, Philippines), Arab expats, Western professionals, and Qatari nationals who want fast access to daily essentials in one place.
         </p>
       </section>
 
       {/* Contact */}
-      <section className="bg-stone-50 border border-stone-200 rounded-2xl p-6">
-        <h2 className="text-lg font-bold text-gray-900 mb-2">Contact</h2>
-        <p className="text-sm text-gray-600">
+      <section className="bg-stone-50 border border-stone-200 rounded-lg p-3">
+        <h2 className="text-sm font-semibold text-gray-900 mb-2">Contact</h2>
+        <p className="text-xs text-gray-600">
           For feedback, corrections, or inquiries, please reach out via the GitHub repository:{" "}
           <a
             href="https://github.com/vinnych/Qatar-portal"

@@ -111,8 +111,8 @@ export default async function NewsArticlePage({
     <div className="max-w-2xl mx-auto">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbLd) }} />
-      <div className="mb-6">
-        <a href="/news" className="text-sm text-sky-700 hover:underline font-medium">
+      <div className="mb-4">
+        <a href="/news" className="text-xs text-gray-400 hover:text-rose-800">
           ← Back to News
         </a>
       </div>
@@ -120,38 +120,38 @@ export default async function NewsArticlePage({
         <img
           src={item.imageUrl}
           alt={item.title}
-          className="w-full rounded-xl object-cover max-h-56 sm:max-h-80 lg:max-h-96 mb-5"
+          className="w-full rounded-lg object-cover max-h-48 mb-5"
         />
       ) : (
-        <div className="w-full rounded-xl h-48 bg-gradient-to-br from-sky-100 to-sky-200 flex items-center justify-center mb-5">
+        <div className="w-full rounded-lg h-40 bg-gradient-to-br from-sky-100 to-sky-200 flex items-center justify-center mb-5">
           <span className="text-5xl opacity-30">📰</span>
         </div>
       )}
-      <span className="inline-block text-xs text-sky-700 font-semibold uppercase tracking-wide bg-sky-50 border border-sky-200 px-3 py-1 rounded-full mb-3">
+      <span className="inline-block text-[10px] text-sky-700 font-semibold uppercase tracking-wide bg-sky-50 border border-sky-200 px-2 py-0.5 rounded-full mb-3">
         {item.source}
       </span>
-      <h1 className="text-2xl font-bold text-gray-900 mt-2 mb-3 leading-snug">
+      <h1 className="text-xl font-bold text-gray-900 mt-2 mb-2 leading-snug">
         {item.title}
       </h1>
       {item.pubDate && (
-        <p className="text-xs text-gray-400 mb-6">{item.pubDate}</p>
+        <p className="text-xs text-gray-400 mb-4">{item.pubDate}</p>
       )}
       {summary ? (
-        <div className="mb-8">
-          <p className="text-gray-700 leading-relaxed text-base">{summary}</p>
+        <div className="mb-6">
+          <p className="text-gray-700 leading-relaxed text-sm">{summary}</p>
           <p className="text-xs text-gray-400 mt-2 flex items-center gap-1">
             <span>✨</span> AI-generated summary · Read the full article below
           </p>
         </div>
       ) : item.contentSnippet ? (
-        <p className="text-gray-600 mb-8 leading-relaxed text-base">{item.contentSnippet}</p>
+        <p className="text-gray-600 mb-6 leading-relaxed text-sm">{item.contentSnippet}</p>
       ) : null}
       <div className="flex flex-wrap items-center gap-3">
         <a
           href={item.link}
           target="_blank"
           rel="noopener noreferrer nofollow"
-          className="block w-full sm:w-auto text-center bg-sky-700 text-white px-4 py-3 sm:px-6 rounded-lg text-sm sm:text-base font-medium hover:bg-sky-800 transition-colors"
+          className="block w-full sm:w-auto text-center bg-sky-700 text-white px-4 py-2 sm:px-6 rounded-md text-sm font-medium hover:bg-sky-800 transition-colors"
         >
           Read Full Article on {item.source} →
         </a>
@@ -170,21 +170,21 @@ export default async function NewsArticlePage({
           .slice(0, 3);
         if (related.length === 0) return null;
         return (
-          <div className="mt-10 pt-8 border-t border-stone-200">
-            <h2 className="text-lg font-bold text-gray-900 mb-4">Related News</h2>
-            <div className="grid gap-4 sm:grid-cols-3">
+          <div className="mt-6 pt-6 border-t border-stone-200">
+            <h2 className="text-sm font-semibold text-gray-700 mb-2">Related News</h2>
+            <div className="grid gap-3 sm:grid-cols-3">
               {related.map((r) => (
                 <a key={r.slug} href={`/news/${r.slug}`}
-                  className="bg-sky-50 rounded-xl border border-sky-100 shadow-sm hover:shadow-md hover:border-sky-300 transition-all flex flex-col overflow-hidden">
+                  className="bg-white rounded-lg border border-stone-200 hover:border-rose-300 shadow-sm hover:shadow-md transition-all flex flex-col overflow-hidden">
                   {r.imageUrl ? (
-                    <img src={r.imageUrl} alt={r.title} className="w-full h-28 object-cover" loading="lazy" />
+                    <img src={r.imageUrl} alt={r.title} className="w-full h-24 object-cover" loading="lazy" />
                   ) : (
-                    <div className="w-full h-28 bg-gradient-to-br from-sky-100 to-sky-200 flex items-center justify-center">
+                    <div className="w-full h-24 bg-gradient-to-br from-sky-100 to-sky-200 flex items-center justify-center">
                       <span className="text-3xl opacity-40">📰</span>
                     </div>
                   )}
                   <div className="p-3 flex flex-col flex-1">
-                    <span className="text-xs text-sky-700 font-semibold mb-1">{r.source}</span>
+                    <span className="text-[10px] text-sky-700 font-semibold mb-1">{r.source}</span>
                     <h3 className="text-sm font-semibold text-gray-800 leading-snug line-clamp-3">{r.title}</h3>
                   </div>
                 </a>
