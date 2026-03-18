@@ -17,11 +17,9 @@ export default function NewsletterCTA() {
   }
 
   return (
-    <div className="bg-amber-50 border border-amber-200 rounded-2xl px-5 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6">
-      <span className="text-2xl flex-shrink-0">📬</span>
+    <div className="bg-amber-50 border border-amber-200 rounded-xl px-5 py-3 flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6">
       <div className="flex-1">
-        <p className="font-semibold text-amber-900 text-sm">Get weekly Qatar updates</p>
-        <p className="text-xs text-amber-700">Prayer times, news highlights, and job picks — free, no spam.</p>
+        <p className="font-semibold text-amber-900 text-sm">Get weekly Qatar updates — free, no spam</p>
       </div>
       <div className="flex items-center gap-2 flex-shrink-0">
         <a

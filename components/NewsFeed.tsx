@@ -30,9 +30,7 @@ export default async function NewsFeed({ limit = 6 }: { limit?: number }) {
             loading="lazy"
           />
         ) : (
-          <div className="w-full h-48 sm:h-56 bg-gradient-to-br from-rose-50 to-stone-100 flex items-center justify-center">
-            <span className="text-3xl opacity-10 text-gray-400">◈</span>
-          </div>
+          <div className="w-full h-48 sm:h-56 bg-stone-100" />
         )}
         <div className="p-4 sm:p-5">
           <span className="text-[10px] font-bold text-rose-700 uppercase tracking-widest">{featured.source}</span>
@@ -60,9 +58,7 @@ export default async function NewsFeed({ limit = 6 }: { limit?: number }) {
                 loading="lazy"
               />
             ) : (
-              <div className="w-full h-36 bg-gradient-to-br from-stone-100 to-stone-50 flex items-center justify-center">
-                <span className="text-xl opacity-10 text-gray-400">◈</span>
-              </div>
+              <div className="w-full h-36 bg-stone-100" />
             )}
             <div className="p-3.5 flex flex-col flex-1">
               <span className="text-[10px] font-bold text-rose-700 uppercase tracking-widest mb-1.5">{item.source}</span>

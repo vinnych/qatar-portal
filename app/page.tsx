@@ -60,7 +60,7 @@ export default async function Home() {
 
       {/* Prayer Times */}
       <section>
-        <SectionLabel>Prayer Times · Doha</SectionLabel>
+        <SectionLabel>Prayer Times</SectionLabel>
         <Suspense fallback={<div className="bg-rose-900/10 rounded-2xl h-40 animate-pulse" />}>
           <PrayerTimes />
         </Suspense>
@@ -70,7 +70,7 @@ export default async function Home() {
       <div className="grid md:grid-cols-2 gap-4">
         <section>
           <a href="/weather" className="block hover:opacity-90 transition-opacity">
-            <SectionLabel>Weather · Doha</SectionLabel>
+            <SectionLabel>Weather</SectionLabel>
             <Suspense fallback={<div className="bg-stone-100 rounded-2xl h-24 animate-pulse" />}>
               <WeatherWidget />
             </Suspense>
@@ -86,7 +86,7 @@ export default async function Home() {
         </section>
       </div>
 
-      <AdUnit slot="REPLACE_WITH_SLOT_ID" />
+      {/* AdUnit — add real slot ID when AdSense is approved */}
 
       {/* News + Jobs */}
       <div className="grid lg:grid-cols-3 gap-6 lg:gap-8">
@@ -116,10 +116,10 @@ export default async function Home() {
         <SectionLabel>FAQ</SectionLabel>
         <div className="divide-y divide-stone-100">
           {[
-            { q: "What time is Fajr in Doha today?", a: "Today's Fajr prayer time in Doha is shown at the top of this page, updated daily using the Muslim World League calculation method." },
-            { q: "What time is Maghrib in Doha today?", a: "Today's Maghrib prayer time in Doha is displayed above, calculated based on sunset time for Qatar." },
-            { q: "What are today's prayer times in Qatar?", a: "All five daily prayer times for Qatar (Fajr, Dhuhr, Asr, Maghrib, Isha) are shown above, updated daily." },
-            { q: "Where can I find jobs in Qatar?", a: "Browse the latest job vacancies in Doha and Qatar in the Jobs section above, updated daily from top Gulf job boards." },
+            { q: "What time is Fajr in Doha today?", a: "Fajr prayer time in Doha is updated daily using the Muslim World League calculation method via Aladhan." },
+            { q: "What time is Maghrib in Doha today?", a: "Maghrib prayer time in Doha is calculated based on sunset time for Qatar, updated daily." },
+            { q: "What are today's prayer times in Qatar?", a: "All five daily prayer times for Qatar (Fajr, Dhuhr, Asr, Maghrib, Isha) are updated daily." },
+            { q: "Where can I find jobs in Qatar?", a: "Qatar Portal lists the latest job vacancies in Doha and Qatar, updated daily from top Gulf job boards." },
           ].map(({ q, a }) => (
             <details key={q} className="group">
               <summary className="cursor-pointer list-none flex items-center justify-between text-sm font-medium text-gray-700 hover:text-rose-800 transition-colors py-3.5 min-h-[44px]">

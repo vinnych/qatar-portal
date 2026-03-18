@@ -141,13 +141,7 @@ export default function SkyScene({ prayers, date, currentHour }: {
         {/* Horizon line */}
         <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-rose-900/80 to-transparent" />
 
-        {/* Date label */}
-        <div className="absolute top-2 right-3 text-white/70 text-[10px] font-medium bg-black/20 px-1.5 py-0.5 rounded-full">
-          {date}
-        </div>
-        <div className="absolute bottom-2 left-3 text-white text-xs font-semibold">
-          <span aria-hidden="true">🕌</span> Prayer Times — Doha
-        </div>
+        <div className="absolute bottom-2 left-3 text-white/70 text-[10px] font-medium">{date}</div>
       </div>
 
       {/* Prayer cards */}
@@ -165,7 +159,6 @@ export default function SkyScene({ prayers, date, currentHour }: {
                 <span className="text-base leading-none mb-1">{p.icon}</span>
                 <span className={`text-[11px] font-semibold ${isCurrent ? "text-rose-900" : "text-rose-200"}`}>{p.name}</span>
                 <span className={`text-xs font-bold mt-0.5 tabular-nums ${isCurrent ? "text-rose-900" : "text-amber-300"}`}>{p.time}</span>
-                {isCurrent && <span className="text-[10px] text-rose-800 font-bold mt-0.5">Now</span>}
               </div>
             );
           })}
