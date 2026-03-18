@@ -17,8 +17,8 @@ npm run dev && npm run build && npm run lint
 ## Key Files
 | File | Purpose |
 |---|---|
-| `app/page.tsx` | Homepage — compact `space-y-4`, title+DohaTime row, prayer, weather/currency, news+jobs grid |
-| `app/layout.tsx` | Nav, footer, GA, AdSense script, WebSite JSON-LD |
+| `app/page.tsx` | Homepage — `space-y-3`, editorial SectionLabel, title+DohaTime row, prayer, weather/currency, news+jobs grid, FAQ |
+| `app/layout.tsx` | Nav (h-11, Inter body), footer (2-col mobile grid), GA, AdSense, WebSite JSON-LD |
 | `app/sitemap.ts` | Dynamic sitemap — 50+ URLs incl. all articles + jobs |
 | `lib/prayer.ts` | Aladhan API — today + monthly by city or coords, revalidate 3600s/86400s |
 | `lib/rss.ts` | RSS parser — regex, OG scrape, Pexels fallback, 5s timeout, 5MB cap |
@@ -29,8 +29,8 @@ npm run dev && npm run build && npm run lint
 | `lib/utils.ts` | `toSlug()`, `safeJsonLd()`, `isValidHttpUrl()` |
 | `components/PrayerSelector.tsx` | `"use client"` — city dropdown + geolocation detect, fetches `/api/prayer` |
 | `components/SkyScene.tsx` | `"use client"` — animated sky (sun/moon/stars/clouds) |
-| `components/NewsFeed.tsx` | Server component — `gap-3` grid, `h-32` images, `p-2.5` cards |
-| `components/JobList.tsx` | Server component — `gap-2`, `p-2.5` cards |
+| `components/NewsFeed.tsx` | Server component — `rounded-xl` white cards, `h-28` images, scale hover, `text-[13px]` title |
+| `components/JobList.tsx` | Server component — `rounded-xl` white cards, `p-3`, plain-text source |
 | `components/AdUnit.tsx` | `"use client"` — AdSense `<ins>` wrapper, slot prop |
 | `components/NewsletterCTA.tsx` | `"use client"` — dismissible amber banner → qatarportal.substack.com |
 | `components/FooterScenery.tsx` | SVG date palm scenery above footer |
@@ -42,10 +42,25 @@ npm run dev && npm run build && npm run lint
 - React `cache()` deduplicates fetch between `generateMetadata` and page
 
 ## Design System
-- **Colors:** `rose-900` maroon · `amber-300/400` gold · `stone-50` bg
-- **Cards:** news=`sky-50`, jobs=`emerald-50`, prayer=`violet-50`
-- **Spacing:** compact — `space-y-4` homepage, `py-4/5` main, `mb-2` section headers
-- **Font:** Playfair Display for "QATAR" wordmark
+- **Body font:** Inter (next/font/google) · Playfair Display for "QATAR" wordmark only
+- **Font smoothing:** antialiased + optimizeLegibility in globals.css
+- **Colors:** `rose-900` header/brand · `amber-300` gold accent · `stone-50` bg · neutral grays for text
+- **Cards:** `bg-white border border-stone-200 rounded-xl` — hover: `border-stone-300 shadow-md` · duration-200 transition
+- **Section labels:** `<div className="flex items-center gap-3 mb-2">` with thin `h-px bg-stone-200` separator line
+- **Typography scale:** body `text-xs`/`text-[11px]` · titles `text-[13px] font-semibold` · labels `text-[10px] font-bold uppercase tracking-widest`
+- **Header:** `h-11` fixed height · `bg-rose-900` solid · nav `text-[11px] font-semibold gap-5` · hover `text-white` from `text-white/70`
+- **Footer:** `text-[11px]` · `grid grid-cols-2 sm:flex` on mobile · neutral `hover:text-gray-600`
+- **DohaTime:** inline monospace `text-[11px] font-mono text-gray-400 tabular-nums` — no card wrapper
+- **Interactions:** all transitions `duration-150`–`duration-200` · news images scale on hover · FAQ chevron rotates
+- **Touch targets:** FAQ `<summary>` min-h-[44px] · job cards min-h via p-3
+
+## Frontend Review (Ongoing)
+After every significant UI change, audit for:
+1. **Mobile (375px):** tap targets ≥44px, text ≥11px, no horizontal scroll, cards stack cleanly
+2. **Consistency:** all new cards use the standard card pattern above
+3. **Typography:** Inter applied, correct weight/size hierarchy
+4. **Interactions:** hover states smooth (duration-200), no jarring color jumps
+5. **Performance:** no new heavy dependencies, images use `loading="lazy"`
 
 ## API Routes
 | Route | Notes |
