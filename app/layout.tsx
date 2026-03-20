@@ -1,15 +1,18 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter } from "next/font/google";
+import { Playfair_Display, Inter, Newsreader } from "next/font/google";
 import Script from "next/script";
+import { Suspense } from "react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import FooterScenery from "@/components/FooterScenery";
 import MobileNav from "@/components/MobileNav";
 import DonateDialog from "@/components/DonateDialog";
+import HeaderPrayer from "@/components/HeaderPrayer";
 import { safeJsonLd } from "@/lib/utils";
 import "./globals.css";
 
 const playfair = Playfair_Display({ subsets: ["latin"], weight: ["700"] });
 const inter = Inter({ subsets: ["latin"] });
+const newsreader = Newsreader({ subsets: ["latin"], weight: ["700"], style: ["italic"], variable: "--font-newsreader" });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://qatar-portal.vercel.app"),
@@ -31,10 +34,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={newsreader.variable}>
       <head />
-      <body className={`${inter.className} bg-stone-50 text-gray-900 min-h-screen`}>
-        <header className="bg-rose-900 sticky top-0 z-10 border-b border-rose-950/40">
+      <body className={`${inter.className} bg-[#faf9f6] text-on-surface min-h-screen`}>
+        <header className="bg-gradient-to-br from-[#640023] to-rose-900 sticky top-0 z-10">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 h-11 flex items-center justify-between">
             <a href="/" className={`${playfair.className} text-lg tracking-widest text-amber-300 uppercase leading-none`}>
               Qatar
@@ -49,6 +52,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <a href="/jobs" className="text-white/70 hover:text-white transition-colors duration-150">Jobs</a>
               <a href="/hijri-calendar" className="text-white/70 hover:text-white transition-colors duration-150">Hijri</a>
               <a href="/ramadan-2026" className="text-white/70 hover:text-white transition-colors duration-150">Ramadan</a>
+              <span className="text-white/20">|</span>
+              <Suspense fallback={null}>
+                <HeaderPrayer />
+              </Suspense>
             </nav>
             {/* Mobile hamburger */}
             <MobileNav />
@@ -69,7 +76,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             }
           })}}
         />
-        <main className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">{children}</main>
+        <main className="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-5">{children}</main>
         <Script
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7212871157824722"
           strategy="afterInteractive"
@@ -90,7 +97,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <SpeedInsights />
         <DonateDialog />
         <FooterScenery />
-        <footer className="border-t border-stone-200 py-6 text-[11px] text-gray-400">
+        <footer className="bg-surface-low py-6 text-[11px] text-gray-400">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:justify-center gap-x-5 gap-y-2 mb-4">
               <a href="/" className="hover:text-gray-600 transition-colors duration-150">Home</a>
