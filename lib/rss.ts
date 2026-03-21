@@ -148,7 +148,7 @@ export async function getNews(limit = 12): Promise<NewsItem[]> {
   if (redis && items.length > 0) {
     Promise.allSettled(
       items.map((item) => redis!.set(`news:${item.slug}`, item, { ex: KV_TTL, nx: true }))
-    ).catch(() => {});
+    ).catch((err) => console.error("[rss] Redis persist error:", err instanceof Error ? err.message : err));
   }
 
   return items.slice(0, Math.min(limit, HARD_LIMIT));

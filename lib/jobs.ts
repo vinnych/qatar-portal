@@ -94,7 +94,7 @@ export async function getJobs(limit = 12): Promise<Job[]> {
   if (redis && jobs.length > 0) {
     Promise.allSettled(
       jobs.map((job) => redis!.set(`job:${job.slug}`, job, { ex: KV_TTL, nx: true }))
-    ).catch(() => {});
+    ).catch((err) => console.error("[jobs] Redis persist error:", err instanceof Error ? err.message : err));
   }
 
   return jobs.slice(0, Math.min(limit, HARD_LIMIT));

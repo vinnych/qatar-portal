@@ -8,7 +8,7 @@ function getRedis(): Redis | null {
   try {
     return Redis.fromEnv();
   } catch (err) {
-    console.error("[redis] init failed");
+    console.error("[redis] init failed", err);
     return null;
   }
 }

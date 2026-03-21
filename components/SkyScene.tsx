@@ -54,7 +54,8 @@ export default function SkyScene({ prayers, date, currentHour }: {
   };
 
   const dohaOffset = 3 * 60;
-  const nowMin = (new Date().getUTCHours() * 60 + new Date().getUTCMinutes() + dohaOffset) % (24 * 60);
+  const _now = new Date();
+  const nowMin = (_now.getUTCHours() * 60 + _now.getUTCMinutes() + dohaOffset) % (24 * 60);
   let currentPrayer = prayers[prayers.length - 1].name;
   for (let i = 0; i < prayers.length; i++) {
     if (nowMin < toMin(prayers[i].time)) {
@@ -99,8 +100,7 @@ export default function SkyScene({ prayers, date, currentHour }: {
     tick();
     const id = setInterval(tick, 1000);
     return () => clearInterval(id);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [prayers]);
 
   return (
     <div className="overflow-hidden shadow-xl">
