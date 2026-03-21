@@ -28,11 +28,9 @@ npm run dev && npm run build && npm run lint
 | `lib/rateLimit.ts` | Per-IP rate limit 30 req/min via Redis INCR |
 | `lib/utils.ts` | `toSlug()`, `safeJsonLd()`, `isValidHttpUrl()` |
 | `components/PrayerSelector.tsx` | `"use client"` — city dropdown + geolocation detect, fetches `/api/prayer` |
-| `components/HeaderPrayer.tsx` | `"use client"` — next prayer name + time shown in header nav |
 | `components/SkyScene.tsx` | `"use client"` — animated sky (sun/moon/stars/clouds) |
 | `components/NewsFeed.tsx` | Server component — `rounded-xl` white cards, `h-28` images, scale hover, `text-[13px]` title |
 | `components/JobList.tsx` | Server component — `rounded-xl` white cards, `p-3`, plain-text source |
-| `components/AdUnit.tsx` | `"use client"` — AdSense `<ins>` wrapper, slot prop |
 | `components/NewsletterCTA.tsx` | `"use client"` — dismissible amber banner → qatarportal.substack.com |
 | `components/FooterScenery.tsx` | SVG date palm scenery above footer |
 | `public/ads.txt` | `google.com, pub-7212871157824722, DIRECT, f08c47fec0942fa0` |
