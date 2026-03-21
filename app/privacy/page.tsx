@@ -22,7 +22,7 @@ const LAST_UPDATED = "18 March 2026";
 
 export default function PrivacyPage() {
   return (
-    <div className="max-w-2xl mx-auto space-y-8">
+    <div className="w-full space-y-8">
       <div>
         <h1 className="font-newsreader text-3xl font-bold text-on-surface mb-2">Privacy Policy</h1>
         <p className="text-sm text-gray-400">Last updated: {LAST_UPDATED}</p>

@@ -1,32 +1,35 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Sunrise, Sun, CloudSun, Sunset, Moon, Clock } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { MapPin, Clock, Moon, Sunrise, Sun, CloudSun, Sunset, Menu, X, LocateFixed, Loader2 } from "lucide-react";
+import { Playfair_Display } from "next/font/google";
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["700"],
+  style: ["normal", "italic"],
+});
+
+const NAV_LINKS = [
+  { href: "/", label: "Home" },
+  { href: "/prayer", label: "Prayer" },
+  { href: "/weather", label: "Weather" },
+  { href: "/currency", label: "Currency" },
+  { href: "/news", label: "News" },
+  { href: "/jobs", label: "Jobs" },
+  { href: "/hijri-calendar", label: "Hijri" },
+  { href: "/ramadan-2026", label: "Ramadan" },
+];
+
+const PRAYER_NAMES = ["Fajr", "Sunrise", "Dhuhr", "Asr", "Maghrib", "Isha"] as const;
 
 interface Prayer { name: string; time: string; icon: string; }
 
-function getSkyConfig(hour: number) {
-  if (hour >= 4 && hour < 6)
-    return { bg: "from-indigo-900 via-orange-400 to-rose-300", bodyBg: "bg-indigo-900", label: "Dawn", isSun: true, sunColor: "bg-orange-300", horizonY: 75 };
-  if (hour >= 6 && hour < 11)
-    return { bg: "from-sky-400 via-sky-300 to-amber-100", bodyBg: "bg-sky-400", label: "Morning", isSun: true, sunColor: "bg-yellow-300", horizonY: 55 };
-  if (hour >= 11 && hour < 15)
-    return { bg: "from-sky-500 via-sky-400 to-sky-200", bodyBg: "bg-sky-500", label: "Midday", isSun: true, sunColor: "bg-yellow-200", horizonY: 25 };
-  if (hour >= 15 && hour < 18)
-    return { bg: "from-sky-400 via-amber-200 to-orange-200", bodyBg: "bg-sky-400", label: "Afternoon", isSun: true, sunColor: "bg-orange-400", horizonY: 55 };
-  if (hour >= 18 && hour < 20)
-    return { bg: "from-orange-500 via-rose-400 to-indigo-700", bodyBg: "bg-orange-500", label: "Sunset", isSun: true, sunColor: "bg-orange-500", horizonY: 80 };
-  return { bg: "from-indigo-950 via-indigo-900 to-slate-800", bodyBg: "bg-indigo-950", label: "Night", isSun: false, sunColor: "", horizonY: 100 };
-}
-
-function getSunX(hour: number): number {
-  const pct = Math.max(0, Math.min(1, (hour - 6) / 12.5));
-  return 5 + pct * 90;
-}
+type LocationStatus = "idle" | "loading" | "granted" | "denied";
 
 function getPrayerIcon(name: string) {
-  const props = { size: 14, strokeWidth: 1.5 };
+  const props = { size: 16, strokeWidth: 1.5 };
   switch (name) {
     case "Fajr":    return <Sunrise {...props} />;
     case "Sunrise": return <Sun {...props} />;
@@ -38,63 +41,49 @@ function getPrayerIcon(name: string) {
   }
 }
 
-export default function SkyScene({ prayers, date, currentHour }: {
+export default function SkyScene({ prayers: defaultPrayers, date }: {
   prayers: Prayer[];
   date: string;
   currentHour: number;
 }) {
-  const sky = getSkyConfig(currentHour);
-  const sunX = getSunX(currentHour);
-  const isNight = !sky.isSun;
-
   const toMin = (t: string) => {
-    const clean = t.replace(/\s*\([^)]*\)/, "").trim();
-    const [h, m] = clean.split(":").map(Number);
+    const [h, m] = t.replace(/\s*\([^)]*\)/, "").trim().split(":").map(Number);
     return h * 60 + (m || 0);
   };
 
-  const dohaOffset = 3 * 60;
-  const _now = new Date();
-  const nowMin = (_now.getUTCHours() * 60 + _now.getUTCMinutes() + dohaOffset) % (24 * 60);
-  let currentPrayer = prayers[prayers.length - 1].name;
-  for (let i = 0; i < prayers.length; i++) {
-    if (nowMin < toMin(prayers[i].time)) {
-      currentPrayer = i === 0 ? prayers[prayers.length - 1].name : prayers[i - 1].name;
-      break;
-    }
-  }
+  const [prayers, setPrayers] = useState<Prayer[]>(defaultPrayers);
+  const [locationName, setLocationName] = useState("Doha, Qatar");
+  const [locationStatus, setLocationStatus] = useState<LocationStatus>("idle");
 
+  const [nextPrayer, setNextPrayer] = useState<{ name: string; time: string } | null>(null);
   const [countdown, setCountdown] = useState("");
-  const [nextPrayerName, setNextPrayerName] = useState("");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Recalculate countdown whenever prayers change (default or location-based)
   useEffect(() => {
     const tick = () => {
       const now = new Date();
-      const dohaMin = (now.getUTCHours() * 60 + now.getUTCMinutes() + 3 * 60) % (24 * 60);
-      const dohaSec = now.getUTCSeconds();
+      // Use local device time offset for countdown — works for any timezone
+      const localMin = now.getHours() * 60 + now.getMinutes();
+      const localSec = now.getSeconds();
 
-      let nextIdx = prayers.findIndex((p) => toMin(p.time) > dohaMin);
+      let nextIdx = prayers.findIndex((p) => toMin(p.time) > localMin);
       if (nextIdx === -1) nextIdx = 0;
 
-      const nextPrayer = prayers[nextIdx];
-      const nextPrayerMin = toMin(nextPrayer.time);
+      const next = prayers[nextIdx];
+      const nextMin = toMin(next.time);
 
-      let totalSec: number;
-      if (nextPrayerMin > dohaMin) {
-        totalSec = (nextPrayerMin - dohaMin) * 60 - dohaSec;
-      } else {
-        totalSec = (24 * 60 - dohaMin + nextPrayerMin) * 60 - dohaSec;
-      }
+      let totalSec = nextMin > localMin
+        ? (nextMin - localMin) * 60 - localSec
+        : (24 * 60 - localMin + nextMin) * 60 - localSec;
       if (totalSec < 0) totalSec = 0;
 
       const h = Math.floor(totalSec / 3600);
       const m = Math.floor((totalSec % 3600) / 60);
       const s = totalSec % 60;
 
-      setNextPrayerName(nextPrayer.name);
-      setCountdown(
-        `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`
-      );
+      setNextPrayer({ name: next.name, time: next.time });
+      setCountdown(`${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`);
     };
 
     tick();
@@ -102,142 +91,287 @@ export default function SkyScene({ prayers, date, currentHour }: {
     return () => clearInterval(id);
   }, [prayers]);
 
-  return (
-    <div className="overflow-hidden shadow-xl">
-      {/* Sky */}
-      <div className={`relative bg-gradient-to-b ${sky.bg} h-24 sm:h-36 overflow-hidden`}>
+  const handleLocationClick = () => {
+    if (locationStatus === "loading") return;
+    if (!navigator.geolocation) {
+      setLocationStatus("denied");
+      return;
+    }
 
-        {/* Stars (night only) */}
-        {isNight && (
-          <>
-            {[{x:10,y:15,d:0},{x:25,y:8,d:0.5},{x:45,y:20,d:1},{x:60,y:10,d:0.3},{x:75,y:18,d:0.8},{x:88,y:6,d:1.2}].map((s)=>(
-              <div key={`${s.x}-${s.y}`} className="star-twinkle absolute w-1 h-1 bg-white rounded-full"
-                style={{left:`${s.x}%`, top:`${s.y}%`, animationDelay:`${s.d}s`}} />
-            ))}
-          </>
-        )}
+    setLocationStatus("loading");
 
-        {/* Moon (night) */}
-        {isNight && (
-          <div className="sun-glow absolute w-10 h-10 rounded-full bg-slate-200 border-2 border-slate-300"
-            style={{left:"70%", top:"18%"}}>
-            <div className="absolute w-7 h-7 rounded-full bg-indigo-900 -top-1 -right-1" />
-          </div>
-        )}
+    navigator.geolocation.getCurrentPosition(
+      async (pos) => {
+        const { latitude, longitude } = pos.coords;
 
-        {/* Sun (day) */}
-        {sky.isSun && (
-          <div className="absolute" style={{left:`${sunX}%`, top:`${sky.horizonY - 20}%`, transform:"translate(-50%, -50%)"}}>
-            <div className="absolute rounded-full opacity-25 blur-xl pointer-events-none"
-              style={{width:80, height:80, top:"50%", left:"50%", transform:"translate(-50%,-50%)",
-                background: sky.sunColor.includes("orange") ? "#fb923c" : "#fde68a"}} />
-            <div className="rays-spin absolute" style={{width:0, height:0, top:"50%", left:"50%"}}>
-              {[
-                {deg:0,   len:13, w:2,   op:0.55},
-                {deg:25,  len:7,  w:1.5, op:0.28},
-                {deg:45,  len:14, w:2,   op:0.50},
-                {deg:70,  len:7,  w:1.5, op:0.28},
-                {deg:90,  len:13, w:2,   op:0.55},
-                {deg:115, len:7,  w:1.5, op:0.28},
-                {deg:135, len:14, w:2,   op:0.50},
-                {deg:160, len:7,  w:1.5, op:0.28},
-                {deg:180, len:13, w:2,   op:0.55},
-                {deg:205, len:7,  w:1.5, op:0.28},
-                {deg:225, len:14, w:2,   op:0.50},
-                {deg:250, len:7,  w:1.5, op:0.28},
-                {deg:270, len:13, w:2,   op:0.55},
-                {deg:295, len:7,  w:1.5, op:0.28},
-                {deg:315, len:14, w:2,   op:0.50},
-                {deg:340, len:7,  w:1.5, op:0.28},
-              ].map(({deg, len, w, op}) => (
-                <div key={deg}
-                  className="absolute rounded-full bg-yellow-100"
-                  style={{
-                    width: w,
-                    height: len,
-                    top: -(16 + 5 + len),
-                    left: -w / 2,
-                    opacity: op,
-                    transformOrigin: `${w / 2}px ${16 + 5 + len}px`,
-                    transform: `rotate(${deg}deg)`,
-                  }}
-                />
-              ))}
-            </div>
-            <div className={`sun-glow relative w-8 h-8 rounded-full ${sky.sunColor}`}
-              style={{boxShadow:"0 0 10px 3px rgba(253,230,138,0.45)"}} />
-          </div>
-        )}
+        try {
+          // Fetch prayer times for the detected coordinates
+          const prayerRes = await fetch(
+            `https://api.aladhan.com/v1/timings?latitude=${latitude}&longitude=${longitude}&method=8`,
+            { signal: AbortSignal.timeout(8000) }
+          );
+          if (!prayerRes.ok) throw new Error("Prayer API failed");
+          const prayerData = await prayerRes.json();
+          const t = prayerData?.data?.timings;
+          if (!t) throw new Error("No timings in response");
 
-        {/* Clouds (day/morning) */}
-        {!isNight && currentHour >= 6 && currentHour < 19 && (
-          <>
-            <div className="cloud-float absolute opacity-80" style={{left:"15%", top:"30%"}}>
-              <div className="relative w-20 h-6">
-                <div className="absolute w-12 h-6 bg-white rounded-full top-0 left-2" />
-                <div className="absolute w-8 h-5 bg-white rounded-full top-1 left-0" />
-                <div className="absolute w-8 h-5 bg-white rounded-full top-1 right-0" />
-              </div>
-            </div>
-            <div className="cloud-float absolute opacity-60" style={{left:"60%", top:"20%", animationDelay:"3s"}}>
-              <div className="relative w-14 h-5">
-                <div className="absolute w-9 h-5 bg-white rounded-full top-0 left-2" />
-                <div className="absolute w-6 h-4 bg-white rounded-full top-1 left-0" />
-              </div>
-            </div>
-          </>
-        )}
+          const newPrayers: Prayer[] = PRAYER_NAMES.map((name) => ({
+            name,
+            time: t[name].replace(/ \([^)]*\)$/, ""),
+            icon: "",
+          }));
+          setPrayers(newPrayers);
+          setLocationStatus("granted");
 
-        {/* Horizon line */}
-        <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-rose-900/80 to-transparent" />
-
-        <div className="absolute bottom-2 left-3 text-white/70 text-[10px] font-medium">{date}</div>
-      </div>
-
-      {/* Prayer cards */}
-      <div className="bg-rose-900 px-3 py-3 sm:px-4">
-        {/* Countdown */}
-        {countdown && (
-          <motion.div
-            className="flex items-center justify-center gap-1.5 mb-2.5"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6 }}
-          >
-            <Clock size={11} className="text-white/50" />
-            <span className="text-white/60 text-[10px]">Next: {nextPrayerName} in</span>
-            <span className="text-amber-300 text-[10px] font-mono tabular-nums font-bold">{countdown}</span>
-          </motion.div>
-        )}
-
-        <motion.div
-          className="grid grid-cols-3 sm:grid-cols-6 gap-2"
-          initial="hidden"
-          animate="visible"
-          variants={{ visible: { transition: { staggerChildren: 0.07 } } }}
-        >
-          {prayers.map((p) => {
-            const isCurrent = p.name === currentPrayer;
-            return (
-              <motion.div
-                key={p.name}
-                variants={{ hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0 } }}
-                transition={{ duration: 0.3 }}
-                className={`flex flex-col items-center rounded-xl py-2.5 px-1.5 backdrop-blur-sm transition-all ${
-                  isCurrent
-                    ? "bg-white/20 border border-white/30 text-white shadow-lg ring-2 ring-secondary-accent/70"
-                    : "bg-white/10 border border-white/20"
-                }`}
-              >
-                <span className={`mb-1 ${isCurrent ? "text-white" : "text-rose-200"}`}>
-                  {getPrayerIcon(p.name)}
-                </span>
-                <span className={`text-[11px] font-semibold ${isCurrent ? "text-white" : "text-rose-100"}`}>{p.name}</span>
-                <span className={`text-xs font-bold mt-0.5 tabular-nums ${isCurrent ? "text-secondary-accent" : "text-amber-300"}`}>{p.time}</span>
-              </motion.div>
+          // Reverse geocode city name via Nominatim (free, no key)
+          try {
+            const geoRes = await fetch(
+              `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`,
+              { headers: { "Accept-Language": "en" }, signal: AbortSignal.timeout(5000) }
             );
-          })}
-        </motion.div>
+            const geoData = await geoRes.json();
+            const city =
+              geoData?.address?.city ||
+              geoData?.address?.town ||
+              geoData?.address?.village ||
+              geoData?.address?.state ||
+              "Your Location";
+            const country = geoData?.address?.country_code?.toUpperCase() ?? "";
+            setLocationName(`${city}${country ? `, ${country}` : ""}`);
+          } catch {
+            setLocationName("Your Location");
+          }
+        } catch {
+          setLocationStatus("denied");
+        }
+      },
+      () => {
+        setLocationStatus("denied");
+      },
+      { timeout: 10000 }
+    );
+  };
+
+  return (
+    <div
+      className="relative w-full overflow-hidden text-white"
+      style={{ background: "linear-gradient(135deg, #1E0A14 0%, #2D0E1C 45%, #180820 100%)" }}
+      id="prayer"
+    >
+      {/* Atmospheric orbs */}
+      <motion.div
+        className="absolute -top-40 -right-32 w-[500px] h-[500px] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(139,26,60,0.45) 0%, transparent 70%)", filter: "blur(60px)" }}
+        animate={{ scale: [1, 1.12, 1], opacity: [0.35, 0.55, 0.35] }}
+        transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute -bottom-32 -left-32 w-[420px] h-[420px] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(circle, rgba(200,168,75,0.15) 0%, transparent 70%)", filter: "blur(60px)" }}
+        animate={{ scale: [1, 1.2, 1], opacity: [0.15, 0.28, 0.15] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+      />
+      <motion.div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] rounded-full pointer-events-none"
+        style={{ background: "radial-gradient(ellipse, rgba(107,14,42,0.18) 0%, transparent 70%)", filter: "blur(50px)" }}
+        animate={{ scaleX: [1, 1.08, 1] }}
+        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+      />
+
+      <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8">
+
+        {/* Top navigation */}
+        <div
+          className="h-16 flex items-center justify-between"
+          style={{ borderBottom: "1px solid rgba(139,26,60,0.30)" }}
+        >
+          {/* Logo */}
+          <a
+            href="/"
+            className={`${playfair.className} text-2xl font-bold leading-none tracking-widest`}
+            style={{ color: "#C8A84B" }}
+          >
+            QATAR
+          </a>
+
+          {/* Desktop nav */}
+          <nav className="hidden md:flex items-center gap-6">
+            {NAV_LINKS.map(({ href, label }) => (
+              <a
+                key={href}
+                href={href}
+                className="text-[10px] font-bold tracking-widest uppercase transition-colors duration-150 hover:text-[#C8A84B]"
+                style={{ color: "rgba(248,236,210,0.40)" }}
+              >
+                {label}
+              </a>
+            ))}
+          </nav>
+
+          {/* Mobile hamburger */}
+          <button
+            className="md:hidden p-2 -mr-2 transition-colors"
+            style={{ color: "rgba(200,168,75,0.65)" }}
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+            aria-expanded={mobileMenuOpen}
+          >
+            {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
+
+        {/* Mobile dropdown */}
+        <AnimatePresence>
+          {mobileMenuOpen && (
+            <motion.div
+              key="mobile-menu"
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.15 }}
+              className="absolute left-0 right-0 z-20 md:hidden"
+              style={{
+                background: "rgba(20,6,14,0.97)",
+                borderBottom: "1px solid rgba(139,26,60,0.35)",
+                backdropFilter: "blur(12px)",
+              }}
+            >
+              <nav className="w-full px-4 sm:px-6 lg:px-8 py-2 flex flex-col">
+                {NAV_LINKS.map(({ href, label }) => (
+                  <a
+                    key={href}
+                    href={href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-[11px] font-bold tracking-widest uppercase py-3.5 transition-colors hover:text-[#C8A84B]"
+                    style={{
+                      color: "rgba(248,236,210,0.55)",
+                      borderBottom: "1px solid rgba(139,26,60,0.18)",
+                    }}
+                  >
+                    {label}
+                  </a>
+                ))}
+              </nav>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Hero — compact */}
+        <div className="pt-4 pb-5">
+
+          {/* Row: location pill + countdown */}
+          <motion.div
+            className="flex items-center justify-between mb-3"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            {/* Location pill */}
+            <button
+              onClick={handleLocationClick}
+              disabled={locationStatus === "loading"}
+              className="inline-flex items-center gap-1.5 text-[10px] font-bold tracking-widest uppercase px-2.5 py-1 rounded-full transition-all duration-200"
+              style={{
+                color: locationStatus === "denied" ? "rgba(248,100,100,0.8)" : "#C8A84B",
+                border: `1px solid ${locationStatus === "denied" ? "rgba(248,100,100,0.3)" : "rgba(200,168,75,0.22)"}`,
+                background: locationStatus === "granted" ? "rgba(200,168,75,0.10)" : "rgba(200,168,75,0.04)",
+              }}
+              title="Click to use your location"
+            >
+              {locationStatus === "loading" ? <Loader2 size={10} className="animate-spin" /> :
+               locationStatus === "granted" ? <LocateFixed size={10} /> : <MapPin size={10} />}
+              <AnimatePresence mode="wait">
+                <motion.span key={locationName}
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  {locationStatus === "loading" ? "Detecting…" :
+                   locationStatus === "denied" ? "Location denied" : locationName}
+                </motion.span>
+              </AnimatePresence>
+            </button>
+
+            {/* Countdown — inline, no badge box */}
+            {countdown && (
+              <motion.div
+                className="flex items-center gap-1.5"
+                initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+              >
+                <Clock size={11} style={{ color: "rgba(200,168,75,0.5)" }} />
+                <span className="text-[10px] font-mono tabular-nums font-bold" style={{ color: "rgba(200,168,75,0.6)" }}>
+                  {countdown}
+                </span>
+              </motion.div>
+            )}
+          </motion.div>
+
+          {/* Next prayer — elegant inline row */}
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={nextPrayer?.name}
+              className="flex items-baseline gap-3 mb-4"
+              initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
+              transition={{ duration: 0.4 }}
+            >
+              <h2 className={`${playfair.className} text-4xl sm:text-5xl font-bold italic leading-none`}
+                style={{ color: "#F8ECD2" }}>
+                {nextPrayer?.name ?? "Prayer Times"}
+              </h2>
+              {nextPrayer && (
+                <span className="font-mono text-xl font-bold tabular-nums" style={{ color: "#C8A84B" }}>
+                  {nextPrayer.time}
+                </span>
+              )}
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Prayer grid — compact cards */}
+          <motion.div
+            className="grid grid-cols-3 sm:grid-cols-6 gap-2"
+            initial="hidden" animate="visible"
+            variants={{ visible: { transition: { staggerChildren: 0.06 } } }}
+          >
+            {prayers.map((p) => {
+              const isNext = nextPrayer?.name === p.name;
+              return (
+                <motion.div
+                  key={p.name}
+                  variants={{ hidden: { opacity: 0, y: 8 }, visible: { opacity: 1, y: 0 } }}
+                  transition={{ duration: 0.3 }}
+                  className="relative overflow-hidden flex flex-col items-center justify-center py-2.5 px-2 rounded-xl transition-all duration-300"
+                  style={isNext ? {
+                    background: "rgba(139,26,60,0.22)",
+                    border: "1px solid rgba(200,168,75,0.45)",
+                    boxShadow: "0 0 20px rgba(200,168,75,0.15)",
+                    transform: "scale(1.05)",
+                  } : {
+                    background: "rgba(255,255,255,0.04)",
+                    border: "1px solid rgba(139,26,60,0.20)",
+                  }}
+                >
+                  <span className="mb-1" style={{ color: isNext ? "#C8A84B" : "rgba(248,200,160,0.28)" }}>
+                    {getPrayerIcon(p.name)}
+                  </span>
+                  <span className="text-[9px] font-bold tracking-widest uppercase mb-1"
+                    style={{ color: isNext ? "rgba(248,236,210,0.85)" : "rgba(248,210,185,0.35)" }}>
+                    {p.name}
+                  </span>
+                  <AnimatePresence mode="wait">
+                    <motion.span key={p.time}
+                      className="font-mono text-sm font-semibold tabular-nums"
+                      style={{ color: isNext ? "#C8A84B" : "rgba(200,168,75,0.50)" }}
+                      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                      transition={{ duration: 0.15 }}
+                    >
+                      {p.time}
+                    </motion.span>
+                  </AnimatePresence>
+                </motion.div>
+              );
+            })}
+          </motion.div>
+        </div>
       </div>
     </div>
   );

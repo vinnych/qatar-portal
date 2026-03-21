@@ -46,14 +46,17 @@ export default function FooterScenery() {
         preserveAspectRatio="xMidYMid slice"
       >
         <defs>
-          {/* Sky */}
+          {/* Sky — Qatar sunset */}
           <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#fafaf9" />
-            <stop offset="100%" stopColor="#fafaf9" />
+            <stop offset="0%" stopColor="#faf9f6" />
+            <stop offset="30%" stopColor="#F5D8C0" />
+            <stop offset="65%" stopColor="#C8614A" />
+            <stop offset="100%" stopColor="#6B1A30" />
           </linearGradient>
-          <radialGradient id="sunGlow" cx="10%" cy="80%" r="60%">
-            <stop offset="0%" stopColor="#ffffff" stopOpacity="0" />
-            <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+          <radialGradient id="sunGlow" cx="18%" cy="88%" r="55%">
+            <stop offset="0%" stopColor="#F5C060" stopOpacity="0.55" />
+            <stop offset="50%" stopColor="#E87040" stopOpacity="0.20" />
+            <stop offset="100%" stopColor="#8B1A3C" stopOpacity="0" />
           </radialGradient>
 
           {/* Building gradients */}
@@ -86,10 +89,10 @@ export default function FooterScenery() {
             <stop offset="100%" stopColor="#1F263A" />
           </linearGradient>
 
-          {/* Stone-50 top fade — blends into page background */}
+          {/* Top fade — blends into page background */}
           <linearGradient id="topFade" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#fafaf9" stopOpacity="1" />
-            <stop offset="100%" stopColor="#fafaf9" stopOpacity="0" />
+            <stop offset="0%" stopColor="#faf9f6" stopOpacity="1" />
+            <stop offset="60%" stopColor="#faf9f6" stopOpacity="0" />
           </linearGradient>
 
           {/* Window patterns */}

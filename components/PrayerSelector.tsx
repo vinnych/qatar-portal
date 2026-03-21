@@ -187,59 +187,97 @@ export default function PrayerSelector({
         Calculation method: Muslim World League (MWL) · Source: Aladhan API
       </p>
 
-      {/* Monthly Calendar */}
-      <section>
+      {/* Monthly Prayer Calendar — grid */}
+      <section className={`transition-opacity ${loading ? "opacity-40" : "opacity-100"}`}>
         <h2 className="text-xl font-bold text-on-surface mb-4">
-          {monthName} {year} — Full Prayer Calendar
+          {monthName} {year} — Prayer Calendar
         </h2>
-        {calendar.length > 0 ? (
-          <div className={`overflow-x-auto rounded-2xl border border-stone-200 shadow-sm transition-opacity ${loading ? "opacity-40" : "opacity-100"}`}>
-            <table className="w-full text-sm min-w-[320px]">
-              <thead>
-                <tr className="bg-[#640023] text-white">
-                  <th className="px-2 py-2.5 text-left font-semibold">Date</th>
-                  <th className="px-2 py-2.5 text-left font-semibold hidden sm:table-cell">Hijri</th>
-                  <th className="px-2 py-2.5 text-center font-semibold">Fajr</th>
-                  <th className="px-2 py-2.5 text-center font-semibold hidden sm:table-cell">Sunrise</th>
-                  <th className="px-2 py-2.5 text-center font-semibold">Dhuhr</th>
-                  <th className="px-2 py-2.5 text-center font-semibold">Asr</th>
-                  <th className="px-2 py-2.5 text-center font-semibold">Maghrib</th>
-                  <th className="px-2 py-2.5 text-center font-semibold">Isha</th>
-                </tr>
-              </thead>
-              <tbody>
-                {calendar.slice(Math.max(0, calendar.findIndex((d) => d.date === times?.date))).map((day, i) => {
+        {calendar.length > 0 ? (() => {
+          const DOW: Record<string, number> = {
+            Monday: 0, Tuesday: 1, Wednesday: 2, Thursday: 3,
+            Friday: 4, Saturday: 5, Sunday: 6,
+          };
+          const DAY_LABELS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+          const offset = DOW[calendar[0]?.dayOfWeek] ?? 0;
+          // Build full 6-week grid (42 slots)
+          const slots: (typeof calendar[0] | null)[] = [
+            ...Array(offset).fill(null),
+            ...calendar,
+          ];
+          while (slots.length % 7 !== 0) slots.push(null);
+
+          return (
+            <div>
+              {/* Day-of-week header */}
+              <div className="grid grid-cols-7 mb-1">
+                {DAY_LABELS.map((d) => (
+                  <div key={d}
+                    className="text-center text-[10px] font-bold tracking-widest uppercase py-1.5"
+                    style={{ color: d === "Fri" ? "#8B1A3C" : "rgba(100,80,80,0.55)" }}>
+                    {d}
+                  </div>
+                ))}
+              </div>
+
+              {/* Weeks */}
+              <div className="grid grid-cols-7 gap-1">
+                {slots.map((day, i) => {
+                  if (!day) return <div key={`empty-${i}`} className="rounded-xl min-h-[72px] sm:min-h-[90px]" style={{ background: "rgba(0,0,0,0.02)" }} />;
                   const isToday = day.date === times?.date;
+                  const isFriday = day.dayOfWeek === "Friday";
+                  const dayNum = day.date.split(" ")[0];
                   return (
-                    <tr
-                      key={day.date}
-                      className={`border-t border-stone-100 ${
-                        isToday ? "bg-secondary-accent/10 font-semibold" : i % 2 === 0 ? "bg-white" : "bg-[#faf9f6]"
-                      }`}
+                    <div key={day.date}
+                      className="rounded-xl p-1.5 sm:p-2 flex flex-col min-h-[72px] sm:min-h-[90px] transition-shadow"
+                      style={isToday ? {
+                        background: "#8B1A3C",
+                        boxShadow: "0 4px 16px rgba(139,26,60,0.35)",
+                      } : isFriday ? {
+                        background: "rgba(200,168,75,0.08)",
+                        border: "1px solid rgba(200,168,75,0.20)",
+                      } : {
+                        background: "#fff",
+                        border: "1px solid rgba(0,0,0,0.06)",
+                      }}
                     >
-                      <td className="px-3 py-2.5 whitespace-nowrap">
-                        <span className={isToday ? "text-primary" : "text-gray-700"}>
-                          {day.date.split(" ")[0]} {day.date.split(" ")[1]}
-                        </span>
-                        <span className="block text-xs text-gray-400">{day.dayOfWeek}</span>
-                        {isToday && (
-                          <span className="text-xs bg-secondary-accent text-[#725b00] px-1.5 py-0.5 rounded-full font-bold">Today</span>
-                        )}
-                      </td>
-                      <td className="px-3 py-2.5 text-xs text-gray-400 hidden sm:table-cell">{day.hijriDate}</td>
-                      <td className="px-3 py-2.5 text-center text-gray-700">{day.Fajr}</td>
-                      <td className="px-3 py-2.5 text-center text-gray-400 hidden sm:table-cell">{day.Sunrise}</td>
-                      <td className="px-3 py-2.5 text-center text-gray-700">{day.Dhuhr}</td>
-                      <td className="px-3 py-2.5 text-center text-gray-700">{day.Asr}</td>
-                      <td className="px-3 py-2.5 text-center text-gray-700">{day.Maghrib}</td>
-                      <td className="px-3 py-2.5 text-center text-gray-700">{day.Isha}</td>
-                    </tr>
+                      {/* Day number */}
+                      <span className="text-sm font-bold leading-none mb-1"
+                        style={{ color: isToday ? "#F8ECD2" : isFriday ? "#8B1A3C" : "#1a1c1a" }}>
+                        {dayNum}
+                        {isToday && <span className="ml-1 text-[8px] font-bold tracking-wide uppercase" style={{ color: "rgba(248,236,210,0.6)" }}>Today</span>}
+                      </span>
+                      {/* Hijri */}
+                      <span className="text-[8px] leading-tight mb-1.5 truncate"
+                        style={{ color: isToday ? "rgba(248,236,210,0.55)" : "rgba(120,80,80,0.5)" }}>
+                        {day.hijriDate}
+                      </span>
+                      {/* Key prayer times */}
+                      <div className="flex flex-col gap-0.5 mt-auto">
+                        {[
+                          { label: "Fajr", time: day.Fajr },
+                          { label: "Dhuhr", time: day.Dhuhr },
+                          { label: "Maghrib", time: day.Maghrib },
+                        ].map(({ label, time }) => (
+                          <div key={label} className="flex items-center justify-between gap-1">
+                            <span className="text-[7px] font-bold tracking-wide uppercase hidden sm:inline"
+                              style={{ color: isToday ? "rgba(248,236,210,0.45)" : "rgba(100,80,80,0.4)" }}>
+                              {label[0]}
+                            </span>
+                            <span className="text-[9px] font-mono tabular-nums font-semibold"
+                              style={{ color: isToday ? "#F8ECD2" : "#555" }}>
+                              {time}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   );
                 })}
-              </tbody>
-            </table>
-          </div>
-        ) : (
+              </div>
+              <p className="text-[10px] text-gray-400 mt-2">Showing Fajr · Dhuhr · Maghrib · Tap full prayer page for all times</p>
+            </div>
+          );
+        })() : (
           <p className="text-gray-400">Could not load monthly calendar.</p>
         )}
       </section>

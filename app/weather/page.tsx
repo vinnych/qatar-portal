@@ -32,9 +32,8 @@ export const metadata: Metadata = {
 export default async function WeatherPage() {
   const weather = await getFullWeather();
 
-  const today = new Date().toLocaleDateString("en-US", {
-    weekday: "long", year: "numeric", month: "long", day: "numeric",
-  });
+  const now = new Date();
+  const today = `${now.getDate()} ${now.toLocaleDateString("en-GB", { month: "short" })} ${now.getFullYear()}`;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -70,7 +69,7 @@ export default async function WeatherPage() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-5">
+    <div className="w-full space-y-5">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: "https://qatar-portal.vercel.app" }, { "@type": "ListItem", position: 2, name: "Doha Weather", item: "https://qatar-portal.vercel.app/weather" }] }) }} />
 
@@ -114,43 +113,58 @@ export default async function WeatherPage() {
             </div>
           </div>
 
-          {/* 7-day forecast */}
+          {/* 7-day forecast — calendar cards */}
           <section>
-            <h2 className="text-sm font-semibold text-gray-700 mb-2">7-Day Forecast — Doha, Qatar</h2>
-            <div className="rounded-lg border border-stone-200 overflow-x-auto">
-              <table className="w-full text-sm min-w-[280px]">
-                <thead>
-                  <tr className="bg-amber-700 text-white">
-                    <th className="px-3 py-2 text-left font-semibold">Day</th>
-                    <th className="px-3 py-2 text-center font-semibold">Condition</th>
-                    <th className="px-3 py-2 text-center font-semibold">High</th>
-                    <th className="px-3 py-2 text-center font-semibold">Low</th>
-                    <th className="px-3 py-2 text-center font-semibold hidden sm:table-cell">Wind</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {weather.forecast.map((day, i) => (
-                    <tr
-                      key={day.date}
-                      className={`border-t border-stone-100 ${i === 0 ? "bg-amber-50 font-semibold" : i % 2 === 0 ? "bg-white" : "bg-stone-50"}`}
-                    >
-                      <td className="px-3 py-2 text-gray-800">
-                        {day.dayLabel}
-                        {i === 0 && (
-                          <span className="ml-2 text-[10px] bg-amber-200 text-amber-900 px-1.5 py-0.5 rounded-full font-bold">Today</span>
-                        )}
-                      </td>
-                      <td className="px-3 py-2 text-center">
-                        <span className="mr-1">{day.icon}</span>
-                        <span className="text-gray-600 hidden md:inline">{day.condition}</span>
-                      </td>
-                      <td className="px-3 py-2 text-center font-semibold text-orange-700">{day.maxTemp}°</td>
-                      <td className="px-3 py-2 text-center text-gray-500">{day.minTemp}°</td>
-                      <td className="px-3 py-2 text-center text-gray-400 hidden sm:table-cell">{day.maxWind} km/h</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <h2 className="text-sm font-semibold text-gray-700 mb-3">7-Day Forecast — Doha, Qatar</h2>
+            <div className="grid grid-cols-7 gap-1.5 sm:gap-2">
+              {weather.forecast.map((day, i) => {
+                const isToday = i === 0;
+                // Split "Mon, Mar 21" → short label
+                const label = isToday ? "Today" : day.dayLabel.split(",")[0];
+                const dateNum = day.dayLabel.split(" ").at(-1) ?? "";
+                const mon = day.dayLabel.split(" ").slice(-2, -1)[0] ?? "";
+                return (
+                  <div
+                    key={day.date}
+                    className="flex flex-col items-center rounded-2xl py-3 px-1 sm:px-2 transition-shadow"
+                    style={isToday ? {
+                      background: "linear-gradient(135deg, #8B1A3C 0%, #5A0E26 100%)",
+                      boxShadow: "0 4px 20px rgba(139,26,60,0.30)",
+                    } : {
+                      background: "#fff",
+                      border: "1px solid rgba(0,0,0,0.07)",
+                    }}
+                  >
+                    {/* Day label */}
+                    <span className="text-[10px] font-bold tracking-wide uppercase mb-0.5"
+                      style={{ color: isToday ? "rgba(248,236,210,0.7)" : "rgba(100,80,80,0.55)" }}>
+                      {label}
+                    </span>
+                    {/* Date number */}
+                    {!isToday && (
+                      <span className="text-xs font-semibold mb-1" style={{ color: "#555" }}>
+                        {mon} {dateNum}
+                      </span>
+                    )}
+                    {/* Icon */}
+                    <span className="text-2xl sm:text-3xl my-1 leading-none">{day.icon}</span>
+                    {/* High */}
+                    <span className="text-base sm:text-lg font-bold leading-none"
+                      style={{ color: isToday ? "#F8ECD2" : "#b45309" }}>
+                      {day.maxTemp}°
+                    </span>
+                    {/* Low */}
+                    <span className="text-xs mt-0.5" style={{ color: isToday ? "rgba(248,236,210,0.5)" : "#9ca3af" }}>
+                      {day.minTemp}°
+                    </span>
+                    {/* Wind */}
+                    <span className="text-[9px] mt-1.5 hidden sm:block"
+                      style={{ color: isToday ? "rgba(248,236,210,0.4)" : "#c4b5b5" }}>
+                      {day.maxWind} km/h
+                    </span>
+                  </div>
+                );
+              })}
             </div>
           </section>
 

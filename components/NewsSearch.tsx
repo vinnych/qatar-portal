@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import type { NewsItem } from "@/lib/rss";
+import CalendarDate from "@/components/CalendarDate";
 
 export default function NewsSearch({ items }: { items: NewsItem[] }) {
   const [query, setQuery] = useState("");
@@ -56,7 +57,7 @@ export default function NewsSearch({ items }: { items: NewsItem[] }) {
                 {item.contentSnippet && (
                   <p className="text-xs text-gray-500 line-clamp-2 mt-2">{item.contentSnippet}</p>
                 )}
-                <span className="text-[11px] text-gray-400 mt-2 tabular-nums">{item.pubDate}</span>
+                <CalendarDate dateStr={item.pubDate} className="mt-2" />
               </div>
             </a>
           ))}

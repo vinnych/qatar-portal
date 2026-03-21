@@ -15,10 +15,14 @@
 
 @layer utilities {
   .shadow-ambient {
-    box-shadow: 0 20px 40px rgba(87, 65, 68, 0.06);
+    box-shadow: 0 20px 40px rgba(87, 40, 50, 0.07);
   }
   .shadow-ambient-hover {
-    box-shadow: 0 24px 48px rgba(87, 65, 68, 0.10);
+    box-shadow: 0 24px 48px rgba(87, 40, 50, 0.12);
+  }
+  /* Qatar maroon accent ring on interactive cards */
+  .ring-qatar {
+    --tw-ring-color: rgba(139, 26, 60, 0.18);
   }
 }
 

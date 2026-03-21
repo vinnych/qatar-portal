@@ -10,6 +10,7 @@ const NAV_LINKS = [
   { href: "/currency", label: "QAR Rates" },
   { href: "/news", label: "News" },
   { href: "/jobs", label: "Jobs" },
+  { href: "/qatar-metro", label: "Metro" },
   { href: "/about", label: "About" },
 ];
 
@@ -22,20 +23,28 @@ export default function MobileNav() {
         onClick={() => setOpen(!open)}
         aria-label="Toggle menu"
         aria-expanded={open}
-        className="text-white p-3 rounded focus:outline-none focus:ring-2 focus:ring-amber-300"
+        className="p-3 rounded focus:outline-none transition-colors"
+        style={{ color: "rgba(200,168,75,0.7)" }}
       >
-        {open ? <X size={24} /> : <Menu size={24} />}
+        {open ? <X size={22} /> : <Menu size={22} />}
       </button>
 
       {open && (
-        <div className="absolute top-full left-0 right-0 bg-[#640023] shadow-lg z-50">
-          <nav className="max-w-6xl mx-auto px-4 py-2 flex flex-col">
+        <div
+          className="absolute top-full left-0 right-0 z-50 shadow-xl"
+          style={{ background: "#1E0A14", borderBottom: "1px solid rgba(139,26,60,0.4)" }}
+        >
+          <nav className="w-full px-4 sm:px-6 lg:px-8 py-2 flex flex-col">
             {NAV_LINKS.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="text-white/80 hover:text-white transition-colors py-4 text-base font-medium border-b border-white/10 last:border-0"
+                className="text-[11px] font-bold tracking-widest uppercase py-4 transition-colors"
+                style={{
+                  color: "rgba(248,236,210,0.55)",
+                  borderBottom: "1px solid rgba(139,26,60,0.2)",
+                }}
               >
                 {link.label}
               </a>

@@ -1,5 +1,6 @@
 import { getNews, fetchPexelsImage, type NewsItem } from "@/lib/rss";
 import { safeJsonLd, isValidHttpUrl } from "@/lib/utils";
+import CalendarDate from "@/components/CalendarDate";
 import ShareButton from "@/components/ShareButton";
 import { redis } from "@/lib/redis";
 import { summarizeArticle } from "@/lib/groq";
@@ -108,7 +109,7 @@ export default async function NewsArticlePage({
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="w-full">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbLd) }} />
       <div className="mb-4">
@@ -134,7 +135,9 @@ export default async function NewsArticlePage({
         {item.title}
       </h1>
       {item.pubDate && (
-        <p className="text-xs text-gray-400 mb-4">{item.pubDate}</p>
+        <div className="mb-4">
+          <CalendarDate dateStr={item.pubDate} />
+        </div>
       )}
       {summary ? (
         <div className="mb-6">

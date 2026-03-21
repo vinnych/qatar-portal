@@ -1,5 +1,6 @@
 import { getJobs, type Job } from "@/lib/jobs";
 import { safeJsonLd, isValidHttpUrl } from "@/lib/utils";
+import CalendarDate from "@/components/CalendarDate";
 import ShareButton from "@/components/ShareButton";
 import { redis } from "@/lib/redis";
 import { cache } from "react";
@@ -103,7 +104,7 @@ export default async function JobDetailPage({
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="w-full">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbLd) }} />
       <div className="mb-3">
@@ -120,7 +121,10 @@ export default async function JobDetailPage({
       <p className="text-sm text-gray-600 mb-1 font-medium">{job.company}</p>
       <p className="text-xs text-gray-400 mb-4">{job.location}</p>
       {job.pubDate && (
-        <p className="text-xs text-gray-400 mb-5">Posted: {job.pubDate}</p>
+        <div className="flex items-center gap-2 mb-5">
+          <CalendarDate dateStr={job.pubDate} />
+          <span className="text-[11px] text-gray-400">Posted</span>
+        </div>
       )}
       <div className="flex flex-wrap items-center gap-3">
         <a

@@ -1,16 +1,14 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter, Newsreader } from "next/font/google";
+import { Inter, Newsreader } from "next/font/google";
 import Script from "next/script";
-import { Suspense } from "react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import FooterScenery from "@/components/FooterScenery";
-import MobileNav from "@/components/MobileNav";
 import DonateDialog from "@/components/DonateDialog";
-import HeaderPrayer from "@/components/HeaderPrayer";
+import Header from "@/components/Header";
+import ConditionalHeader from "@/components/ConditionalHeader";
 import { safeJsonLd } from "@/lib/utils";
 import "./globals.css";
 
-const playfair = Playfair_Display({ subsets: ["latin"], weight: ["700"] });
 const inter = Inter({ subsets: ["latin"] });
 const newsreader = Newsreader({ subsets: ["latin"], weight: ["700"], style: ["italic"], variable: "--font-newsreader" });
 
@@ -37,30 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={newsreader.variable}>
       <head />
       <body className={`${inter.className} bg-[#faf9f6] text-on-surface min-h-screen`}>
-        <header className="bg-gradient-to-br from-[#640023]/85 to-rose-900/85 backdrop-blur-md sticky top-0 z-10">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 h-11 flex items-center justify-between">
-            <a href="/" className={`${playfair.className} text-lg tracking-widest text-amber-300 uppercase leading-none`}>
-              Qatar
-            </a>
-            {/* Desktop nav */}
-            <nav className="hidden sm:flex items-center gap-5 text-[11px] font-semibold tracking-wide">
-              <a href="/" className="text-white/70 hover:text-white transition-colors duration-150">Home</a>
-              <a href="/prayer" className="text-white/70 hover:text-white transition-colors duration-150">Prayer</a>
-              <a href="/weather" className="text-white/70 hover:text-white transition-colors duration-150">Weather</a>
-              <a href="/currency" className="text-white/70 hover:text-white transition-colors duration-150">Currency</a>
-              <a href="/news" className="text-white/70 hover:text-white transition-colors duration-150">News</a>
-              <a href="/jobs" className="text-white/70 hover:text-white transition-colors duration-150">Jobs</a>
-              <a href="/hijri-calendar" className="text-white/70 hover:text-white transition-colors duration-150">Hijri</a>
-              <a href="/ramadan-2026" className="text-white/70 hover:text-white transition-colors duration-150">Ramadan</a>
-              <span className="text-white/20">|</span>
-              <Suspense fallback={null}>
-                <HeaderPrayer />
-              </Suspense>
-            </nav>
-            {/* Mobile hamburger */}
-            <MobileNav />
-          </div>
-        </header>
+        <ConditionalHeader><Header /></ConditionalHeader>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{__html: safeJsonLd({
@@ -76,7 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             }
           })}}
         />
-        <main className="max-w-6xl mx-auto px-4 sm:px-6 py-4 sm:py-5">{children}</main>
+        <main className="w-full px-4 sm:px-6 lg:px-8 py-4 sm:py-5">{children}</main>
         <Script
           src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7212871157824722"
           strategy="afterInteractive"
@@ -98,12 +73,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <DonateDialog />
         <FooterScenery />
         <footer className="bg-surface-low py-6 text-[11px] text-gray-400">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="w-full px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-2 sm:flex sm:flex-wrap sm:justify-center gap-x-5 gap-y-2 mb-4">
               <a href="/" className="hover:text-gray-600 transition-colors duration-150">Home</a>
               <a href="/prayer" className="hover:text-gray-600 transition-colors duration-150">Prayer Times</a>
               <a href="/hijri-calendar" className="hover:text-gray-600 transition-colors duration-150">Hijri Calendar</a>
-              <a href="/ramadan-2026" className="hover:text-gray-600 transition-colors duration-150">Ramadan 2026</a>
+              <a href="/qatar-metro" className="hover:text-gray-600 transition-colors duration-150">Qatar Metro</a>
               <a href="/weather" className="hover:text-gray-600 transition-colors duration-150">Weather</a>
               <a href="/currency" className="hover:text-gray-600 transition-colors duration-150">Currency</a>
               <a href="/news" className="hover:text-gray-600 transition-colors duration-150">News</a>

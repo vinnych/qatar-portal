@@ -27,6 +27,20 @@ export function toSlug(title: string, url: string): string {
   return `${base}-${hash}`;
 }
 
+/**
+ * Parses any date string (RSS, Aladhan .readable, ISO, etc.) into parts.
+ * Returns { day, mon, year, display } or null if unparseable.
+ */
+export function parseDate(raw: string | undefined | null): { day: string; mon: string; year: string; display: string } | null {
+  if (!raw) return null;
+  const d = new Date(raw);
+  if (isNaN(d.getTime())) return null;
+  const day = d.getDate().toString();
+  const mon = d.toLocaleDateString("en-GB", { month: "short" }).toUpperCase();
+  const year = d.getFullYear().toString();
+  return { day, mon, year, display: `${day} ${mon} ${year}` };
+}
+
 /** Escapes </script> in JSON-LD strings to prevent XSS */
 export function safeJsonLd(data: unknown): string {
   return JSON.stringify(data).replace(/</g, "\\u003c").replace(/>/g, "\\u003e");

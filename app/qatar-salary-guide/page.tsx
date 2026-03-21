@@ -119,7 +119,7 @@ export default function QatarSalaryGuidePage() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto">
+    <div className="w-full">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: safeJsonLd({ "@context": "https://schema.org", "@type": "BreadcrumbList", itemListElement: [{ "@type": "ListItem", position: 1, name: "Home", item: "https://qatar-portal.vercel.app" }, { "@type": "ListItem", position: 2, name: "Qatar Salary Guide 2026", item: "https://qatar-portal.vercel.app/qatar-salary-guide" }] }) }} />
 
